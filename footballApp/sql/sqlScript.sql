@@ -18,8 +18,10 @@ CREATE TABLE request (
 	request_id BIGINT NOT NULL,
 	request_player_id BIGINT,
 	request_team_id BIGINT,
+	team_id BIGINT,
 	request_status BIGINT,
-	request_time DATETIME DEFAULT 'CURRENT_TIMESTAMP' NOT NULL,
+	request_type BIGINT,
+	request_time DATETIME,
 	request_msg VARCHAR(50),
 	request_activity_id BIGINT,
 	PRIMARY KEY (request_id)
@@ -28,7 +30,7 @@ CREATE TABLE request (
 CREATE TABLE team (
 	team_id BIGINT NOT NULL,
 	team_name VARCHAR(30) NOT NULL,
-	creattime DATE NOT NULL
+	creattime DATE NOT NULL,
 	creatorid BIGINT,
 	memebercnt MEDIUMINT,
 	PRIMARY KEY (team_id)
