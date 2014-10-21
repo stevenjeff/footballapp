@@ -13,11 +13,10 @@
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="assets/css/bootstrap-theme.min.css" rel="stylesheet"/>
-	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
  	<link href="assets/css/signin.css" rel="stylesheet">
  	<link href="assets/css/jquery-ui.min.css" rel="stylesheet">
  	<link href="assets/css/bootstrapValidator.min.css" rel="stylesheet">
-
+    <link href="assets/css/jquery-ui-timepicker-addon.css" type="text/css" />
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -35,43 +34,36 @@
 <font color="red">${globalerror}</font>
 <div class="form-group">
   <label for="username">球场地址</label>
-  <input type="text" class="form-control" id="activityArea" name="username" placeholder="请输入用户名" maxlength="30">
+  <input type="text" class="form-control" id="activityArea" name="activityArea" placeholder="请输入球场地址" maxlength="50">
 </div>
 <div class="form-group">
-  <label for="password">密码</label>
-  <input type="text" class="form-control" id="activityPlayerCnt" name="password" placeholder="请输入密码" maxlength="20">
-</div>
-<div class="form-group">
-  <label for="password">密码确认</label>
-  <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="请输入确认密码" maxlength="20">
-</div>
-<div class="form-group">
-  <label for="sex">性别</label>
-  <select id="sex" name="sex" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
-  	<option value="1">男</option>
-  	<option value="2">女</option>
-  	<option value="3">未知</option>
+  <label for="activityPlayersCnt">赛制（几人制）</label>
+  <select id="activityPlayersCnt" name="activityPlayersCnt" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  	<option value="1">3</option>
+  	<option value="5">5</option>
+  	<option value="7">7</option>
+  	<option value="9">9</option>
+  	<option value="11">11</option>
   </select>
 </div>
 <div class="form-group">
-  <label for="birthday">生日</label>
-  <input type="text" id="birthday" name="birthday" readonly="readonly" onchange="birthDayHandler()">
+  <label for="activityTime">比赛时间</label>
+  <input type="text" class="form-control" id="activityTime" name="activityTime" placeholder="比赛时间" maxlength="20">
 </div>
 <div class="form-group">
-  <label for="phone">电话</label>
-  <input type="text" class="form-control" id="phone" name="phone" placeholder="电话" maxlength="15">
+  <label for="activityExpense">比赛费用</label>
+  <input type="activityExpense" class="form-control" id="activityExpense" name="activityExpense" placeholder="请输入比赛费用" maxlength="10">
 </div>
 <div class="form-group">
-  <label for="qq">QQ</label>
-  <input type="text" class="form-control" id="qq" name="qq" placeholder="QQ" maxlength="15">
+  <label for="activityType">比赛类型</label>
+  <select id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  	<option value="1">球队约战</option>
+  	<option value="2">散客约战</option>
+  </select>
 </div>
 <div class="form-group">
-  <label for="weixin">微信</label>
-  <input type="text" class="form-control" id="weixin" name="weixin" placeholder="微信" maxlength="15">
-</div>
-<div class="form-group">
-  <label for="mail">邮件</label>
-  <input type="text" class="form-control" id="mail" name="mail" placeholder="邮件" maxlength="40">
+  <label for="isneedright">是否需要授权      </label>
+  <input type="checkbox" name="isneedright" value="checkbox"> （比赛约战申请是否需要您的审批）
 </div>
 
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
@@ -81,18 +73,18 @@
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
+    <script src="assets/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
+    <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
 <script type="text/javascript">
-var flag=false;
-function birthDayHandler(){
-	if(!flag){
-		$( "#birthday").keyup();
-		flag=true;
-	}
-}
-$(function() {
-    $( "#birthday" ).datepicker();
-  });
+jQuery(function () {
+    // 时间设置
+    jQuery('#activityTime').datetimepicker({
+        timeFormat: "HH:mm:ss",
+        dateFormat: "yy-mm-dd"
+    });
 
+});
 $(document).ready(function() {
     $('.form-signin').bootstrapValidator({
         message: 'This value is not valid',

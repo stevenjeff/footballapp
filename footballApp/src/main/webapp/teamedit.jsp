@@ -104,10 +104,7 @@
 
     <div class="container-fluid">
       <div class="row">
-        <p>
-       <button type="button" class="btn btn-success">球赛管理</button>
-       <button type="button" class="btn btn-success">球队管理</button>
-      </p>
+<%@ include  file="headbtn.jsp"%>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h2 class="sub-header">My Team</h2>
           <div class="table-responsive">

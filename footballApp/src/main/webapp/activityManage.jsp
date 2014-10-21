@@ -16,63 +16,12 @@
  	<link href="assets/css/signin.css" rel="stylesheet">
  	<link href="assets/css/jquery-ui.min.css" rel="stylesheet">
  	<link href="assets/css/bootstrapValidator.min.css" rel="stylesheet">
-    <!-- Custom styles for this template -->
     <link href="assets/css/dashboard.css" rel="stylesheet"/>
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('.form-signin').bootstrapValidator({
-            message: 'This value is not valid',
-            feedbackIcons: {
-                valid: 'glyphicon glyphicon-ok',
-                invalid: 'glyphicon glyphicon-remove',
-                validating: 'glyphicon glyphicon-refresh'
-            },
-            fields: {
-                username: {
-                    message: '用户名无效',
-                    validators: {
-                        notEmpty: {
-                            message: '用户名不能为空'
-                        },
-                        stringLength: {
-                            min: 5,
-                            max: 30,
-                            message: '用户名必须为5到30个字符长'
-                        },
-                        regexp: {
-                            regexp: /^[a-zA-Z0-9_\.]+$/,
-                            message: '用户名职能包括数字和字母'
-                        }
-                    }
-                },
-                password: {
-                    validators: {
-                        notEmpty: {
-                            message: '密码不能为空'
-                        }
-                    }
-                }
-            }
-        });
-        if('${globalerror==null?'':globalerror}'!=''){
-        	$("#modalLink").click();
-        }
-    });
     </script>
   </head>
 
@@ -104,10 +53,7 @@
 
     <div class="container-fluid">
       <div class="row">
-      <p>
-       <button type="button" class="btn btn-success">球赛管理</button>
-       <button type="button" class="btn btn-success">球队管理</button>
-      </p>
+      <%@ include  file="headbtn.jsp"%>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <p>
         <button type="button" class="btn btn-sm btn-primary">创建</button>
