@@ -29,17 +29,17 @@
     <![endif]-->
 </head>
 <body>
-<form action="register.action" class="form-signin" role="form" method="post">
+<form action="activityCreate.action" class="form-signin" role="form" method="post">
 <h2 class="form-signin-heading">球赛创建</h2>
 <font color="red">${globalerror}</font>
 <div class="form-group">
-  <label for="username">球场地址</label>
+  <label for="activityArea">球场地址</label>
   <input type="text" class="form-control" id="activityArea" name="activityArea" placeholder="请输入球场地址" maxlength="50">
 </div>
 <div class="form-group">
   <label for="activityPlayersCnt">赛制（几人制）</label>
   <select id="activityPlayersCnt" name="activityPlayersCnt" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
-  	<option value="1">3</option>
+  	<option value="3">3</option>
   	<option value="5">5</option>
   	<option value="7">7</option>
   	<option value="9">9</option>
@@ -48,11 +48,11 @@
 </div>
 <div class="form-group">
   <label for="activityTime">比赛时间</label>
-  <input type="text" class="form-control" id="activityTime" name="activityTime" placeholder="比赛时间" maxlength="20">
+  <input type="text" class="form-control" id="activityTime" name="activityTime" placeholder="比赛时间" maxlength="20" readOnly="readonly">
 </div>
 <div class="form-group">
   <label for="activityExpense">比赛费用</label>
-  <input type="activityExpense" class="form-control" id="activityExpense" name="activityExpense" placeholder="请输入比赛费用" maxlength="10">
+  <input type="text" class="form-control" id="activityExpense" name="activityExpense" placeholder="请输入比赛费用" maxlength="10">
 </div>
 <div class="form-group">
   <label for="activityType">比赛类型</label>
@@ -63,7 +63,7 @@
 </div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
-  <input type="checkbox" name="isneedright" value="checkbox"> （比赛约战申请是否需要您的审批）
+  <input type="checkbox" name="isneedright" value="1"> （比赛约战申请是否需要您的审批）
 </div>
 
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
@@ -83,7 +83,7 @@ jQuery(function () {
         timeFormat: "HH:mm:ss",
         dateFormat: "yy-mm-dd"
     });
-
+    jQuery('#activityTime').datetimepicker('setDate', (new Date()) );
 });
 $(document).ready(function() {
     $('.form-signin').bootstrapValidator({
@@ -94,56 +94,24 @@ $(document).ready(function() {
             validating: 'glyphicon glyphicon-refresh'
         },
         fields: {
-            username: {
-                message: '用户名无效',
+        	activityArea: {
+                message: '球场地址无效',
                 validators: {
                     notEmpty: {
-                        message: '用户名不能为空'
+                        message: '球场地址不能为空'
                     },
                     stringLength: {
-                        min: 5,
-                        max: 30,
-                        message: '用户名必须为5到30个字符长'
-                    },
-                    regexp: {
-                        regexp: /^[a-zA-Z0-9_\.]+$/,
-                        message: '用户名职能包括数字和字母'
+                        min: 1,
+                        max: 50,
+                        message: '球场地址最多50字符长'
                     }
                 }
             },
-            birthday: {
+            activityExpense: {
                 validators: {
-                	notEmpty: {
-                        message: '生日不能为空'
-                    },
-                }
-            },
-            mail: {
-                validators: {
-                    emailAddress: {
-                        message: '输入邮箱地址无效'
-                    }
-                }
-            },
-            password: {
-                validators: {
-                    notEmpty: {
-                        message: '密码不能为空'
-                    },
-                    identical: {
-                        field: 'confirmPassword',
-                        message: '密码与密码确认必须相同'
-                    }
-                }
-            },
-            confirmPassword: {
-                validators: {
-                    notEmpty: {
-                        message: '密码确认不能为空'
-                    },
-                    identical: {
-                        field: 'password',
-                        message: '密码与确认密码不同'
+                	regexp: {
+                        regexp: /^[0-9]+$/,
+                        message: '费用只能包括数字'
                     }
                 }
             }

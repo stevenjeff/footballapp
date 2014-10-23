@@ -115,7 +115,7 @@ $(document).ready(function() {
                     },
                     regexp: {
                         regexp: /^[a-zA-Z0-9_\.]+$/,
-                        message: '用户名职能包括数字和字母'
+                        message: '用户名只能包括数字和字母'
                     }
                 }
             },

@@ -68,5 +68,16 @@ public class ActivityServiceImpl implements ActivityService {
 		return list;
 	}
 
+	@Override
+	public List<Activity> selectByPlayerId(int activityPlayerId) {
+		List<Activity> list =null;
+		try {
+			list=mapperActivityService.selectByPlayerId(activityPlayerId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list;
+	}
+
 
 }

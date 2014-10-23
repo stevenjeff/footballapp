@@ -1,7 +1,11 @@
 --<ScriptOptions statementTerminator=";"/>
+drop table activity cascade;
+drop table request cascade;
+drop table team cascade;
+drop table player cascade;
 
 CREATE TABLE activity (
-	activity_id BIGINT NOT NULL,
+	activity_id BIGINT NOT NULL auto_increment,
 	activity_area VARCHAR(50),
 	activity_time DATETIME,
 	activity_players_cnt MEDIUMINT,
@@ -15,7 +19,7 @@ CREATE TABLE activity (
 ) ENGINE=InnoDB;
 
 CREATE TABLE request (
-	request_id BIGINT NOT NULL,
+	request_id BIGINT NOT NULL auto_increment,
 	request_player_id BIGINT,
 	request_team_id BIGINT,
 	team_id BIGINT,
@@ -28,7 +32,7 @@ CREATE TABLE request (
 ) ENGINE=InnoDB;
 
 CREATE TABLE team (
-	team_id BIGINT NOT NULL,
+	team_id BIGINT NOT NULL auto_increment,
 	team_name VARCHAR(30) NOT NULL,
 	creattime DATE NOT NULL,
 	creatorid BIGINT,
@@ -37,7 +41,7 @@ CREATE TABLE team (
 ) ENGINE=InnoDB;
 
 CREATE TABLE player (
-player_id         bigint(20),
+player_id         bigint(20) auto_increment,
    player_name       varchar(30),
    createtime        datetime,
    phone             varchar(20),
