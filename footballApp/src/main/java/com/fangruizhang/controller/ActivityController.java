@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fangruizhang.entity.Activity;
@@ -36,45 +37,80 @@ import com.fangruizhang.util.ExceptionUtil;
 @Controller
 public class ActivityController extends CommonController {
 
-	@RequestMapping(value="/activityCreate.action",method=RequestMethod.POST)
-    public ModelAndView createActivity(@RequestParam(value="activityArea", required=false) String activityArea,
-    		@RequestParam(value="activityTime", required=false) String activityTime,
-    		@RequestParam(value="activityType", required=false) int activityType,
-    		@RequestParam(value="activityExpense", required=false) Integer activityExpense,
-    		@RequestParam(value="activityPlayersCnt", required=false) int activityPlayersCnt,
-    		@RequestParam(value="isneedright", required=false) Integer isneedright,
-    		Model model,HttpSession session){
-		ActivityService service=new ActivityServiceImpl();
+	@RequestMapping(value = "/activityCreate.action", method = RequestMethod.POST)
+	public ModelAndView createActivity(
+			@RequestParam(value = "activityArea", required = false) String activityArea,
+			@RequestParam(value = "activityTime", required = false) String activityTime,
+			@RequestParam(value = "activityType", required = false) int activityType,
+			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
+			@RequestParam(value = "activityPlayersCnt", required = false) int activityPlayersCnt,
+			@RequestParam(value = "isneedright", required = false) Integer isneedright,
+			Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
 		try {
-			SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Activity activity=new Activity();
+			SimpleDateFormat dateformat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm:ss");
+			Activity activity = new Activity();
 			activity.setActivityArea(activityArea);
-			activity.setActivityExpense(activityExpense==null?0:activityExpense);
-			activity.setActivityIsneedRight(isneedright==null?0:isneedright);
+			activity.setActivityExpense(activityExpense == null ? 0
+					: activityExpense);
+			activity.setActivityIsneedRight(isneedright == null ? 0
+					: isneedright);
 			activity.setActivityPlayersCnt(activityPlayersCnt);
 			activity.setActivityType(activityType);
 			activity.setActivityTime(dateformat.parse(activityTime));
-			activity.setActivityPlayerId(this.getLoginPlayer(session).getPlayerId());
+			activity.setActivityPlayerId(this.getLoginPlayer(session)
+					.getPlayerId());
 			activity.setActivityTeamId(-1);
 			activity.setActivityOpponentTeamId(-1);
 			service.insertValue(activity);
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/searchByLoginPlayer.action");
+		return new ModelAndView(
+				"forward:/activityManageSearchBySinglePlayer.action");
 	}
 
-	@RequestMapping(value="/searchByLoginPlayer.action",method=RequestMethod.POST)
-	public ModelAndView searchByLoginPlayer(Model model,HttpSession session){
-		ActivityService service=new ActivityServiceImpl();
+	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action", method = RequestMethod.GET)
+	public ModelAndView playerActivitySerarchManage(Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
 		try {
-			List<Activity> list = service.selectByPlayerId(getLoginPlayer(session).getPlayerId());
-			model.addAttribute(list);
+			int pageSize =5;
+			Integer recordCount = service.selectPageCountByPlayerId(getLoginPlayer(session)
+						.getPlayerId());
+			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
+			model.addAttribute("recordCount", recordCount);
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("pageTitle", "我的比赛计划");
 		} catch (Exception e) {
 			e.printStackTrace();
-			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView("forward:/activityManage.jsp");
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/searchByLoginPlayerJson.action", method = RequestMethod.GET)
+	public List<Activity> searchByLoginPlayerJson(
+			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+			Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
+		List<Activity> list = null;
+		int beginNum = 0;
+		try {
+			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
+					: 0;
+			list = service.selectPageByPlayerId(getLoginPlayer(session)
+					.getPlayerId(), beginNum, pageSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
 	}
 }

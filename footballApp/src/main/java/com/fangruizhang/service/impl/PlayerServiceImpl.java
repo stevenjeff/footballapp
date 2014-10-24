@@ -25,7 +25,7 @@ public class PlayerServiceImpl implements PlayerService {
 		return bresult;
 	}
 
-	public boolean deleteById(int id) {
+	public boolean deleteById(int id) throws Exception  {
 		boolean bresult=false;
 		try {
 			mapperPlayerService.deleteById(id);
@@ -33,11 +33,12 @@ public class PlayerServiceImpl implements PlayerService {
 		    bresult=true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public boolean updateValue(Player player) {
+	public boolean updateValue(Player player) throws Exception  {
 		boolean bresult=false;
 		try {
 			mapperPlayerService.updateValue(player);
@@ -45,26 +46,29 @@ public class PlayerServiceImpl implements PlayerService {
 		    bresult=true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public Player selectById(int id) {
+	public Player selectById(int id) throws Exception  {
 		Player player=null;
 		try {
 			player=(Player)mapperPlayerService.selectById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return player;
 	}
 
-	public List<Player> selectAll() {
+	public List<Player> selectAll() throws Exception  {
 		List<Player> list =null;
 		try {
 			list=mapperPlayerService.selectAll();
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return list;
 	}
@@ -79,6 +83,7 @@ public class PlayerServiceImpl implements PlayerService {
 			player=(Player)mapperPlayerService.selectByName(playerName);
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return player;
 	}

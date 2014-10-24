@@ -12,7 +12,7 @@ public class RequestServiceImpl implements RequestService {
 
 	SqlSession session=MybatisUtil.getSqlSession();
 	RequestService mapperRequestService = session.getMapper(RequestService.class);
-	public boolean insertValue(Request team) {
+	public boolean insertValue(Request team)  throws Exception{
 		boolean bresult=false;
 		try {
 			mapperRequestService.insertValue(team);
@@ -20,50 +20,55 @@ public class RequestServiceImpl implements RequestService {
 		    bresult=true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public boolean deleteById(int id) {
+	public boolean deleteById(int id)  throws Exception{
 		boolean bresult=false;
 		try {
 			mapperRequestService.deleteById(id);
 		    session.commit();
 		    bresult=true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public boolean updateValue(Request team) {
+	public boolean updateValue(Request team) throws Exception {
 		boolean bresult=false;
 		try {
 			mapperRequestService.updateValue(team);
 		    session.commit();
 		    bresult=true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public Request selectById(int id) {
+	public Request selectById(int id) throws Exception {
 		Request team=null;
 		try {
 			team=(Request)mapperRequestService.selectById(id);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return team;
 	}
 
-	public List<Request> selectAll() {
+	public List<Request> selectAll() throws Exception {
 		List<Request> list =null;
 		try {
 			list=mapperRequestService.selectAll();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return list;
 	}

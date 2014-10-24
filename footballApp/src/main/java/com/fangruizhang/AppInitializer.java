@@ -18,13 +18,9 @@ public void onStartup(ServletContext servletContext) throws ServletException {
                 new AnnotationConfigWebApplicationContext();
         webApplicationContext.scan("com.fangruizhang.controller");
 
-
         DispatcherServlet dispatcherServlet = new DispatcherServlet(webApplicationContext);
         ServletRegistration.Dynamic dynamic = servletContext.addServlet("dispatcherServlet", dispatcherServlet);
         dynamic.addMapping("*.action");
-
-
-
 
     }
 }

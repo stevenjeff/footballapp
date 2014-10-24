@@ -46,6 +46,11 @@ public class PlayerServiceTest extends TestCase {
 		player.setAttendtimes(3);
 		player.setPlayerId(1);
 		player.setPlayerName("aadgsdfs");
-		serviceImpl.updateValue(player);
+		try {
+			serviceImpl.updateValue(player);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -12,7 +12,7 @@ public class ActivityServiceImpl implements ActivityService {
 
 	SqlSession session=MybatisUtil.getSqlSession();
 	ActivityService mapperActivityService = session.getMapper(ActivityService.class);
-	public boolean insertValue(Activity activity) {
+	public boolean insertValue(Activity activity) throws Exception{
 		boolean bresult=false;
 		try {
 			mapperActivityService.insertValue(activity);
@@ -20,63 +20,81 @@ public class ActivityServiceImpl implements ActivityService {
 		    bresult=true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public boolean deleteById(int id) {
+	public boolean deleteById(int id) throws Exception{
 		boolean bresult=false;
 		try {
 			mapperActivityService.deleteById(id);
 		    session.commit();
 		    bresult=true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public boolean updateValue(Activity activity) {
+	public boolean updateValue(Activity activity) throws Exception{
 		boolean bresult=false;
 		try {
 			mapperActivityService.updateValue(activity);
 		    session.commit();
 		    bresult=true;
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return bresult;
 	}
 
-	public Activity selectById(int id) {
+	public Activity selectById(int id) throws Exception{
 		Activity activity=null;
 		try {
 			activity=(Activity)mapperActivityService.selectById(id);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return activity;
 	}
 
-	public List<Activity> selectAll() {
+	public List<Activity> selectAll() throws Exception{
 		List<Activity> list =null;
 		try {
 			list=mapperActivityService.selectAll();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return list;
 	}
 
 	@Override
-	public List<Activity> selectByPlayerId(int activityPlayerId) {
+	public List<Activity> selectPageByPlayerId(int activityPlayerId,int beginNum,int endNum) throws Exception{
 		List<Activity> list =null;
 		try {
-			list=mapperActivityService.selectByPlayerId(activityPlayerId);
+			list=mapperActivityService.selectPageByPlayerId(activityPlayerId,beginNum,endNum);
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public int selectPageCountByPlayerId(int activityPlayerId) throws Exception{
+		int size =0;
+		try {
+			size=mapperActivityService.selectPageCountByPlayerId(activityPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return size;
 	}
 
 
