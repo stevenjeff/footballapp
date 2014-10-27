@@ -73,7 +73,7 @@ public class ActivityController extends CommonController {
 				"forward:/activityManageSearchBySinglePlayer.action");
 	}
 
-	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action", method = RequestMethod.GET)
+	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action")
 	public ModelAndView playerActivitySerarchManage(Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
@@ -84,6 +84,14 @@ public class ActivityController extends CommonController {
 			model.addAttribute("recordCount", recordCount);
 			model.addAttribute("pageCount", pageCount);
 			model.addAttribute("pageTitle", "我的比赛计划");
+			StringBuffer dislayCols=new StringBuffer();
+			dislayCols.append("{'比赛地点': 'activityArea',");
+			dislayCols.append("'比赛队伍': 'activityTeamId',");
+			dislayCols.append("'比赛时间': 'activityTime',");
+			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
+			dislayCols.append("'创建人': 'activityPlayerId',");
+			dislayCols.append("'比赛类型': 'activityType'}");
+			model.addAttribute("displayCols", dislayCols.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

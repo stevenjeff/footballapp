@@ -68,6 +68,9 @@ CREATE TABLE team_player_relation
    goal         bigint(3)
 ) ENGINE=InnoDB;
 
+CREATE UNIQUE INDEX activity_time_area_player_index
+    ON football.activity(activity_area, activity_time, activity_player_id);
+
 CREATE INDEX player_request_index
     ON football.request(request_activity_id, request_player_id, request_type);
 
