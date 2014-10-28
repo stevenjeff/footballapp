@@ -15,6 +15,7 @@ CREATE TABLE activity (
 	activity_team_id BIGINT,
 	activity_opponent_team_id BIGINT,
 	activity_isneed_right BIT,
+	activity_status bigint(1) DEFAULT 1,
 	PRIMARY KEY (activity_id)
 ) ENGINE=InnoDB;
 

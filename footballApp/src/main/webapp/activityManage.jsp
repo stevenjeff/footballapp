@@ -8,7 +8,7 @@
     <meta name="author" content=""/>
     <link rel="icon" href="assets/img/favicon.ico"/>
 
-    <title>Tianjin Football Association</title>
+    <title>Football Association</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>
@@ -35,7 +35,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">天津足球约战网</a>
+          <a class="navbar-brand" href="#">足球约战网</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">

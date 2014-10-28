@@ -8,7 +8,7 @@
     <meta name="author" content=""/>
     <link rel="icon" href="assets/img/favicon.ico"/>
 
-    <title>Tianjin Football Association</title>
+    <title>Football Association</title>
 
     <!-- Bootstrap core CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet"/>

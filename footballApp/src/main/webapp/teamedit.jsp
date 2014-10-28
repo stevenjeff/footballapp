@@ -87,7 +87,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">天津足球约战网</a>
+          <a class="navbar-brand" href="#">足球约战网</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -106,7 +106,7 @@
       <div class="row">
 <%@ include  file="headbtn.jsp"%>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">My Team</h2>
+          <h2 class="sub-header">我的球队</h2>
           <div class="table-responsive">
             <table class="table table-striped">
               <thead>

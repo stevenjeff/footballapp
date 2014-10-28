@@ -60,7 +60,7 @@ public interface ActivityService {
 			@Result(property = "activityTeamId", column = "activity_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM Activity WHERE activity_player_id = #{activityPlayerId} limit #{beginNum},#{endNum}")
+	@Select("SELECT * FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status=1 limit #{beginNum},#{endNum}")
 	public List<Activity> selectPageByPlayerId(@Param("activityPlayerId") int activityPlayerId,@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 
 	@Select("SELECT count(activity_id) FROM Activity WHERE activity_player_id = #{activityPlayerId}")
