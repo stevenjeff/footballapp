@@ -25,6 +25,7 @@ import com.fangruizhang.entity.Activity;
 import com.fangruizhang.service.ActivityService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
 import com.fangruizhang.util.ExceptionUtil;
+import com.fangruizhang.util.PageUtil;
 
 /**
  * @ClassName: ActivityController
@@ -49,7 +50,7 @@ public class ActivityController extends CommonController {
 		ActivityService service = new ActivityServiceImpl();
 		try {
 			SimpleDateFormat dateformat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
+					"yyyy-MM-dd HH:mm");
 			Activity activity = new Activity();
 			activity.setActivityArea(activityArea);
 			activity.setActivityExpense(activityExpense == null ? 0
@@ -81,17 +82,15 @@ public class ActivityController extends CommonController {
 			Integer recordCount = service.selectPageCountByPlayerId(getLoginPlayer(session)
 						.getPlayerId());
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
-			model.addAttribute("recordCount", recordCount);
-			model.addAttribute("pageCount", pageCount);
-			model.addAttribute("pageTitle", "我的比赛计划");
 			StringBuffer dislayCols=new StringBuffer();
-			dislayCols.append("{'比赛地点': 'activityArea',");
+			dislayCols.append("{'id': 'activityId',");
+			dislayCols.append("'比赛地点': 'activityArea',");
 			dislayCols.append("'比赛队伍': 'activityTeamId',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayerId',");
 			dislayCols.append("'比赛类型': 'activityType'}");
-			model.addAttribute("displayCols", dislayCols.toString());
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchByLoginPlayerJson.action", "我的比赛计划", "activityId", "deleteActivityById.action", "editAction.action");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -120,5 +119,18 @@ public class ActivityController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return list;
+	}
+
+	@RequestMapping(value = "/deleteActivityById.action")
+	public ModelAndView deleteActivityById(Model model, @RequestParam(value = "id", required = true) int id) {
+		ActivityService service = new ActivityServiceImpl();
+		try {
+			service.deleteById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/activityManage.jsp");
 	}
 }
