@@ -25,4 +25,17 @@ public class EnumNames {
 			return code;
 		}
 	}
+
+	public static enum ActivityStatusEnum {
+		ActivityEnabled(1),ActivityDeleted(2);
+
+		private int code;
+
+		ActivityStatusEnum(int i){
+			this.code=i;
+		}
+		public int getCode() {
+			return code;
+		}
+	}
 }

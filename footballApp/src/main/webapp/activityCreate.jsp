@@ -80,7 +80,7 @@
 jQuery(function () {
     // 时间设置
     jQuery('#activityTime').datetimepicker({
-        timeFormat: "HH:mm:ss",
+        timeFormat: "HH:mm",
         dateFormat: "yy-mm-dd"
     });
     jQuery('#activityTime').datetimepicker('setDate', (new Date()) );

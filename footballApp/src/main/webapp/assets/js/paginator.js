@@ -12,7 +12,7 @@ var pageIndex = 0;
 
     function AjaxGetData( index, size) {
         $.ajax({
-            url: "${pageContext.request.contextPath}/searchByLoginPlayerJson.action",
+            url: "${pageContext.request.contextPath}/${jsonAction}",
             type: "GET",
             data: "pageNum=" + index + "&pageSize=" + size,
             dataType: "json",
@@ -27,6 +27,7 @@ var pageIndex = 0;
                 	 html +=feildName;
                 	 html +="</th>";
                  }
+                 html += "<th>操作</th>";
                  html += "</tr>";
                  html += "</thead>";
                  html += "<tbody>";
@@ -35,7 +36,9 @@ var pageIndex = 0;
 	               for(feildName in jsonobj){
 	            	   html += "<td>"+eval("json[position]."+jsonobj[feildName]+"")+"</td>";
 	               }
-                   html += "<td><a href='editposition?id="+"json[position].activityPlayerId"+"'>Edit&nbsp;<a href='position?id="+"json[position].activityPlayerId"+"'>View</td>";
+	               var edit=eval("json[position]."+jsonobj['${idkey}']+"");
+	               alert()
+                   html += "<td><a href='${editAction}?id="+eval("json[position]."+jsonobj['${idkey}']+"")+"'>详情</a>&nbsp;<a href='${delAction}?id="+eval("json[position]."+jsonobj['${idkey}']+"")+">删除</a></td>";
                    html += "</tr>";
 
                }
