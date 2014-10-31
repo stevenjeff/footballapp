@@ -75,7 +75,7 @@ public class ActivityController extends CommonController {
 	}
 
 	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action")
-	public ModelAndView playerActivitySerarchManage(Model model, HttpSession session) {
+	public ModelAndView playerActivitySearchManage(Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
 			int pageSize =5;
@@ -90,7 +90,7 @@ public class ActivityController extends CommonController {
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayerId',");
 			dislayCols.append("'比赛类型': 'activityType'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchByLoginPlayerJson.action", "我的比赛计划", "activityId", "deleteActivityById.action", "editAction.action");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchActivityByLoginPlayerJson.action", "我的比赛计划", "activityId", "deleteActivityById.action", "editAction.action");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -98,9 +98,54 @@ public class ActivityController extends CommonController {
 		}
 		return new ModelAndView("forward:/activityManage.jsp");
 	}
+	
+	@RequestMapping(value = "/index.action")
+	public ModelAndView playerActivitySearchAllManage(Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
+		try {
+			int pageSize =5;
+			Integer recordCount = service.selectAllPageCount();
+			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
+			StringBuffer dislayCols=new StringBuffer();
+			dislayCols.append("{'id': 'activityId',");
+			dislayCols.append("'比赛地点': 'activityArea',");
+			dislayCols.append("'比赛队伍': 'activityTeamId',");
+			dislayCols.append("'比赛时间': 'activityTime',");
+			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
+			dislayCols.append("'创建人': 'activityPlayerId',");
+			dislayCols.append("'比赛类型': 'activityType'}");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchAllActivityJson.action", "比赛计划", "activityId", "deleteActivityById.action", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/index.jsp");
+	}
 
 	@ResponseBody
-	@RequestMapping(value = "/searchByLoginPlayerJson.action", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchAllActivityJson.action", method = RequestMethod.GET)
+	public List<Activity> searchAllActivityJson(
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+			Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
+		List<Activity> list = null;
+		int beginNum = 0;
+		try {
+			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
+					: 0;
+			list = service.selectAll( beginNum, pageSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/searchActivityByLoginPlayerJson.action", method = RequestMethod.GET)
 	public List<Activity> searchByLoginPlayerJson(
 			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,

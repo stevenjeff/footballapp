@@ -56,8 +56,6 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <p>
         <button type="button" class="btn btn-sm btn-primary" onclick="javascript: window.location.href='activityCreate.jsp';">创建</button>
-        <button type="button" class="btn btn-sm btn-primary">修改</button>
-        <button type="button" class="btn btn-sm btn-danger">删除</button>
       	</p>
           <div id="divResult" class="table-responsive">
           </div>

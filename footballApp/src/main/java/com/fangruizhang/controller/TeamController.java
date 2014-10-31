@@ -78,7 +78,7 @@ public class TeamController extends CommonController {
 			dislayCols.append("'球队创建时间': 'creattime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
 			dislayCols.append("'创建人': 'creatorid'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "editAction.action");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "editAction.action");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -88,7 +88,7 @@ public class TeamController extends CommonController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/searchByLoginPlayerJson.action", method = RequestMethod.GET)
+	@RequestMapping(value = "/searchTeamByLoginPlayerJson.action", method = RequestMethod.GET)
 	public List<Team> searchByLoginPlayerJson(
 			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,

@@ -62,10 +62,10 @@ public class ActivityServiceImpl implements ActivityService {
 		return activity;
 	}
 
-	public List<Activity> selectAll() throws Exception{
+	public List<Activity> selectAll(int beginNum,int endNum) throws Exception{
 		List<Activity> list =null;
 		try {
-			list=mapperActivityService.selectAll();
+			list=mapperActivityService.selectAll(beginNum,endNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -90,6 +90,18 @@ public class ActivityServiceImpl implements ActivityService {
 		int size =0;
 		try {
 			size=mapperActivityService.selectPageCountByPlayerId(activityPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return size;
+	}
+
+	@Override
+	public int selectAllPageCount() throws Exception {
+		int size =0;
+		try {
+			size=mapperActivityService.selectAllPageCount();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

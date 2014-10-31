@@ -17,7 +17,7 @@ import com.fangruizhang.entity.Team;
 public interface TeamService {
 	@Insert("insert into Team (team_name,creattime,creatorid,memebercnt) values (#{teamName},#{creattime},#{creatorid},#{memebercnt})")
 	public boolean insertValue(Team team) throws Exception;
-	@Delete("delete from Team where team_id = #{id}")
+	@Update("update team set team_status=2 where team_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
 
 	@Update("update team set team_name")
@@ -29,7 +29,7 @@ public interface TeamService {
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creatorid", column = "creatorid", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM WHERE team_id = #{id}")
+	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
 	public Team selectById(int id) throws Exception;
 
 	@Results(value = {
@@ -38,7 +38,7 @@ public interface TeamService {
 			@Result(property = "creattime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creatorid", column = "creatorid", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM")
+	@Select("SELECT * FROM TEAM where team_status=1")
 	public List<Team> selectAll() throws Exception;
 	
 	@Results(value = {
@@ -50,6 +50,6 @@ public interface TeamService {
 	@Select("SELECT * FROM TEAM WHERE creatorid=#{playerId} and team_status=1 limit #{beginNum},#{endNum}")
 	public List<Team> selectPageByPlayerId(@Param("playerId") int playerId,@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 	
-	@Select("SELECT count(team_id) FROM TEAM WHERE creatorid=#{playerId}")
+	@Select("SELECT count(team_id) FROM TEAM WHERE creatorid=#{playerId} and team_status=1")
 	public int selectPageCountByPlayerId(@Param("playerId") int playerId) throws Exception;
 }

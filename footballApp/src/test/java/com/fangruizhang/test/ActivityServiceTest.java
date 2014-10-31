@@ -21,9 +21,9 @@ public class ActivityServiceTest extends TestCase {
 		activity.setActivityIsneedRight(1);
 		activity.setActivityPlayersCnt(2);
 		activity.setActivityTime(new Date());
-		 List<Activity> list=service.selectAll();
-		 Activity activity2=service.selectById(2);
-		 System.out.println(activity2.getActivityArea());
+//		 List<Activity> list=service.selectAll();
+//		 Activity activity2=service.selectById(2);
+//		 System.out.println(activity2.getActivityArea());
 //		 for(Activity a:list){
 //			 System.out.println(a.getActivityArea());
 //		 }
