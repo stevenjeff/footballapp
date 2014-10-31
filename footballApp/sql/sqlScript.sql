@@ -16,6 +16,7 @@ CREATE TABLE activity (
 	activity_opponent_team_id BIGINT,
 	activity_isneed_right BIT,
 	activity_status bigint(1) DEFAULT 1,
+	insert_date datetime DEFAULT 'CURRENT_TIMESTAMP',
 	PRIMARY KEY (activity_id)
 ) ENGINE=InnoDB;
 
@@ -29,6 +30,7 @@ CREATE TABLE request (
 	request_time DATETIME,
 	request_msg VARCHAR(50),
 	request_activity_id BIGINT,
+	insert_date datetime DEFAULT 'CURRENT_TIMESTAMP',
 	PRIMARY KEY (request_id)
 ) ENGINE=InnoDB;
 
@@ -38,6 +40,8 @@ CREATE TABLE team (
 	creattime DATE NOT NULL,
 	creatorid BIGINT,
 	memebercnt MEDIUMINT,
+	team_status   bigint(1) DEFAULT 1,
+	insert_date datetime DEFAULT 'CURRENT_TIMESTAMP',
 	PRIMARY KEY (team_id)
 ) ENGINE=InnoDB;
 
@@ -54,6 +58,7 @@ player_id         bigint(20) auto_increment,
    sex               bigint(1),
    birthday          date,
    password          varchar(20),
+   insert_date datetime DEFAULT 'CURRENT_TIMESTAMP',
 	PRIMARY KEY (player_id)
 ) ENGINE=InnoDB;
 
@@ -66,11 +71,12 @@ CREATE TABLE team_player_relation
    player_id    bigint(6),
    createtime   datetime,
    position     varchar(10),
-   goal         bigint(3)
+   goal         bigint(3),
+   insert_date datetime DEFAULT 'CURRENT_TIMESTAMP'
 ) ENGINE=InnoDB;
 
 CREATE UNIQUE INDEX activity_time_area_player_index
-    ON football.activity(activity_area, activity_time, activity_player_id);
+    ON football.activity(activity_area, activity_time, activity_status);
 
 CREATE INDEX player_request_index
     ON football.request(request_activity_id, request_player_id, request_type);
@@ -81,3 +87,4 @@ CREATE INDEX team_request_index
 CREATE INDEX team_player_request_index
     ON football.request(request_team_id, request_player_id, request_type, request_status);
 
+CREATE UNIQUE INDEX team_name_status ON football.team(team_name,team_status);

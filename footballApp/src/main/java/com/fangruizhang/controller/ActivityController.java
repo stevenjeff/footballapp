@@ -131,6 +131,6 @@ public class ActivityController extends CommonController {
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/activityManage.jsp");
+		return new ModelAndView("forward:/activityManageSearchBySinglePlayer.action");
 	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.util.MybatisUtil;
@@ -73,5 +74,29 @@ public class TeamServiceImpl implements TeamService {
 		return list;
 	}
 
+	@Override
+	public List<Team> selectPageByPlayerId(int playerId, int beginNum,
+			int endNum) throws Exception {
+		List<Team> list =null;
+		try {
+			list=mapperTeamService.selectPageByPlayerId(playerId, beginNum, endNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
+	}
+
+	@Override
+	public int selectPageCountByPlayerId(int activityPlayerId) throws Exception{
+		int size =0;
+		try {
+			size=mapperTeamService.selectPageCountByPlayerId(activityPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return size;
+	}
 
 }

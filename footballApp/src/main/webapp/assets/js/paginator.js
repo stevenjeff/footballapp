@@ -27,7 +27,7 @@ var pageIndex = 0;
                 	 html +=feildName;
                 	 html +="</th>";
                  }
-                 html += "<th>操作</th>";
+                 html += "<th></th>";
                  html += "</tr>";
                  html += "</thead>";
                  html += "<tbody>";
@@ -36,9 +36,8 @@ var pageIndex = 0;
 	               for(feildName in jsonobj){
 	            	   html += "<td>"+eval("json[position]."+jsonobj[feildName]+"")+"</td>";
 	               }
-	               var edit=eval("json[position]."+jsonobj['${idkey}']+"");
-	               alert()
-                   html += "<td><a href='${editAction}?id="+eval("json[position]."+jsonobj['${idkey}']+"")+"'>详情</a>&nbsp;<a href='${delAction}?id="+eval("json[position]."+jsonobj['${idkey}']+"")+">删除</a></td>";
+	               var idKey=eval("json[position]."+"${idkey}"+"");
+                   html += "<td><a href='${editAction}?id="+idKey+"'>详情&nbsp;<a href='${delAction}?id="+idKey+"'>删除</td>";
                    html += "</tr>";
 
                }
