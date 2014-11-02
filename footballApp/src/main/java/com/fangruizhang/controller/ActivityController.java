@@ -103,7 +103,7 @@ public class ActivityController extends CommonController {
 	public ModelAndView playerActivitySearchAllManage(Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
-			int pageSize =5;
+			int pageSize =10;
 			Integer recordCount = service.selectAllPageCount();
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols=new StringBuffer();
