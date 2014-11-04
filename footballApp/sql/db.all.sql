@@ -38,7 +38,7 @@ CREATE TABLE `activity` (
   `activity_time` datetime DEFAULT NULL,
   `activity_players_cnt` mediumint(9) DEFAULT NULL,
   `activity_expense` bigint(20) DEFAULT NULL,
-  `activity_type` bigint(20) DEFAULT NULL,
+  `activity_type` varchar(1) DEFAULT NULL,
   `activity_player_id` bigint(20) DEFAULT NULL,
   `activity_team_id` bigint(20) DEFAULT NULL,
   `activity_opponent_team_id` bigint(20) DEFAULT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `activity` (
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`activity_id`),
   UNIQUE KEY `activity_time_area_player_index` (`activity_area`,`activity_time`,`activity_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
-INSERT INTO `activity` VALUES (2,'aaaaaa','2014-10-27 13:53:59',3,1,2,1,-1,-1,'',1,'2014-10-31 13:42:41'),(3,'bbbbbbbbb','2014-10-27 14:02:21',3,2,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(5,'dddd','2014-10-27 14:05:10',3,2,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(6,'hhhhh','2014-10-27 14:07:57',3,2,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(7,'llll','2014-10-27 14:08:47',3,1,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(8,'fsdfasdfsa','2014-10-27 14:18:39',3,2,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(9,'ghjkaaaa','2014-10-27 14:18:48',3,1111,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(10,'ghjkaaaa111','2014-10-27 14:22:55',3,1111,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(16,'fsdfa','2014-10-29 00:00:03',3,0,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(17,'fsdfa','2014-10-29 00:00:15',3,0,1,1,-1,-1,'\0',1,'2014-10-31 13:42:41');
+INSERT INTO `activity` VALUES (2,'aaaaaa','2014-10-27 13:53:59',3,1,'2',1,-1,-1,'',1,'2014-10-31 13:42:41'),(3,'bbbbbbbbb','2014-10-27 14:02:21',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(5,'dddd','2014-10-27 14:05:10',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(6,'hhhhh','2014-10-27 14:07:57',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(7,'llll','2014-10-27 14:08:47',3,1,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(8,'fsdfasdfsa','2014-10-27 14:18:39',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(9,'ghjkaaaa','2014-10-27 14:18:48',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(10,'ghjkaaaa111','2014-10-27 14:22:55',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(16,'fsdfa','2014-10-29 00:00:03',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(17,'fsdfa','2014-10-29 00:00:15',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(18,'aaa','2014-11-04 14:42:00',3,1,'1',4,-1,-1,'',1,'2014-11-04 14:42:33'),(19,'bbba','2014-11-04 15:24:00',3,1,'1',4,-1,-1,'\0',1,'2014-11-04 15:24:34');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +83,7 @@ CREATE TABLE `player` (
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_name_index` (`player_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` VALUES (1,'steven','2014-10-24 14:03:18','111',0,0,'111','wwww','a@b.com',1,'2014-10-23','111','2014-10-31 13:45:13');
+INSERT INTO `player` VALUES (1,'aadgsdfs','2014-10-24 14:03:18','2312312312',0,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-10-31 13:45:13'),(2,'stevenzhang','2014-11-04 11:16:55','2312312312',3,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-11-04 11:16:55'),(4,'steven','2014-11-04 14:21:29','',0,0,'','','',1,'2014-11-05','111','2014-11-04 14:21:29'),(5,'niucha','2014-11-04 15:23:26','',0,0,'','','',1,'2014-11-05','111','2014-11-04 15:23:26');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +147,7 @@ CREATE TABLE `team` (
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`team_id`),
   UNIQUE KEY `team_name_status` (`team_name`,`team_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,6 +156,7 @@ CREATE TABLE `team` (
 
 LOCK TABLES `team` WRITE;
 /*!40000 ALTER TABLE `team` DISABLE KEYS */;
+INSERT INTO `team` VALUES (2,'aiyou woqu','2014-11-04',4,1,1,'2014-11-04 14:43:18');
 /*!40000 ALTER TABLE `team` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -471,7 +472,7 @@ CREATE TABLE `innodb_index_stats` (
 
 LOCK TABLES `innodb_index_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_index_stats` DISABLE KEYS */;
-INSERT INTO `innodb_index_stats` VALUES ('football','activity','PRIMARY','2014-10-31 05:42:42','n_diff_pfx01',10,1,'activity_id'),('football','activity','PRIMARY','2014-10-31 05:42:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','activity','PRIMARY','2014-10-31 05:42:42','size',1,NULL,'Number of pages in the index'),('football','activity','activity_time_area_player_index','2014-10-31 05:42:42','n_diff_pfx01',9,1,'activity_area'),('football','activity','activity_time_area_player_index','2014-10-31 05:42:42','n_diff_pfx02',10,1,'activity_area,activity_time'),('football','activity','activity_time_area_player_index','2014-10-31 05:42:42','n_diff_pfx03',10,1,'activity_area,activity_time,activity_status'),('football','activity','activity_time_area_player_index','2014-10-31 05:42:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','activity','activity_time_area_player_index','2014-10-31 05:42:42','size',1,NULL,'Number of pages in the index'),('football','player','PRIMARY','2014-10-31 05:45:13','n_diff_pfx01',1,1,'player_id'),('football','player','PRIMARY','2014-10-31 05:45:13','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','player','PRIMARY','2014-10-31 05:45:13','size',1,NULL,'Number of pages in the index'),('football','player','player_name_index','2014-10-31 05:45:13','n_diff_pfx01',1,1,'player_name'),('football','player','player_name_index','2014-10-31 05:45:13','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','player','player_name_index','2014-10-31 05:45:13','size',1,NULL,'Number of pages in the index'),('football','request','PRIMARY','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_id'),('football','request','PRIMARY','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','PRIMARY','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_activity_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_activity_id,request_player_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_activity_id,request_player_id,request_type'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_activity_id,request_player_id,request_type,request_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','player_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_team_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_team_id,request_player_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_team_id,request_player_id,request_type'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_team_id,request_player_id,request_type,request_status'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx05',0,1,'request_team_id,request_player_id,request_type,request_status,request_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','team_player_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_activity_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_activity_id,team_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_activity_id,team_id,request_type'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_activity_id,team_id,request_type,request_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','team_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','team','PRIMARY','2014-10-31 08:23:20','n_diff_pfx01',0,1,'team_id'),('football','team','PRIMARY','2014-10-31 08:23:20','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team','PRIMARY','2014-10-31 08:23:20','size',1,NULL,'Number of pages in the index'),('football','team','team_name_status','2014-10-31 08:23:20','n_diff_pfx01',0,1,'team_name'),('football','team','team_name_status','2014-10-31 08:23:20','n_diff_pfx02',0,1,'team_name,team_status'),('football','team','team_name_status','2014-10-31 08:23:20','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team','team_name_status','2014-10-31 08:23:20','size',1,NULL,'Number of pages in the index'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','n_diff_pfx01',0,1,'DB_ROW_ID'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','size',1,NULL,'Number of pages in the index');
+INSERT INTO `innodb_index_stats` VALUES ('football','activity','PRIMARY','2014-11-04 08:27:51','n_diff_pfx01',12,1,'activity_id'),('football','activity','PRIMARY','2014-11-04 08:27:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','activity','PRIMARY','2014-11-04 08:27:51','size',1,NULL,'Number of pages in the index'),('football','activity','activity_time_area_player_index','2014-11-04 08:27:51','n_diff_pfx01',11,1,'activity_area'),('football','activity','activity_time_area_player_index','2014-11-04 08:27:51','n_diff_pfx02',12,1,'activity_area,activity_time'),('football','activity','activity_time_area_player_index','2014-11-04 08:27:51','n_diff_pfx03',12,1,'activity_area,activity_time,activity_status'),('football','activity','activity_time_area_player_index','2014-11-04 08:27:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','activity','activity_time_area_player_index','2014-11-04 08:27:51','size',1,NULL,'Number of pages in the index'),('football','player','PRIMARY','2014-11-04 07:23:26','n_diff_pfx01',4,1,'player_id'),('football','player','PRIMARY','2014-11-04 07:23:26','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','player','PRIMARY','2014-11-04 07:23:26','size',1,NULL,'Number of pages in the index'),('football','player','player_name_index','2014-11-04 07:23:26','n_diff_pfx01',4,1,'player_name'),('football','player','player_name_index','2014-11-04 07:23:26','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','player','player_name_index','2014-11-04 07:23:26','size',1,NULL,'Number of pages in the index'),('football','request','PRIMARY','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_id'),('football','request','PRIMARY','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','PRIMARY','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_activity_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_activity_id,request_player_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_activity_id,request_player_id,request_type'),('football','request','player_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_activity_id,request_player_id,request_type,request_id'),('football','request','player_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','player_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_team_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_team_id,request_player_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_team_id,request_player_id,request_type'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_team_id,request_player_id,request_type,request_status'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_diff_pfx05',0,1,'request_team_id,request_player_id,request_type,request_status,request_id'),('football','request','team_player_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','team_player_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx01',0,1,'request_activity_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx02',0,1,'request_activity_id,team_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx03',0,1,'request_activity_id,team_id,request_type'),('football','request','team_request_index','2014-10-31 05:45:34','n_diff_pfx04',0,1,'request_activity_id,team_id,request_type,request_id'),('football','request','team_request_index','2014-10-31 05:45:34','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','request','team_request_index','2014-10-31 05:45:34','size',1,NULL,'Number of pages in the index'),('football','team','PRIMARY','2014-10-31 08:23:20','n_diff_pfx01',0,1,'team_id'),('football','team','PRIMARY','2014-10-31 08:23:20','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team','PRIMARY','2014-10-31 08:23:20','size',1,NULL,'Number of pages in the index'),('football','team','team_name_status','2014-10-31 08:23:20','n_diff_pfx01',0,1,'team_name'),('football','team','team_name_status','2014-10-31 08:23:20','n_diff_pfx02',0,1,'team_name,team_status'),('football','team','team_name_status','2014-10-31 08:23:20','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team','team_name_status','2014-10-31 08:23:20','size',1,NULL,'Number of pages in the index'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','n_diff_pfx01',0,1,'DB_ROW_ID'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('football','team_player_relation','GEN_CLUST_INDEX','2014-10-31 05:45:52','size',1,NULL,'Number of pages in the index');
 /*!40000 ALTER TABLE `innodb_index_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,7 +500,7 @@ CREATE TABLE `innodb_table_stats` (
 
 LOCK TABLES `innodb_table_stats` WRITE;
 /*!40000 ALTER TABLE `innodb_table_stats` DISABLE KEYS */;
-INSERT INTO `innodb_table_stats` VALUES ('football','activity','2014-10-31 05:42:42',10,1,1),('football','player','2014-10-31 05:45:13',1,1,1),('football','request','2014-10-31 05:45:34',0,1,3),('football','team','2014-10-31 08:23:20',0,1,1),('football','team_player_relation','2014-10-31 05:45:52',0,1,0);
+INSERT INTO `innodb_table_stats` VALUES ('football','activity','2014-11-04 08:27:51',12,1,1),('football','player','2014-11-04 07:23:26',4,1,1),('football','request','2014-10-31 05:45:34',0,1,3),('football','team','2014-10-31 08:23:20',0,1,1),('football','team_player_relation','2014-10-31 05:45:52',0,1,0);
 /*!40000 ALTER TABLE `innodb_table_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1073,4 +1074,4 @@ USE `test`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-10-31 16:51:41
+-- Dump completed on 2014-11-04 16:45:36

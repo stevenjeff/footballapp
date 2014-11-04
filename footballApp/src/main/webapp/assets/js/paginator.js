@@ -1,5 +1,10 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <script type="text/javascript">
+if("${displayCols}"==""){
+	alert("请先登录");
+	window.location.href='index.action'
+	
+}
 var jsonobj=eval('('+"${displayCols}"+')');
 var pageIndex = 0;
     var pageSize = 5;
@@ -37,7 +42,15 @@ var pageIndex = 0;
 	            	   html += "<td>"+eval("json[position]."+jsonobj[feildName]+"")+"</td>";
 	               }
 	               var idKey=eval("json[position]."+"${idkey}"+"");
-                   html += "<td><a href='${editAction}?id="+idKey+"'>详情&nbsp;<a href='${delAction}?id="+idKey+"'>删除</td>";
+	               var str="<td>";
+	               if("${editAction}"!=""){
+	            	   str+="<a href='${editAction}?id="+idKey+"'>详情";
+	               }
+	               if("${delAction}"!=""){
+	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"'>删除";
+	               }
+	               str+="</td>";
+                   html += str;
                    html += "</tr>";
 
                }

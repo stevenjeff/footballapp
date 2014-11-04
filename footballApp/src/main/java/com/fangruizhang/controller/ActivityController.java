@@ -9,6 +9,7 @@
 package com.fangruizhang.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -42,7 +43,7 @@ public class ActivityController extends CommonController {
 	public ModelAndView createActivity(
 			@RequestParam(value = "activityArea", required = false) String activityArea,
 			@RequestParam(value = "activityTime", required = false) String activityTime,
-			@RequestParam(value = "activityType", required = false) int activityType,
+			@RequestParam(value = "activityType", required = false) String activityType,
 			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
 			@RequestParam(value = "activityPlayersCnt", required = false) int activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
@@ -60,8 +61,7 @@ public class ActivityController extends CommonController {
 			activity.setActivityPlayersCnt(activityPlayersCnt);
 			activity.setActivityType(activityType);
 			activity.setActivityTime(dateformat.parse(activityTime));
-			activity.setActivityPlayerId(this.getLoginPlayer(session)
-					.getPlayerId());
+			activity.setActivityPlayer(this.getLoginPlayer(session));
 			activity.setActivityTeamId(-1);
 			activity.setActivityOpponentTeamId(-1);
 			service.insertValue(activity);
@@ -75,22 +75,27 @@ public class ActivityController extends CommonController {
 	}
 
 	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action")
-	public ModelAndView playerActivitySearchManage(Model model, HttpSession session) {
+	public ModelAndView playerActivitySearchManage(Model model,
+			HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
-			int pageSize =5;
-			Integer recordCount = service.selectPageCountByPlayerId(getLoginPlayer(session)
-						.getPlayerId());
+			int pageSize = 5;
+			Integer recordCount = service
+					.selectPageCountByPlayerId(getLoginPlayer(session)
+							.getPlayerId());
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
-			StringBuffer dislayCols=new StringBuffer();
+			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'id': 'activityId',");
 			dislayCols.append("'比赛地点': 'activityArea',");
 			dislayCols.append("'比赛队伍': 'activityTeamId',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
-			dislayCols.append("'创建人': 'activityPlayerId',");
+			dislayCols.append("'创建人': 'activityPlayer.playerName',");
 			dislayCols.append("'比赛类型': 'activityType'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchActivityByLoginPlayerJson.action", "我的比赛计划", "activityId", "deleteActivityById.action", "editAction.action");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
+					"searchActivityByLoginPlayerJson.action", "我的比赛计划",
+					"activityId", "deleteActivityById.action",
+					"editAction.action");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -98,23 +103,26 @@ public class ActivityController extends CommonController {
 		}
 		return new ModelAndView("forward:/activityManage.jsp");
 	}
-	
+
 	@RequestMapping(value = "/index.action")
-	public ModelAndView playerActivitySearchAllManage(Model model, HttpSession session) {
+	public ModelAndView playerActivitySearchAllManage(Model model,
+			HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
-			int pageSize =10;
+			int pageSize = 10;
 			Integer recordCount = service.selectAllPageCount();
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
-			StringBuffer dislayCols=new StringBuffer();
+			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'id': 'activityId',");
 			dislayCols.append("'比赛地点': 'activityArea',");
 			dislayCols.append("'比赛队伍': 'activityTeamId',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
-			dislayCols.append("'创建人': 'activityPlayerId',");
+			dislayCols.append("'创建人': 'activityPlayer.playerName',");
 			dislayCols.append("'比赛类型': 'activityType'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchAllActivityJson.action", "比赛计划", "activityId", "deleteActivityById.action", "");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
+					"searchAllActivityJson.action", "比赛计划", "activityId",
+					"", "viewActivity.action");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -135,7 +143,14 @@ public class ActivityController extends CommonController {
 		try {
 			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
 					: 0;
-			list = service.selectAll( beginNum, pageSize);
+			list = service.selectAll(beginNum, pageSize);
+			HashMap<String, String> map = new HashMap<String, String>() {
+				{
+					put("1", "球队约战");
+					put("2", "散客约战");
+				}
+			};
+			PageUtil.setColValue(list, "ActivityType", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -143,7 +158,7 @@ public class ActivityController extends CommonController {
 		}
 		return list;
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/searchActivityByLoginPlayerJson.action", method = RequestMethod.GET)
 	public List<Activity> searchByLoginPlayerJson(
@@ -167,7 +182,8 @@ public class ActivityController extends CommonController {
 	}
 
 	@RequestMapping(value = "/deleteActivityById.action")
-	public ModelAndView deleteActivityById(Model model, @RequestParam(value = "id", required = true) int id) {
+	public ModelAndView deleteActivityById(Model model,
+			@RequestParam(value = "id", required = true) int id) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
 			service.deleteById(id);
@@ -176,6 +192,7 @@ public class ActivityController extends CommonController {
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/activityManageSearchBySinglePlayer.action");
+		return new ModelAndView(
+				"forward:/activityManageSearchBySinglePlayer.action");
 	}
 }

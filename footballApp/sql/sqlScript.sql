@@ -10,7 +10,7 @@ CREATE TABLE activity (
 	activity_time DATETIME,
 	activity_players_cnt MEDIUMINT,
 	activity_expense BIGINT,
-	activity_type BIGINT,
+	activity_type VARCHAR(1),
 	activity_player_id BIGINT,
 	activity_team_id BIGINT,
 	activity_opponent_team_id BIGINT,

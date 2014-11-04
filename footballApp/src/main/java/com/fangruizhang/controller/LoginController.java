@@ -33,6 +33,6 @@ public class LoginController {
 			e.printStackTrace();
 			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/index.jsp");
+		return new ModelAndView("forward:/index.action");
 	}
 }
