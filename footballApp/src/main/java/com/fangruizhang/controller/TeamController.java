@@ -51,8 +51,7 @@ public class TeamController extends CommonController {
 			Team team = new Team();
 			team.setTeamName(teamName);
 			team.setCreattime(dateformat.parse(teamTime));
-			team.setCreatorid(this.getLoginPlayer(session)
-					.getPlayerId());
+			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
 			service.insertValue(team);
 		} catch (Exception e) {
@@ -65,7 +64,7 @@ public class TeamController extends CommonController {
 	}
 
 	@RequestMapping(value = "/teamManageSearchBySinglePlayer.action")
-	public ModelAndView playerTeamSerarchManage(Model model, HttpSession session) {
+	public ModelAndView playerTeamSearchManage(Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
 		try {
 			int pageSize =5;
@@ -73,12 +72,11 @@ public class TeamController extends CommonController {
 						.getPlayerId());
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols=new StringBuffer();
-			dislayCols.append("{'id': 'teamId',");
-			dislayCols.append("'球队名称': 'teamName',");
+			dislayCols.append("{'球队名称': 'teamName',");
 			dislayCols.append("'球队创建时间': 'creattime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
-			dislayCols.append("'创建人': 'creatorid'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "editAction.action");
+			dislayCols.append("'创建人': 'creator.playerName'}");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "editAction.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

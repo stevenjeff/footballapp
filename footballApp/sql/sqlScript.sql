@@ -24,7 +24,7 @@ CREATE TABLE request (
 	request_id BIGINT NOT NULL auto_increment,
 	request_player_id BIGINT,
 	request_team_id BIGINT,
-	team_id BIGINT,
+	against_team_id BIGINT,
 	request_status BIGINT,
 	request_type BIGINT,
 	request_time DATETIME,

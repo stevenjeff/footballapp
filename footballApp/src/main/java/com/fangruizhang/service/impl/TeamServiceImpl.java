@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fangruizhang.entity.Activity;
+import com.fangruizhang.entity.Player;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.util.MybatisUtil;
@@ -97,6 +98,18 @@ public class TeamServiceImpl implements TeamService {
 			throw e;
 		}
 		return size;
+	}
+
+	@Override
+	public Player getPlayer(int playerId) throws Exception {
+		Player player=null;
+		try {
+			player=(Player)mapperTeamService.getPlayer(playerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return player;
 	}
 
 }

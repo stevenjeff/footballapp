@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.fangruizhang.entity.Activity;
+import com.fangruizhang.entity.Player;
 import com.fangruizhang.entity.Request;
+import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.RequestService;
 import com.fangruizhang.util.MybatisUtil;
 
@@ -52,14 +55,14 @@ public class RequestServiceImpl implements RequestService {
 	}
 
 	public Request selectById(int id) throws Exception {
-		Request team=null;
+		Request request=null;
 		try {
-			team=(Request)mapperRequestService.selectById(id);
+			request=(Request)mapperRequestService.selectById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-		return team;
+		return request;
 	}
 
 	public List<Request> selectAll() throws Exception {
@@ -71,6 +74,42 @@ public class RequestServiceImpl implements RequestService {
 			throw e;
 		}
 		return list;
+	}
+
+	@Override
+	public Player getPlayer(int activityPlayerId) throws Exception {
+		Player player=null;
+		try {
+			player=(Player)mapperRequestService.getPlayer(activityPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return player;
+	}
+
+	@Override
+	public Team getTeam(int teamId) throws Exception {
+		Team team=null;
+		try {
+			team=(Team)mapperRequestService.getTeam(teamId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return team;
+	}
+
+	@Override
+	public Activity getActivity(int id) throws Exception {
+		Activity activity=null;
+		try {
+			activity=(Activity)mapperRequestService.getActivity(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return activity;
 	}
 
 

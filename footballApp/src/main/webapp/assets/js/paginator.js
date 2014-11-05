@@ -58,6 +58,12 @@ var pageIndex = 0;
 	               if("${delAction}"!=""){
 	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"'>删除";
 	               }
+	               if("${applyAction}"!=""){
+	            	   str+="&nbsp;<a href='${applyAction}?id="+idKey+"'>申请";
+	               }
+	               if("${approveAction}"!=""){
+	            	   str+="&nbsp;<a href='${approveAction}?id="+idKey+"'>同意";
+	               }
 	               str+="</td>";
                    html += str;
                    html += "</tr>";
@@ -88,6 +94,10 @@ var pageIndex = 0;
         });
     }
 
+    function applyActivity(idKey){
+    	window.open ('applyActivity.jsp?activityId='+idKey,'newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+
+    }
     function GoToFirstPage() {
         pageIndex = 1;
         AjaxGetData( pageIndex, pageSize);

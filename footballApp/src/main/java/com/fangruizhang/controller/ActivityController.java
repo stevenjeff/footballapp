@@ -28,6 +28,7 @@ import com.fangruizhang.service.ActivityService;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
+import com.fangruizhang.util.EnumNames;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
 
@@ -95,8 +96,7 @@ public class ActivityController extends CommonController {
 							.getPlayerId());
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols = new StringBuffer();
-			dislayCols.append("{'id': 'activityId',");
-			dislayCols.append("'比赛地点': 'activityArea',");
+			dislayCols.append("{'比赛地点': 'activityArea',");
 			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
@@ -105,7 +105,7 @@ public class ActivityController extends CommonController {
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchActivityByLoginPlayerJson.action", "我的比赛计划",
 					"activityId", "deleteActivityById.action",
-					"editAction.action");
+					"editAction.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -123,16 +123,20 @@ public class ActivityController extends CommonController {
 			Integer recordCount = service.selectAllPageCount();
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols = new StringBuffer();
-			dislayCols.append("{'id': 'activityId',");
-			dislayCols.append("'比赛地点': 'activityArea',");
+			dislayCols.append("{'比赛地点': 'activityArea',");
 			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");
 			dislayCols.append("'比赛类型': 'activityType'}");
+			String applyUrl = "";
+			if(this.getLoginPlayer(session)!=null){
+				applyUrl = "activityRequestCreate.action";
+			}
+			
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchAllActivityJson.action", "比赛计划", "activityId",
-					"", "viewActivity.action");
+					"", "viewActivity.action",applyUrl,"");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -154,13 +158,7 @@ public class ActivityController extends CommonController {
 			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
 					: 0;
 			list = service.selectAll(beginNum, pageSize);
-			HashMap<String, String> map = new HashMap<String, String>() {
-				{
-					put("1", "球队约战");
-					put("2", "散客约战");
-				}
-			};
-			PageUtil.setColValue(list, "ActivityType", map);
+			PageUtil.setColValue(list, "ActivityType", EnumNames.activityTypes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -183,6 +181,7 @@ public class ActivityController extends CommonController {
 					: 0;
 			list = service.selectPageByPlayerId(getLoginPlayer(session)
 					.getPlayerId(), beginNum, pageSize);
+			PageUtil.setColValue(list, "ActivityType", EnumNames.activityTypes);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

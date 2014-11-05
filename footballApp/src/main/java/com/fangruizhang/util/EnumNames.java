@@ -1,6 +1,25 @@
 package com.fangruizhang.util;
 
+import java.util.HashMap;
+
 public class EnumNames {
+	public static HashMap<String, String> activityTypes = new HashMap<String, String>() {
+		private static final long serialVersionUID = 2065898320935785062L;
+
+		{
+			put(ActivityTypeEnum.TeamActivity.getCode()+"", "球队约战");
+			put(ActivityTypeEnum.PlayerActivity.getCode()+"", "散客约战");
+		}
+	};
+	
+	public static HashMap<String, String> requestTypes = new HashMap<String, String>() {
+		{
+			put(RequestTypeEnum.TeamActivityRequest.getCode()+"", "球队约战申请");
+			put(RequestTypeEnum.PlayerActivityRequest.getCode()+"", "散客活动申请");
+			put(RequestTypeEnum.PlayerTeamRequest.getCode()+"", "加队申请");
+		}
+	};
+	
 	public static enum ActivityTypeEnum {
 		TeamActivity(1), PlayerActivity(2);
 
@@ -14,7 +33,7 @@ public class EnumNames {
 	}
 
 	public static enum RequestTypeEnum {
-		TeamActivityRequest(1),TeamPlayerRequest(2),PlayerActivityRequest(3),PlayerTeamRequest(4);
+		TeamActivityRequest(1),PlayerActivityRequest(2),PlayerTeamRequest(3);
 
 		private int code;
 

@@ -12,7 +12,7 @@ import org.springframework.ui.Model;
 public class PageUtil {
 	public static void initPageMode(Model model,Integer recordCount,Integer pageCount,
 			StringBuffer dislayCols,String jsonAction,String pageTitle,String idKey,
-			String delAction,String editAction){
+			String delAction,String editAction,String applyAction,String approveAction){
 		model.addAttribute("recordCount", recordCount);
 		model.addAttribute("jsonAction", jsonAction);
 		model.addAttribute("pageCount", pageCount);
@@ -21,6 +21,8 @@ public class PageUtil {
 		model.addAttribute("idkey", idKey);
 		model.addAttribute("delAction", delAction);
 		model.addAttribute("editAction", editAction);
+		model.addAttribute("applyAction", applyAction);
+		model.addAttribute("approveAction", approveAction);
 	}
 	
 	public static <T> List<T> setColValue(List<T> list,String fieldName,HashMap<String,String> values){
