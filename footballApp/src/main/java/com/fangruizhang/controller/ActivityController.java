@@ -23,8 +23,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fangruizhang.entity.Activity;
+import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.ActivityService;
+import com.fangruizhang.service.TeamService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
+import com.fangruizhang.service.impl.TeamServiceImpl;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
 
@@ -47,6 +50,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
 			@RequestParam(value = "activityPlayersCnt", required = false) int activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
+			@RequestParam(value = "activityTeam", required = false) Integer activityTeam,
 			Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
@@ -62,7 +66,13 @@ public class ActivityController extends CommonController {
 			activity.setActivityType(activityType);
 			activity.setActivityTime(dateformat.parse(activityTime));
 			activity.setActivityPlayer(this.getLoginPlayer(session));
-			activity.setActivityTeamId(-1);
+			Team team = new Team();
+			if(activityTeam!=null){
+				team.setTeamId(activityTeam);
+			}else{
+				team.setTeamId(-1);
+			}
+			activity.setActivityTeam(team);
 			activity.setActivityOpponentTeamId(-1);
 			service.insertValue(activity);
 		} catch (Exception e) {
@@ -87,7 +97,7 @@ public class ActivityController extends CommonController {
 			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'id': 'activityId',");
 			dislayCols.append("'比赛地点': 'activityArea',");
-			dislayCols.append("'比赛队伍': 'activityTeamId',");
+			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");
@@ -115,7 +125,7 @@ public class ActivityController extends CommonController {
 			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'id': 'activityId',");
 			dislayCols.append("'比赛地点': 'activityArea',");
-			dislayCols.append("'比赛队伍': 'activityTeamId',");
+			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");
@@ -194,5 +204,22 @@ public class ActivityController extends CommonController {
 		}
 		return new ModelAndView(
 				"forward:/activityManageSearchBySinglePlayer.action");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getRelativeTeamJson.action", method = RequestMethod.GET)
+	public List<Team> getRelativeTeamJson(
+			Model model, HttpSession session) {
+		TeamService service = new TeamServiceImpl();
+		List<Team> list = null;
+		try {
+			list = service.selectAll(getLoginPlayer(session)
+					.getPlayerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
 	}
 }

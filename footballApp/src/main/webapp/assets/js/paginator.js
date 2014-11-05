@@ -5,7 +5,12 @@ if("${displayCols}"==""){
 	window.location.href='index.action'
 	
 }
-var jsonobj=eval('('+"${displayCols}"+')');
+var jsonobj="";
+try{
+	jsonobj=eval('('+"${displayCols}"+')')
+}catch(e){
+	
+}
 var pageIndex = 0;
     var pageSize = 5;
     $(function () {
@@ -39,7 +44,11 @@ var pageIndex = 0;
                for(position in json){
             	   html += "<tr>";
 	               for(feildName in jsonobj){
-	            	   html += "<td>"+eval("json[position]."+jsonobj[feildName]+"")+"</td>";
+	            	   try{
+	            		   html += "<td>"+eval("json[position]."+jsonobj[feildName]+"")+"</td>";
+	            	   }catch(e){
+	            		   html += "<td> </td>";
+	            	   }
 	               }
 	               var idKey=eval("json[position]."+"${idkey}"+"");
 	               var str="<td>";

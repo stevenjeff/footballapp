@@ -14,10 +14,11 @@ import org.apache.ibatis.type.JdbcType;
 
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Player;
+import com.fangruizhang.entity.Team;
 
 public interface ActivityService {
 
-	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeamId},#{activityOpponentTeamId},#{activityIsneedRight})")
+	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeam.teamId},#{activityOpponentTeamId},#{activityIsneedRight})")
 	public boolean insertValue(Activity activity) throws Exception;
 	@Update("update activity set activity_status=2 where activity_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
@@ -32,7 +33,7 @@ public interface ActivityService {
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = Integer.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityPlayer", column = "activity_player_id", one=@One(select = "getPlayer")),
-			@Result(property = "activityTeamId", column = "activity_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM Activity WHERE activity_id = #{id}")
@@ -50,7 +51,7 @@ public interface ActivityService {
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityPlayer", column = "activity_player_id", one=@One(select = "getPlayer")),
-			@Result(property = "activityTeamId", column = "activity_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	public List<Activity> selectAll(@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
@@ -63,7 +64,7 @@ public interface ActivityService {
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityPlayer", column = "activity_player_id", one=@One(select = "getPlayer")),
-			@Result(property = "activityTeamId", column = "activity_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status=1 order by activity_time desc limit #{beginNum},#{endNum}")
@@ -85,6 +86,11 @@ public interface ActivityService {
 	@Select("SELECT * FROM PLAYER WHERE player_id = #{activityPlayerId}")
 	public Player getPlayer(@Param("activityPlayerId") int activityPlayerId) throws Exception;
 	
+	@Results(value = {
+			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+	@Select("SELECT * FROM TEAM WHERE team_id = #{activityTeamId} and team_status=1")
+	public Team getTeam(@Param("activityTeamId") int activityTeamId) throws Exception;
 	
 	@Select("SELECT count(activity_id) FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status=1")
 	public int selectPageCountByPlayerId(int activityPlayerId) throws Exception;

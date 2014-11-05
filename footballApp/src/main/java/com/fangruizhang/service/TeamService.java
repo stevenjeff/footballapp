@@ -34,12 +34,9 @@ public interface TeamService {
 
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
-			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "creattime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
-			@Result(property = "creatorid", column = "creatorid", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
-			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM where team_status=1")
-	public List<Team> selectAll() throws Exception;
+			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+	@Select("SELECT team_id,team_name FROM TEAM where creatorid=#{playerId} and team_status=1")
+	public List<Team> selectAll(@Param("playerId") int playerId) throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),

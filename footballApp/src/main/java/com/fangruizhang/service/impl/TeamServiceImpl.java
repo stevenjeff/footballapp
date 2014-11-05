@@ -63,10 +63,10 @@ public class TeamServiceImpl implements TeamService {
 		return team;
 	}
 
-	public List<Team> selectAll() throws Exception {
+	public List<Team> selectAll(int playerId) throws Exception {
 		List<Team> list =null;
 		try {
-			list=mapperTeamService.selectAll();
+			list=mapperTeamService.selectAll(playerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

@@ -62,6 +62,11 @@
   </select>
 </div>
 <div class="form-group">
+  <label for="activityTeam">比赛球队</label>
+  <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  </select>
+</div>
+<div class="form-group">
   <label for="isneedright">是否需要授权      </label>
   <input type="checkbox" name="isneedright" value="1"> （比赛约战申请是否需要您的审批）
 </div>
@@ -118,6 +123,30 @@ $(document).ready(function() {
         }
     });
 });
+
+getRelativeTeam();
+function getRelativeTeam() {
+	$.ajax({
+        url: "${pageContext.request.contextPath}/getRelativeTeamJson.action",
+        type: "GET",
+        data: "",
+        dataType: "json",
+        success: function (json) {
+        	var activityTeamSelect = document.getElementById("activityTeam");
+        	var varItem = new Option('无', 01);      
+        	activityTeamSelect.options.add(varItem);  
+        	for(position in json){
+        		var varItem = new Option(json[position].teamName,json[position].teamId);      
+        		activityTeamSelect.options.add(varItem);  
+        	}
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(XMLHttpRequest);
+            alert(textStatus);
+            alert(errorThrown);
+        }
+    });
+}
 </script>
 </body>
 </html>
