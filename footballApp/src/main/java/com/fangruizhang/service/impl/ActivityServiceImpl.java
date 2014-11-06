@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Player;
+import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.ActivityService;
 import com.fangruizhang.util.MybatisUtil;
@@ -133,6 +134,30 @@ public class ActivityServiceImpl implements ActivityService {
 			throw e;
 		}
 	return team;
+	}
+
+	@Override
+	public Activity searchActivityWithRequest(int id) throws Exception {
+		Activity activity=null;
+		try {
+			activity=(Activity)mapperActivityService.searchActivityWithRequest(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return activity;
+	}
+
+	@Override
+	public List<Request> getRequests(int activityPlayerId) throws Exception {
+		List<Request> list =null;
+		try {
+			list=mapperActivityService.getRequests(activityPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return list;
 	}
 
 

@@ -49,7 +49,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "activityTime", required = false) String activityTime,
 			@RequestParam(value = "activityType", required = false) String activityType,
 			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
-			@RequestParam(value = "activityPlayersCnt", required = false) int activityPlayersCnt,
+			@RequestParam(value = "activityPlayersCnt", required = false) Integer activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
 			@RequestParam(value = "activityTeam", required = false) Integer activityTeam,
 			Model model, HttpSession session) {
@@ -105,7 +105,7 @@ public class ActivityController extends CommonController {
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchActivityByLoginPlayerJson.action", "我的比赛计划",
 					"activityId", "deleteActivityById.action",
-					"editAction.action","","");
+					"activityDetail.jsp","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -130,13 +130,13 @@ public class ActivityController extends CommonController {
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");
 			dislayCols.append("'比赛类型': 'activityType'}");
 			String applyUrl = "";
-			if(this.getLoginPlayer(session)!=null){
-				applyUrl = "activityRequestCreate.action";
+			if(this.getLoginPlayerNoException(session)!=null){
+				applyUrl = "applyActivity.action";
 			}
 			
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchAllActivityJson.action", "比赛计划", "activityId",
-					"", "viewActivity.action",applyUrl,"");
+					"", "activityDetail.jsp",applyUrl,"");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -220,5 +220,21 @@ public class ActivityController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getActivityDetailById.action")
+	public Activity getActivityDetailById(Model model,
+			@RequestParam(value = "id", required = true) int id) {
+		ActivityService service = new ActivityServiceImpl();
+		Activity activity = null;
+		try {
+			activity = service.searchActivityWithRequest(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return activity;
 	}
 }

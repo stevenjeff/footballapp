@@ -26,6 +26,7 @@ public class ExceptionUtil {
 	        put("username not found", "用户名未找到");
 	        put("password not correct", "密码不正确");
 	        put("user did not login", "用户未登录");
+	        put("match record not found", "比赛记录未找到");
 	    }
 	};
 

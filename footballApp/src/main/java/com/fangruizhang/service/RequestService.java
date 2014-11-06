@@ -19,7 +19,7 @@ import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 
 public interface RequestService {
-	@Insert("insert into request (request_player_id,request_team_id,request_status,request_time,request_msg,request_activity_id,against_team_id,request_type) values (#{requestPlayer.playerId},#{requestTeam.teamId},#{requestStatus},#{requestTime},#{requestMsg},#{requestActivity.activityId},#{againstTeam.teamId},,#{requestType})")
+	@Insert("insert into request (request_player_id,request_team_id,request_status,request_time,request_msg,request_activity_id,against_team_id,request_type) values (#{requestPlayer.playerId},#{requestTeam.teamId},#{requestStatus},#{requestTime},#{requestMsg},#{requestActivity.activityId},#{againstTeam.teamId},#{requestType})")
 	public boolean insertValue(Request request) throws Exception;
 	@Delete("delete from request where request_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
@@ -79,7 +79,7 @@ public interface RequestService {
 			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
-			@Result(property = "activityType", column = "activity_type", javaType = Integer.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityPlayer", column = "activity_player_id", one=@One(select = "getPlayer")),
 			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),

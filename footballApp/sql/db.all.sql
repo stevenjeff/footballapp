@@ -47,7 +47,7 @@ CREATE TABLE `activity` (
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`activity_id`),
   UNIQUE KEY `activity_time_area_player_index` (`activity_area`,`activity_time`,`activity_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -56,7 +56,7 @@ CREATE TABLE `activity` (
 
 LOCK TABLES `activity` WRITE;
 /*!40000 ALTER TABLE `activity` DISABLE KEYS */;
-INSERT INTO `activity` VALUES (2,'aaaaaa','2014-10-27 13:53:59',3,1,'2',1,-1,-1,'',1,'2014-10-31 13:42:41'),(3,'bbbbbbbbb','2014-10-27 14:02:21',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(5,'dddd','2014-10-27 14:05:10',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(6,'hhhhh','2014-10-27 14:07:57',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(7,'llll','2014-10-27 14:08:47',3,1,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(8,'fsdfasdfsa','2014-10-27 14:18:39',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(9,'ghjkaaaa','2014-10-27 14:18:48',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(10,'ghjkaaaa111','2014-10-27 14:22:55',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(16,'fsdfa','2014-10-29 00:00:03',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(17,'fsdfa','2014-10-29 00:00:15',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(18,'aaa','2014-11-04 14:42:00',3,1,'1',4,-1,-1,'',1,'2014-11-04 14:42:33'),(19,'bbba','2014-11-04 15:24:00',3,1,'1',4,-1,-1,'\0',1,'2014-11-04 15:24:34'),(20,'where','2014-11-05 11:22:00',3,1,'1',4,-1,-1,'\0',1,'2014-11-05 11:22:32'),(21,'A','2014-11-05 11:37:00',3,1,'1',4,3,-1,'\0',1,'2014-11-05 11:38:01');
+INSERT INTO `activity` VALUES (2,'aaaaaa','2014-10-27 13:53:59',3,1,'2',1,-1,-1,'',1,'2014-10-31 13:42:41'),(3,'bbbbbbbbb','2014-10-27 14:02:21',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(5,'dddd','2014-10-27 14:05:10',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(6,'hhhhh','2014-10-27 14:07:57',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(7,'llll','2014-10-27 14:08:47',3,1,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(8,'fsdfasdfsa','2014-10-27 14:18:39',3,2,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(9,'ghjkaaaa','2014-10-27 14:18:48',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(10,'ghjkaaaa111','2014-10-27 14:22:55',3,1111,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(16,'fsdfa','2014-10-29 00:00:03',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(17,'fsdfa','2014-10-29 00:00:15',3,0,'1',1,-1,-1,'\0',1,'2014-10-31 13:42:41'),(18,'aaa','2014-11-04 14:42:00',3,1,'1',4,-1,-1,'',1,'2014-11-04 14:42:33'),(19,'bbba','2014-11-04 15:24:00',3,1,'1',4,-1,-1,'\0',1,'2014-11-04 15:24:34'),(20,'where','2014-11-05 11:22:00',3,1,'1',4,-1,-1,'\0',1,'2014-11-05 11:22:32'),(21,'A','2014-11-05 11:37:00',3,1,'1',4,3,-1,'\0',1,'2014-11-05 11:38:01'),(22,'x','2014-11-06 14:29:00',3,1,'2',4,1,-1,'\0',1,'2014-11-06 14:29:19');
 /*!40000 ALTER TABLE `activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +83,7 @@ CREATE TABLE `player` (
   `insert_date` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`player_id`),
   UNIQUE KEY `player_name_index` (`player_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `player` (
 
 LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
-INSERT INTO `player` VALUES (1,'aadgsdfs','2014-10-24 14:03:18','2312312312',0,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-10-31 13:45:13'),(2,'stevenzhang','2014-11-04 11:16:55','2312312312',3,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-11-04 11:16:55'),(4,'steven','2014-11-04 14:21:29','',0,0,'','','',1,'2014-11-05','111','2014-11-04 14:21:29'),(5,'niucha','2014-11-04 15:23:26','',0,0,'','','',1,'2014-11-05','111','2014-11-04 15:23:26');
+INSERT INTO `player` VALUES (1,'aadgsdfs','2014-10-24 14:03:18','2312312312',0,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-10-31 13:45:13'),(2,'stevenzhang','2014-11-04 11:16:55','2312312312',3,0,'234324324','fsdfdsf','a@b.com',0,'2014-11-04',NULL,'2014-11-04 11:16:55'),(4,'steven','2014-11-04 14:21:29','',0,0,'','','',1,'2014-11-05','111','2014-11-04 14:21:29'),(5,'niucha','2014-11-04 15:23:26','',0,0,'','','',1,'2014-11-05','111','2014-11-04 15:23:26'),(6,'zhang','2014-11-06 15:12:23','',0,0,'','','',1,'2014-11-06','111','2014-11-06 15:12:22');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -118,7 +118,7 @@ CREATE TABLE `request` (
   KEY `player_request_index` (`request_activity_id`,`request_player_id`,`request_type`),
   KEY `team_request_index` (`request_activity_id`,`against_team_id`,`request_type`),
   KEY `team_player_request_index` (`request_team_id`,`request_player_id`,`request_type`,`request_status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,6 +127,7 @@ CREATE TABLE `request` (
 
 LOCK TABLES `request` WRITE;
 /*!40000 ALTER TABLE `request` DISABLE KEYS */;
+INSERT INTO `request` VALUES (1,6,NULL,-1,1,2,'2014-11-06 16:01:20','test',22,'2014-11-06 16:01:23');
 /*!40000 ALTER TABLE `request` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1074,4 +1075,4 @@ USE `test`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-05 16:52:36
+-- Dump completed on 2014-11-06 16:51:38

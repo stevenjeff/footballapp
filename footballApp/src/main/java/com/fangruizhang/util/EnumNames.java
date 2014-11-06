@@ -44,6 +44,19 @@ public class EnumNames {
 			return code;
 		}
 	}
+	
+	public static enum RequestStatusEnum {
+		ApplyStatus(1),ApproveStatus(2),DenyStatus(3);
+
+		private int code;
+
+		RequestStatusEnum(int i){
+			this.code=i;
+		}
+		public int getCode() {
+			return code;
+		}
+	}
 
 	public static enum ActivityStatusEnum {
 		ActivityEnabled(1),ActivityDeleted(2);

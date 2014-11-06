@@ -59,7 +59,7 @@ var pageIndex = 0;
 	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"'>删除";
 	               }
 	               if("${applyAction}"!=""){
-	            	   str+="&nbsp;<a href='${applyAction}?id="+idKey+"'>申请";
+	            	   str+="&nbsp;<a href='javascript:applyActivity("+idKey+")'>申请";
 	               }
 	               if("${approveAction}"!=""){
 	            	   str+="&nbsp;<a href='${approveAction}?id="+idKey+"'>同意";
@@ -95,9 +95,33 @@ var pageIndex = 0;
     }
 
     function applyActivity(idKey){
-    	window.open ('applyActivity.jsp?activityId='+idKey,'newwindow','height=100,width=400,top=0,left=0,toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no');
+    	applyValidate(idKey);
 
     }
+    
+	function applyValidate(idkey) {
+		$.ajax({
+					url : "${pageContext.request.contextPath}/applyActivityValidate.action",
+					type : "GET",
+					data : "activityId="+idkey,
+					dataType : "text",
+					success : function(obj) {
+						if(obj=="1"){
+							alert("该比赛为球队约战，请先创建球队");
+						}else if(obj=="2"){
+							alert("当前比赛为自己创建，不可申请");
+						}else{
+							window.location.href="applyActivity.action?activityId="+idkey;
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest);
+						alert(textStatus);
+						alert(errorThrown);
+					}
+				});
+	}
+	
     function GoToFirstPage() {
         pageIndex = 1;
         AjaxGetData( pageIndex, pageSize);

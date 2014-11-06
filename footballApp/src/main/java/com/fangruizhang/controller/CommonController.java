@@ -11,6 +11,10 @@ public class CommonController {
 			throw new Exception("user did not login");
 		return (Player)session.getAttribute("player");
 	}
+	
+	public Player getLoginPlayerNoException(HttpSession session) throws Exception{
+		return (Player)session.getAttribute("player");
+	}
 
 	public int getIdNum(Integer i){
 		return i==null?-1:i;

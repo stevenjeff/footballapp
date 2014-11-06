@@ -119,4 +119,21 @@ public class TeamController extends CommonController {
 		}
 		return new ModelAndView("forward:/teamManageSearchBySinglePlayer.action");
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/searchAllTeamByPlayerId.action", method = RequestMethod.GET)
+	public List<Team> searchAllTeamByPlayerId(
+			Model model, HttpSession session) {
+		TeamService service = new TeamServiceImpl();
+		List<Team> list = null;
+		try {
+			list = service.selectAll(getLoginPlayer(session)
+					.getPlayerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
+	}
 }
