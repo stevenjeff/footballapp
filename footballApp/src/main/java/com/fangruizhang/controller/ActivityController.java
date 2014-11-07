@@ -136,7 +136,7 @@ public class ActivityController extends CommonController {
 			
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchAllActivityJson.action", "比赛计划", "activityId",
-					"", "activityDetail.jsp",applyUrl,"");
+					"", "activityDetail.action",applyUrl,"");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -212,8 +212,7 @@ public class ActivityController extends CommonController {
 		TeamService service = new TeamServiceImpl();
 		List<Team> list = null;
 		try {
-			list = service.selectAll(getLoginPlayer(session)
-					.getPlayerId());
+			list = service.selectAll(getLoginPlayer(session).getPlayerId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -223,18 +222,59 @@ public class ActivityController extends CommonController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/getActivityDetailById.action")
+	@RequestMapping(value = "/getRelativeTeamDetailJson.action", method = RequestMethod.GET)
+	public List<Team> getRelativeTeamDetailJson(
+			Model model, HttpSession session,@RequestParam(value = "activityId", required = true) int activityId) {
+		TeamService teamService = new TeamServiceImpl();
+		ActivityService activityService = new ActivityServiceImpl();
+		List<Team> list = null;
+		Activity activity = null;
+		try {
+			activity = activityService.selectById(activityId);
+			list=teamService.selectAll(activity.getActivityPlayer().getPlayerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getActivityDetailById.action", method = RequestMethod.GET)
 	public Activity getActivityDetailById(Model model,
-			@RequestParam(value = "id", required = true) int id) {
+			@RequestParam(value = "activityId", required = true) int activityId) {
 		ActivityService service = new ActivityServiceImpl();
 		Activity activity = null;
 		try {
-			activity = service.searchActivityWithRequest(id);
+			activity = service.searchActivityWithRequest(activityId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return activity;
+	}
+	
+	@RequestMapping(value = "/activityDetail.action", method = RequestMethod.GET)
+	public ModelAndView activityDetail(Model model, HttpSession session,
+			@RequestParam(value = "id", required = true) int id) {
+		ActivityService service = new ActivityServiceImpl();
+		Activity activity = null;
+		try {
+			if(this.getLoginPlayerNoException(session)==null){
+				return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=view");
+			}
+			activity = service.selectById(id);
+			int actitvityPlayerId = activity.getActivityPlayer().getPlayerId();
+			if(this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
+				return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=view");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=edit");
 	}
 }

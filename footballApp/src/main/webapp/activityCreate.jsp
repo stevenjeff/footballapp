@@ -68,7 +68,7 @@
 </div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
-  <input type="checkbox" name="isneedright" value="1"> （比赛约战申请是否需要您的审批）
+  <input type="checkbox" name="isneedright" value="0" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
 
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
@@ -146,6 +146,15 @@ function getRelativeTeam() {
             alert(errorThrown);
         }
     });
+}
+
+function changeRightVal(){
+	var isneedRight = $("#isneedright").attr("checked");
+	if(isneedRight){
+		$("#isneedright").val(1);
+	}else{
+		$("#isneedright").val(0);
+	}
 }
 </script>
 </body>

@@ -55,7 +55,7 @@
 </div>
 <div class="form-group">
   <label for="birthday">生日</label>
-  <input type="text" id="birthday" name="birthday" readonly="readonly" onchange="birthDayHandler()">
+  <input type="text" id="birthday" name="birthday" readonly="readonly">
 </div>
 <div class="form-group">
   <label for="phone">电话</label>
@@ -82,15 +82,9 @@
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
 <script type="text/javascript">
-var flag=false;
-function birthDayHandler(){
-	if(!flag){
-		$( "#birthday").keyup();
-		flag=true;
-	}
-}
 $(function() {
     $( "#birthday" ).datepicker();
+    jQuery('#activityTime').datetimepicker('setDate', (new Date()) );
   });
 
 $(document).ready(function() {
@@ -117,13 +111,6 @@ $(document).ready(function() {
                         regexp: /^[a-zA-Z0-9_\.]+$/,
                         message: '用户名只能包括数字和字母'
                     }
-                }
-            },
-            birthday: {
-                validators: {
-                	notEmpty: {
-                        message: '生日不能为空'
-                    },
                 }
             },
             mail: {

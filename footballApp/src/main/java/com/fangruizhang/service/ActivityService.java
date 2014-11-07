@@ -116,11 +116,11 @@ public interface ActivityService {
 			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "requestPlayer", column = "request_player_id",  one=@One(select = "getPlayer")),
 			@Result(property = "requestTeam", column = "request_team_id",  one=@One(select = "getTeam")),
-			@Result(property = "requestStatus", column = "request_status", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "requestStatus", column = "request_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "requestTime", column = "request_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "requestMsg", column = "request_msg", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "requestType", column = "request_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "requestActivity", column = "request_activity_id",  one=@One(select = "getActivity"))})
+			@Result(property = "requestActivity", column = "request_activity_id",  one=@One(select = "selectById"))})
 	@Select("SELECT * FROM REQUEST WHERE request_activity_id=#{activityPlayerId}")
 	public List<Request> getRequests(@Param("activityPlayerId")int activityPlayerId) throws Exception;
 }

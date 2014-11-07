@@ -68,7 +68,7 @@
 </div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
-  <input type="checkbox" id="isneedright" name="isneedright" value="1"> （比赛约战申请是否需要您的审批）
+  <input type="checkbox" id="isneedright" name="isneedright" value="0" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
 
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
@@ -127,9 +127,9 @@ $(document).ready(function() {
 getRelativeTeam();
 function getRelativeTeam() {
 	$.ajax({
-        url: "${pageContext.request.contextPath}/getRelativeTeamJson.action",
+        url: "${pageContext.request.contextPath}/getRelativeTeamDetailJson.action",
         type: "GET",
-        data: "",
+        data: "activityId=${param.id}",
         dataType: "json",
         success: function (json) {
         	var activityTeamSelect = document.getElementById("activityTeam");
@@ -153,18 +153,10 @@ function setDetail(){
 	$.ajax({
         url: "${pageContext.request.contextPath}/getActivityDetailById.action",
         type: "GET",
-        data: "",
+        data: "activityId=${param.id}",
         dataType: "json",
         success: function (json) {
-        	var activityTeamSelect = document.getElementById("activityTeam");
-        	$("#activityArea").val();
-        	$("#activityPlayersCnt").val();
-        	$("#activityTime").val();
-        	$("#activityExpense").val();
-        	$("#activityType").val();
-        	$("#activityTeam").val();
-        	$("#isneedright").val();
-        	
+        	initPage(json);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest);
@@ -172,6 +164,44 @@ function setDetail(){
             alert(errorThrown);
         }
     });
+}
+function initPage(json){
+	var activityTeamSelect = document.getElementById("activityTeam");
+	$("#activityArea").val(json.activityArea);
+	$("#activityPlayersCnt").val(json.activityPlayersCnt);
+	$("#activityTime").val(json.activityTime);
+	$("#activityExpense").val(json.activityExpense);
+	$("#activityType").val(json.activityType);
+	$("#activityTeam").val(json.activityTeam);
+	var viewModel="${param.viewModel}";
+	if(viewModel=="view"){
+		$("#activityArea").attr("disabled","disabled");
+		$("#activityPlayersCnt").attr("disabled","disabled");
+		$("#activityTime").attr("disabled","disabled");
+		$("#activityExpense").attr("disabled","disabled");
+		$("#activityType").attr("disabled","disabled");
+		$("#activityTeam").attr("disabled","disabled");
+		$("#isneedright").attr("disabled","disabled");
+	}
+	$("#isneedright").val(json.activityIsneedRight);
+	if(json.activityIsneedRight==1){
+		$("#isneedright").val(1);
+		$("#isneedright").attr("checked",true);
+	}else{
+		$("#isneedright").val(0);
+		$("#isneedright").attr("checked",false);
+	}
+}
+function changeRightVal(){
+	var viewModel="${param.viewModel}";
+	if(viewModel=="view")
+		return;
+	var isneedRight = $("#isneedright").attr("checked");
+	if(isneedRight){
+		$("#isneedright").val(1);
+	}else{
+		$("#isneedright").val(0);
+	}
 }
 </script>
 </body>
