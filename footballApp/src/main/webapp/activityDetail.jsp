@@ -61,7 +61,7 @@
   	<option value="2">散客约战</option>
   </select>
 </div>
-<div class="form-group">
+<div class="form-group" id="teamDiv">
   <label for="activityTeam">比赛球队</label>
   <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   </select>
@@ -70,7 +70,16 @@
   <label for="isneedright">是否需要授权      </label>
   <input type="checkbox" id="isneedright" name="isneedright" value="0" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
-
+<div class="form-group">
+  <label for="suretoComeTab">确定出席人员 </label>
+  <table id="suretoComeTab" class="table table-striped">
+  </table>
+</div>
+<div class="form-group">
+  <label for="waitoComeTab">待审批出席人员</label>
+  <table id="waitoComeTab" class="table table-striped">
+  </table>
+</div>
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>
@@ -123,7 +132,7 @@ $(document).ready(function() {
         }
     });
 });
-
+var hasTeam;
 getRelativeTeam();
 function getRelativeTeam() {
 	$.ajax({
@@ -166,6 +175,9 @@ function setDetail(){
     });
 }
 function initPage(json){
+	if(json.activityType=="2"){
+		$("#teamDiv").hide();
+	}
 	var activityTeamSelect = document.getElementById("activityTeam");
 	$("#activityArea").val(json.activityArea);
 	$("#activityPlayersCnt").val(json.activityPlayersCnt);
@@ -191,7 +203,62 @@ function initPage(json){
 		$("#isneedright").val(0);
 		$("#isneedright").attr("checked",false);
 	}
+	createTable(json.requestList);
 }
+
+
+function createTable(jsonObj){
+	var viewModel="${param.viewModel}";
+	var htmlApprove="<thead><tr><td>用户名</td><td>操作</td></tr></thead>";
+	htmlApprove+="<tbody>";
+	var htmlWaitForApprove="<thead><tr><td>用户名</td><td>操作</td></tr></thead>";
+	htmlWaitForApprove+="<tbody>";
+	var isChecked=$("#isneedright").attr("checked");
+	if(jsonObj!=""&&jsonObj!=null){
+		for(var obj in jsonObj){
+			if(!isChecked){
+				htmlApprove+=htmlAppendApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+			}
+			if(isChecked&&jsonObj[obj].requestStatus==1){
+				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+			}else if(isChecked&&jsonObj[obj].requestStatus==2){
+				htmlApprove+=htmlAppendApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+			}
+		}
+	}
+	htmlApprove+="</tbody>";
+	htmlWaitForApprove+="</tbody>";
+	$("#suretoComeTab").html(htmlApprove);
+	$("#waitoComeTab").html(htmlWaitForApprove);
+}
+function htmlAppendApprove(field,viewModel){
+	var html="";
+	html+="<tr>";
+	html+="<td>"+field+"</td>";
+	html+="<td>";
+	html+="<a href='playerDetail.action'>查看";
+	if(viewModel!="view"){
+		html+="&nbsp;&nbsp;<a href='requestRemove.action'>移除";
+	}
+	html+="</td>";
+	html+="</tr>";
+	return html;
+}
+
+function htmlAppendWaitForApprove(field,viewModel){
+	var html="";
+	html+="<tr>";
+	html+="<td>"+field+"</td>";
+	html+="<td>";
+	html+="<a href='playerDetail.action'>查看";
+	if(viewModel!="view"){
+		html+="&nbsp;&nbsp;<a href='requestApprove.action'>同意";
+	}
+	html+="</td>";
+	html+="</tr>";
+	return html;
+}
+
 function changeRightVal(){
 	var viewModel="${param.viewModel}";
 	if(viewModel=="view")
