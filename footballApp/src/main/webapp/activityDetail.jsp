@@ -7,7 +7,6 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <link rel="icon" href="assets/img/favicon.ico"/>
-
     <title>Tianjin Football Association</title>
 
     <!-- Bootstrap core CSS -->
@@ -80,13 +79,15 @@
   <table id="waitoComeTab" class="table table-striped">
   </table>
 </div>
-<button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<input type="button" value="返回" onclick="javascript:window.location.href='index.action';" class="btn btn-lg btn-primary btn-block">
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
+    <script src="assets/js/jquery.blockUI.min.js"></script>
     <script src="assets/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
     <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
@@ -140,6 +141,10 @@ function getRelativeTeam() {
         type: "GET",
         data: "activityId=${param.id}",
         dataType: "json",
+        beforeSend: function () {
+            ShowDiv();
+
+        },
         success: function (json) {
         	var activityTeamSelect = document.getElementById("activityTeam");
         	var varItem = new Option('无', 01);      
@@ -166,6 +171,9 @@ function setDetail(){
         dataType: "json",
         success: function (json) {
         	initPage(json);
+        },
+        complete: function () {
+            HiddenDiv();
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(XMLHttpRequest);
@@ -194,6 +202,7 @@ function initPage(json){
 		$("#activityType").attr("disabled","disabled");
 		$("#activityTeam").attr("disabled","disabled");
 		$("#isneedright").attr("disabled","disabled");
+		$("#submitBtn").hide();
 	}
 	$("#isneedright").val(json.activityIsneedRight);
 	if(json.activityIsneedRight==1){
@@ -217,12 +226,12 @@ function createTable(jsonObj){
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
 			if(!isChecked){
-				htmlApprove+=htmlAppendApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
 			}
 			if(isChecked&&jsonObj[obj].requestStatus==1){
-				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj],viewModel);
 			}else if(isChecked&&jsonObj[obj].requestStatus==2){
-				htmlApprove+=htmlAppendApprove(jsonObj[obj].requestPlayer.playerName,viewModel);
+				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
 			}
 		}
 	}
@@ -231,28 +240,28 @@ function createTable(jsonObj){
 	$("#suretoComeTab").html(htmlApprove);
 	$("#waitoComeTab").html(htmlWaitForApprove);
 }
-function htmlAppendApprove(field,viewModel){
+function htmlAppendApprove(jsonRequestObj,viewModel){
 	var html="";
 	html+="<tr>";
-	html+="<td>"+field+"</td>";
+	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
 	html+="<td>";
-	html+="<a href='playerDetail.action'>查看";
+	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"'>查看";
 	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='requestRemove.action'>移除";
+		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=1&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}'>移除";
 	}
 	html+="</td>";
 	html+="</tr>";
 	return html;
 }
 
-function htmlAppendWaitForApprove(field,viewModel){
+function htmlAppendWaitForApprove(jsonRequestObj,viewModel){
 	var html="";
 	html+="<tr>";
-	html+="<td>"+field+"</td>";
+	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
 	html+="<td>";
-	html+="<a href='playerDetail.action'>查看";
+	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"'>查看";
 	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='requestApprove.action'>同意";
+		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=2&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}'>同意";
 	}
 	html+="</td>";
 	html+="</tr>";
@@ -270,6 +279,14 @@ function changeRightVal(){
 		$("#isneedright").val(0);
 	}
 }
+
+function ShowDiv() {
+	$.blockUI({ message: '<h3><img src="assets/img/busy.gif" /> Loading...</h3>' });
+}
+function HiddenDiv() {
+	$.unblockUI();
+}
+
 </script>
 </body>
 </html>

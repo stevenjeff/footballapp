@@ -31,17 +31,17 @@
 </head>
 <body>
 <form action="register.action" class="form-signin" role="form" method="post">
-<h2 class="form-signin-heading">用户注册</h2>
+<h2 class="form-signin-heading">用户查看</h2>
 <font color="red">${globalerror}</font>
 <div class="form-group">
   <label for="username">用户名</label>
   <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" maxlength="30">
 </div>
-<div class="form-group">
+<div id="passwordDiv" class="form-group">
   <label for="password">密码</label>
   <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" maxlength="20">
 </div>
-<div class="form-group">
+<div id="confirmPasswordDiv" class="form-group">
   <label for="password">密码确认</label>
   <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="请输入确认密码" maxlength="20">
 </div>
@@ -74,7 +74,9 @@
   <input type="text" class="form-control" id="mail" name="mail" placeholder="邮件" maxlength="40">
 </div>
 
-<button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<input type="button" value="返回" onclick="javascript:history.back();" class="btn btn-lg btn-primary btn-block">
+
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -86,7 +88,7 @@ function setDetail(){
 	$.ajax({
         url: "${pageContext.request.contextPath}/playerDetail.action",
         type: "GET",
-        data: "playerId=${param.id}",
+        data: "playerId=${param.playerId}",
         dataType: "json",
         success: function (json) {
         	initPage(json);
@@ -101,7 +103,6 @@ function setDetail(){
 
 $(function() {
     $( "#birthday" ).datepicker();
-    jQuery('#activityTime').datetimepicker('setDate', (new Date()) );
   });
 
 $(document).ready(function() {
@@ -161,7 +162,37 @@ $(document).ready(function() {
             }
         }
     });
+    setDetail();
 });
+
+function initPage(json){
+	var viewModel="${param.viewModel}";
+	if(viewModel=="view"){
+		$("#passwordDiv").hide();
+		$("#confirmPasswordDiv").hide();
+	}
+	$("#username").val(json.playerName);
+	$("#mail").val(json.mail);
+	$("#weixin").val(json.weixin);
+	$("#qq").val(json.qq);
+	$("#phone").val(json.phone);
+	$("#birthday").val(json.birthday);
+	$("#confirmPassword").val(json.password);
+	$("#password").val(json.password);
+	$("#sex").val(json.sex);
+	if(viewModel=="view"){
+		$("#username").attr("disabled","disabled");
+		$("#sex").attr("disabled","disabled");
+		$("#mail").attr("disabled","disabled");
+		$("#weixin").attr("disabled","disabled");
+		$("#qq").attr("disabled","disabled");
+		$("#phone").attr("disabled","disabled");
+		$("#birthday").attr("disabled","disabled");
+		$("#confirmPassword").attr("disabled","disabled");
+		$("#password").attr("disabled","disabled");
+		$("#submitBtn").hide();
+	}
+}
 </script>
 </body>
 </html>

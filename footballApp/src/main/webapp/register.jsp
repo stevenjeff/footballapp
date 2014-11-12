@@ -84,7 +84,7 @@
 <script type="text/javascript">
 $(function() {
     $( "#birthday" ).datepicker();
-    jQuery('#activityTime').datetimepicker('setDate', (new Date()) );
+    jQuery('#birthday').datetimepicker('setDate', (new Date()) );
   });
 
 $(document).ready(function() {

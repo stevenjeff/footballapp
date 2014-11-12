@@ -17,7 +17,7 @@ import com.fangruizhang.service.impl.PlayerServiceImpl;
 import com.fangruizhang.util.ExceptionUtil;
 
 @Controller
-public class PlayerController {
+public class PlayerController extends CommonController {
 
 	@RequestMapping(value="/login.action",method=RequestMethod.POST)
     public ModelAndView login(@RequestParam(value="username", required=false) String username,
@@ -88,5 +88,20 @@ public class PlayerController {
 			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
 		}
         return player;
+    }
+	
+	@RequestMapping(value="/viewPlayer.action",method=RequestMethod.GET)
+    public ModelAndView viewPlayer(@RequestParam(value="playerId", required=false) Integer playerId,
+    		Model model,HttpSession session) {
+		try {
+			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId()!=playerId){
+				return new ModelAndView("forward:/playerDetail.jsp?playerId="+playerId+"&viewModel=view");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/playerDetail.jsp?playerId="+playerId+"&viewModel=edit");
     }
 }

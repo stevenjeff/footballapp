@@ -29,6 +29,7 @@
 			</select>
 		</div>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+		<input type="button" value="返回" onclick="javascript:history.back();" class="btn btn-lg btn-primary btn-block">
 	</form>
 </body>
 <script src="assets/js/jquery-1.11.1.min.js"></script>

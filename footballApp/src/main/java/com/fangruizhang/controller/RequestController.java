@@ -112,6 +112,33 @@ public class RequestController extends CommonController {
 		return new ModelAndView(
 				"forward:/applyActivity.jsp");
 	}
+	@RequestMapping(value = "/updateRequestStatus.action")
+	public ModelAndView updateRequestStatus(
+			@RequestParam(value = "requestId", required = true) Integer requestId,
+			@RequestParam(value = "activityId", required = true) Integer activityId,
+			@RequestParam(value = "requestStatus", required = true) Integer requestStatus,
+			Model model, HttpSession session) {
+		RequestService requestService=new RequestServiceImpl();
+		ActivityService service = new ActivityServiceImpl();
+		Activity activity = null;
+		Boolean issucess = false;
+		try {
+			issucess = requestService.updateRequestStatus(requestId, requestStatus);
+			if(issucess==null){
+				throw new Exception("request status update failed");
+			}
+			activity = service.selectById(activityId);
+			int actitvityPlayerId = activity.getActivityPlayer().getPlayerId();
+			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
+				return new ModelAndView("forward:/activityDetail.jsp?id="+activityId+"&viewModel=view");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/activityDetail.jsp?id="+activityId+"&viewModel=edit");
+	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/applyActivityValidate.action", method = RequestMethod.GET)

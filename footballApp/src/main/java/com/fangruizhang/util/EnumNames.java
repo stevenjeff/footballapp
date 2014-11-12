@@ -46,7 +46,7 @@ public class EnumNames {
 	}
 	
 	public static enum RequestStatusEnum {
-		ApplyStatus(1),ApproveStatus(2),DenyStatus(3);
+		ApplyStatus(1),ApproveStatus(2);
 
 		private int code;
 

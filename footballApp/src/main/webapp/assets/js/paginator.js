@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
+<script src="assets/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript">
 if("${displayCols}"==""){
 	alert("请先登录");
-	window.location.href='index.action'
+	window.location.href='index.action';
 	
 }
 var jsonobj="";
@@ -26,6 +27,13 @@ var pageIndex = 0;
             type: "GET",
             data: "pageNum=" + index + "&pageSize=" + size,
             dataType: "json",
+            beforeSend: function () {
+	            ShowDiv();
+
+	        },
+	        complete: function () {
+	            HiddenDiv();
+	        },
             success: function (json) {
             	 var html = "";
                  html += "<table class=\"table table-striped\">";
@@ -105,6 +113,13 @@ var pageIndex = 0;
 					type : "GET",
 					data : "activityId="+idkey,
 					dataType : "text",
+					beforeSend: function () {
+			            ShowDiv();
+
+			        },
+			        complete: function () {
+			            HiddenDiv();
+			        },
 					success : function(obj) {
 						if(obj=="1"){
 							alert("该比赛为球队约战，请先创建球队");
@@ -162,4 +177,11 @@ var pageIndex = 0;
             }
         }
     }
+    function ShowDiv() {
+    	$.blockUI({ message: '<h3><img src="assets/img/busy.gif" /> Loading...</h3>' });
+    }
+    function HiddenDiv() {
+    	$.unblockUI();
+    }
+
     </script>

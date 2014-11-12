@@ -112,5 +112,20 @@ public class RequestServiceImpl implements RequestService {
 		return activity;
 	}
 
+	@Override
+	public boolean updateRequestStatus(int requestId, int requestStatus)
+			throws Exception {
+		boolean bresult=false;
+		try {
+			mapperRequestService.updateRequestStatus(requestId, requestStatus);
+		    session.commit();
+		    bresult=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return bresult;
+	}
+
 
 }

@@ -262,12 +262,9 @@ public class ActivityController extends CommonController {
 		ActivityService service = new ActivityServiceImpl();
 		Activity activity = null;
 		try {
-			if(this.getLoginPlayerNoException(session)==null){
-				return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=view");
-			}
 			activity = service.selectById(id);
 			int actitvityPlayerId = activity.getActivityPlayer().getPlayerId();
-			if(this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
+			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
 				return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=view");
 			}
 		} catch (Exception e) {

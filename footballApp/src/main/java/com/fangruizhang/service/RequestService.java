@@ -27,6 +27,9 @@ public interface RequestService {
 	@Update("update request set request_player_id=#{requestPlayer.playerId}, request_team_id=#{requestTeam.teamId},request_status=#{requestStatus}, request_time=#{requestTime}, request_msg=#{requestMsg}, request_activity_id=#{requestActivity.activityId} where request_id = #{requestId}")
 	public boolean updateValue(Request request) throws Exception;
 
+	@Update("update request set request_status=#{requestStatus} where request_id = #{requestId}")
+	public boolean updateRequestStatus(@Param("requestId") int requestId,@Param("requestStatus") int requestStatus) throws Exception;
+	
 	@Results(value = {
 			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "requestPlayer", column = "request_player_id", one=@One(select = "getPlayer")),
