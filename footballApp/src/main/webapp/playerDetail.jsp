@@ -83,6 +83,7 @@
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
+	<script src="assets/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript">
 function setDetail(){
 	$.ajax({
@@ -90,6 +91,13 @@ function setDetail(){
         type: "GET",
         data: "playerId=${param.playerId}",
         dataType: "json",
+        beforeSend: function () {
+            ShowDiv();
+
+        },
+        complete: function () {
+            HiddenDiv();
+        },
         success: function (json) {
         	initPage(json);
         },
@@ -192,6 +200,12 @@ function initPage(json){
 		$("#password").attr("disabled","disabled");
 		$("#submitBtn").hide();
 	}
+}
+function ShowDiv() {
+	$.blockUI({ message: '<h3><img src="assets/img/busy.gif" /> Loading...</h3>' });
+}
+function HiddenDiv() {
+	$.unblockUI();
 }
 </script>
 </body>
