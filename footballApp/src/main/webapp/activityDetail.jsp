@@ -23,12 +23,13 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <script src="assets/js/html5shiv.min.js"></script>
+      <script src="assets/js/respond.min.js"></script>
     <![endif]-->
 </head>
 <body>
-<form action="activityCreate.action" class="form-signin" role="form" method="post">
+<form action="activityUpdate.action" class="form-signin" role="form" method="post">
+<input type="hidden" id="activityId" name="activityId"/> 
 <h2 class="form-signin-heading">球赛详情</h2>
 <font color="red">${globalerror}</font>
 <div class="form-group">
@@ -79,8 +80,14 @@
   <table id="waitoComeTab" class="table table-striped">
   </table>
 </div>
+<div class="form-group">
+<div class="col-md-2 col-sm-5 col-xs-6 col-sm-offset-4">
 <button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
-<input type="button" value="返回" onclick="javascript:window.location.href='index.action';" class="btn btn-lg btn-primary btn-block">
+</div>
+<div class="col-md-2 col-sm-5 col-xs-6">
+<button onclick="javascript:window.location.href='index.action';" class="btn btn-lg btn-primary btn-block">返回</button>
+</div>
+</div>
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -187,6 +194,7 @@ function initPage(json){
 		$("#teamDiv").hide();
 	}
 	var activityTeamSelect = document.getElementById("activityTeam");
+	$("#activityId").val(json.activityId);
 	$("#activityArea").val(json.activityArea);
 	$("#activityPlayersCnt").val(json.activityPlayersCnt);
 	$("#activityTime").val(json.activityTime);

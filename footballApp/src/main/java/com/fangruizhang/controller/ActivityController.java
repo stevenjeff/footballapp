@@ -84,6 +84,50 @@ public class ActivityController extends CommonController {
 		return new ModelAndView(
 				"forward:/activityManageSearchBySinglePlayer.action");
 	}
+	
+	@RequestMapping(value = "/activityUpdate.action", method = RequestMethod.POST)
+	public ModelAndView updateActivity(
+			@RequestParam(value = "activityId", required = true) Integer activityId,
+			@RequestParam(value = "activityArea", required = false) String activityArea,
+			@RequestParam(value = "activityTime", required = false) String activityTime,
+			@RequestParam(value = "activityType", required = false) String activityType,
+			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
+			@RequestParam(value = "activityPlayersCnt", required = false) Integer activityPlayersCnt,
+			@RequestParam(value = "isneedright", required = false) Integer isneedright,
+			@RequestParam(value = "activityTeam", required = false) Integer activityTeam,
+			Model model, HttpSession session) {
+		ActivityService service = new ActivityServiceImpl();
+		try {
+			SimpleDateFormat dateformat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm");
+			Activity activity = new Activity();
+			activity.setActivityId(activityId);
+			activity.setActivityArea(activityArea);
+			activity.setActivityExpense(activityExpense == null ? 0
+					: activityExpense);
+			activity.setActivityIsneedRight(isneedright == null ? 0
+					: isneedright);
+			activity.setActivityPlayersCnt(activityPlayersCnt);
+			activity.setActivityType(activityType);
+			activity.setActivityTime(dateformat.parse(activityTime));
+			activity.setActivityPlayer(this.getLoginPlayer(session));
+			Team team = new Team();
+			if(activityTeam!=null){
+				team.setTeamId(activityTeam);
+			}else{
+				team.setTeamId(-1);
+			}
+			activity.setActivityTeam(team);
+			activity.setActivityOpponentTeamId(-1);
+			service.updateValue(activity);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView(
+				"forward:/activityManageSearchBySinglePlayer.action");
+	}
 
 	@RequestMapping(value = "/activityManageSearchBySinglePlayer.action")
 	public ModelAndView playerActivitySearchManage(Model model,

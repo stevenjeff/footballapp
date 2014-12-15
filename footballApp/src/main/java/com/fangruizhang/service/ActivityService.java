@@ -25,6 +25,7 @@ public interface ActivityService {
 	@Update("update activity set activity_status=2 where activity_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
 	
+	@Update("update activity set activity_area=#{activityArea},activity_time=#{activityTime},activity_players_cnt=#{activityPlayersCnt},activity_expense=#{activityExpense},activity_type=#{activityType},activity_team_id=#{activityTeam.teamId},activity_isneed_right=#{activityIsneedRight} where activity_id = #{activityId}")
 	public boolean updateValue(Activity activity) throws Exception;
 
 	@Results(value = {

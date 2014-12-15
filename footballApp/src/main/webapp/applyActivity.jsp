@@ -19,7 +19,7 @@
 		<div class="form-group">
 			<label for="requestMsg">申请消息</label> <input type="text"
 				class="form-control" id="requestMsg" name="requestMsg"
-				placeholder="请输入球场地址" maxlength="50">
+				placeholder="请输入消息" maxlength="50">
 		</div>
 		<div class="form-group" id="teamDiv">
 			<label for="requestTeamId">比赛球队</label> <select id="requestTeamId"
