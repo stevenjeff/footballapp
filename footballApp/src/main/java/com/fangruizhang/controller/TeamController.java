@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Team;
+import com.fangruizhang.service.ActivityService;
 import com.fangruizhang.service.TeamService;
+import com.fangruizhang.service.impl.ActivityServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
@@ -76,13 +79,32 @@ public class TeamController extends CommonController {
 			dislayCols.append("'球队创建时间': 'creattime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
 			dislayCols.append("'创建人': 'creator.playerName'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "editAction.action","","");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "teamDetail.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView("forward:/teamManage.jsp");
+	}
+	
+	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
+	public ModelAndView activityDetail(Model model, HttpSession session,
+			@RequestParam(value = "id", required = true) int id) {
+		TeamService service = new TeamServiceImpl();
+		Team team = null;
+		try {
+			team = service.selectById(id);
+			int teamCreatorId = team.getCreator().getPlayerId();
+			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=teamCreatorId){
+				return new ModelAndView("forward:/teamedit.jsp?id="+id+"&viewModel=view");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/teamedit.jsp?id="+id+"&viewModel=edit");
 	}
 
 	@ResponseBody
