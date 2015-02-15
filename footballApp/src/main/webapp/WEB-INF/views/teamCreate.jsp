@@ -30,7 +30,7 @@
 </head>
 <body>
 <form action="teamCreate.action" class="form-signin" role="form" method="post">
-<h2 class="form-signin-heading">球队详情</h2>
+<h2 class="form-signin-heading">球队创建</h2>
 <font color="red">${globalerror}</font>
 <div class="form-group">
   <label for="teamName">球队名称</label>
@@ -41,8 +41,8 @@
   <input type="text" class="form-control" id="memebercnt" name="memebercnt" placeholder="请输入球队人数" maxlength="7">
 </div>
 <div class="form-group">
-  <label for="teamTime">球队创建时间</label>
-  <input type="text" class="form-control" id="teamTime" name="teamTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
+  <label for="createTime">球队创建时间</label>
+  <input type="text" class="form-control" id="createTime" name="createTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
 </div>
 <button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
 </form>
@@ -61,7 +61,7 @@ jQuery(function () {
         timeFormat: "HH:mm",
         dateFormat: "yy-mm-dd"
     });
-    jQuery('#teamTime').datetimepicker('setDate', (new Date()) );
+    jQuery('#createTime').datetimepicker('setDate', (new Date()) );
 });
 $(document).ready(function() {
     $('.form-signin').bootstrapValidator({

@@ -21,7 +21,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
-    <%@ include  file="assets/js/paginator.js"%>
+    <%@ include  file="/WEB-INF/layout/paginator.js"%>
     <script type="text/javascript">
     $(document).ready(function() {
         $('.form-signin').bootstrapValidator({
@@ -93,7 +93,7 @@
 
     <div class="container-fluid">
       <div class="row">
-      <%@ include  file="headbtn.jsp"%>
+      <%@ include  file="/WEB-INF/views/headbtn.jsp"%>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
         <p>
       	</p>

@@ -29,9 +29,10 @@
     <![endif]-->
 </head>
 <body>
-<form action="teamCreate.action" class="form-signin" role="form" method="post">
-<h2 class="form-signin-heading">球队创建</h2>
+<form action="teamUpdate.action" class="form-signin" role="form" method="post">
+<h2 class="form-signin-heading">球队详情</h2>
 <font color="red">${globalerror}</font>
+<input type="hidden" name="teamId" id="teamId">
 <div class="form-group">
   <label for="teamName">球队名称</label>
   <input type="text" class="form-control" id="teamName" name="teamName" placeholder="请输入球队名称" maxlength="30">
@@ -95,6 +96,46 @@ $(document).ready(function() {
             }
         }
     });
+    setDetail();
+    function setDetail(){
+    	$.ajax({
+            url: "${pageContext.request.contextPath}/getTeamDetailById.action",
+            type: "POST",
+            data: "teamId=${param.id}",
+            dataType: "json",
+            success: function (json) {
+            	initPage(json);
+            },
+            complete: function () {
+                HiddenDiv();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(XMLHttpRequest);
+                alert(textStatus);
+                alert(errorThrown);
+            }
+        });
+    }
+    function initPage(json){
+    	$("#teamId").val(json.teamId);
+    	$("#teamName").val(json.teamName);
+    	$("#createtime").val(json.createtime);
+    	$("#memebercnt").val(json.memebercnt);
+    	var viewModel="${param.viewModel}";
+    	if(viewModel=="view"){
+    		$("#teamName").attr("disabled","disabled");
+    		$("#createtime").attr("disabled","disabled");
+    		$("#memebercnt").attr("disabled","disabled");
+    		$("#submitBtn").hide();
+    	}
+    }
+
+    function ShowDiv() {
+    	$.blockUI({ message: '<h3><img src="assets/img/busy.gif" /> Loading...</h3>' });
+    }
+    function HiddenDiv() {
+    	$.unblockUI();
+    }
 });
 </script>
 </body>

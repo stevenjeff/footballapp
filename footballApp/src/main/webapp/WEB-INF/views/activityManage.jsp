@@ -21,7 +21,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
-    <%@ include  file="assets/js/paginator.js"%>
+    <%@ include  file="/WEB-INF/layout/paginator.js"%>
   </head>
 
   <body>

@@ -149,13 +149,13 @@ public class ActivityController extends CommonController {
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchActivityByLoginPlayerJson.action", "我的比赛计划",
 					"activityId", "deleteActivityById.action",
-					"activityDetail.jsp","","");
+					"forwardActivityDetail.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/activityManage.jsp");
+		return new ModelAndView("forward:/WEB-INF/views/activityManage.jsp");
 	}
 
 	@RequestMapping(value = "/index.action")
@@ -309,13 +309,19 @@ public class ActivityController extends CommonController {
 			activity = service.selectById(id);
 			int actitvityPlayerId = activity.getActivityPlayer().getPlayerId();
 			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
-				return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=view");
+				return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+id+"&viewModel=view");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/activityDetail.jsp?id="+id+"&viewModel=edit");
+		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+id+"&viewModel=edit");
+	}
+	
+	@RequestMapping(value = "/forwardActivityDetail.action", method = RequestMethod.GET)
+	public ModelAndView forwardActivityDetail() {
+
+		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp");
 	}
 }

@@ -44,7 +44,7 @@ public class TeamController extends CommonController {
 	@RequestMapping(value = "/teamCreate.action", method = RequestMethod.POST)
 	public ModelAndView createTeam(
 			@RequestParam(value = "teamName", required = false) String teamName,
-			@RequestParam(value = "teamTime", required = false) String teamTime,
+			@RequestParam(value = "createTime", required = false) String createTime,
 			@RequestParam(value = "memebercnt", required = false) int memebercnt,
 			Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
@@ -53,7 +53,7 @@ public class TeamController extends CommonController {
 					"yyyy-MM-dd HH:mm");
 			Team team = new Team();
 			team.setTeamName(teamName);
-			team.setCreattime(dateformat.parse(teamTime));
+			team.setCreatetime(dateformat.parse(createTime));
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
 			service.insertValue(team);
@@ -76,7 +76,7 @@ public class TeamController extends CommonController {
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols=new StringBuffer();
 			dislayCols.append("{'球队名称': 'teamName',");
-			dislayCols.append("'球队创建时间': 'creattime',");
+			dislayCols.append("'球队创建时间': 'createtime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
 			dislayCols.append("'创建人': 'creator.playerName'}");
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "teamDetail.action","","");
@@ -89,7 +89,7 @@ public class TeamController extends CommonController {
 	}
 	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
-	public ModelAndView activityDetail(Model model, HttpSession session,
+	public ModelAndView teamDetail(Model model, HttpSession session,
 			@RequestParam(value = "id", required = true) int id) {
 		TeamService service = new TeamServiceImpl();
 		Team team = null;
@@ -105,6 +105,22 @@ public class TeamController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView("forward:/teamedit.jsp?id="+id+"&viewModel=edit");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getTeamDetailById.action", method = RequestMethod.POST)
+	public Team getActivityDetailById(Model model,
+			@RequestParam(value = "teamId", required = true) int teamId) {
+		TeamService service = new TeamServiceImpl();
+		Team team = null;
+		try {
+			team = service.selectById(teamId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return team;
 	}
 
 	@ResponseBody
@@ -157,5 +173,32 @@ public class TeamController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return list;
+	}
+	
+	@RequestMapping(value = "/teamUpdate.action", method = RequestMethod.POST)
+	public ModelAndView updateTeam(
+		@RequestParam(value = "teamId", required = true) Integer teamId,
+		@RequestParam(value = "teamName", required = true) String teamName,
+		@RequestParam(value = "teamTime", required = true) String teamTime,
+		@RequestParam(value = "memebercnt", required = true) int memebercnt,
+		Model model, HttpSession session) {
+		TeamService service = new TeamServiceImpl();
+		try {
+			SimpleDateFormat dateformat = new SimpleDateFormat(
+					"yyyy-MM-dd HH:mm");
+			Team team = new Team();
+			team.setTeamName(teamName);
+			team.setCreatetime(dateformat.parse(teamTime));
+			team.setCreator(this.getLoginPlayer(session));
+			team.setMemebercnt(memebercnt);
+			team.setTeamId(teamId);
+			service.updateValue(team);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView(
+				"forward:/teamManageSearchBySinglePlayer.action");
 	}
 }
