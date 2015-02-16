@@ -110,7 +110,7 @@ public class RequestController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView(
-				"forward:/applyActivity.jsp");
+				"forward:/WEB-INF/views/applyActivity.jsp");
 	}
 	@RequestMapping(value = "/updateRequestStatus.action")
 	public ModelAndView updateRequestStatus(
@@ -130,14 +130,14 @@ public class RequestController extends CommonController {
 			activity = service.selectById(activityId);
 			int actitvityPlayerId = activity.getActivityPlayer().getPlayerId();
 			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=actitvityPlayerId){
-				return new ModelAndView("forward:/activityDetail.jsp?id="+activityId+"&viewModel=view");
+				return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+activityId+"&viewModel=view");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/activityDetail.jsp?id="+activityId+"&viewModel=edit");
+		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+activityId+"&viewModel=edit");
 	}
 	
 	@ResponseBody

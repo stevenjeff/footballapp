@@ -226,9 +226,10 @@ function initPage(json){
 
 function createTable(jsonObj){
 	var viewModel="${param.viewModel}";
-	var htmlApprove="<thead><tr><td>用户名</td><td>操作</td></tr></thead>";
+	var head="<thead><tr class='text-info'><td><strong>用户名</strong></td><td><strong>操作</strong></td></tr></thead>";
+	var htmlApprove=head;
 	htmlApprove+="<tbody>";
-	var htmlWaitForApprove="<thead><tr><td>用户名</td><td>操作</td></tr></thead>";
+	var htmlWaitForApprove=head;
 	htmlWaitForApprove+="<tbody>";
 	var isChecked=$("#isneedright").attr("checked");
 	if(jsonObj!=""&&jsonObj!=null){
@@ -245,17 +246,21 @@ function createTable(jsonObj){
 	}
 	htmlApprove+="</tbody>";
 	htmlWaitForApprove+="</tbody>";
+	if(htmlApprove.indexOf("<a ")!=-1){
 	$("#suretoComeTab").html(htmlApprove);
+	}
+	if(htmlWaitForApprove.indexOf("<a ")!=-1){
 	$("#waitoComeTab").html(htmlWaitForApprove);
+	}
 }
 function htmlAppendApprove(jsonRequestObj,viewModel){
 	var html="";
 	html+="<tr>";
 	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
 	html+="<td>";
-	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"'>查看";
+	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"' class='btn btn-success btn-sm'>查看";
 	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=1&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}'>移除";
+		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=1&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}' class='btn btn-sm btn-danger'>移除";
 	}
 	html+="</td>";
 	html+="</tr>";
@@ -267,9 +272,9 @@ function htmlAppendWaitForApprove(jsonRequestObj,viewModel){
 	html+="<tr>";
 	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
 	html+="<td>";
-	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"'>查看";
+	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"' class='btn btn-success btn-sm'>查看";
 	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=2&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}'>同意";
+		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=2&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}' class='btn btn-warning btn-sm'>同意";
 	}
 	html+="</td>";
 	html+="</tr>";

@@ -85,7 +85,7 @@ public class TeamController extends CommonController {
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/teamManage.jsp");
+		return new ModelAndView("forward:/WEB-INF/views/teamManage.jsp");
 	}
 	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
@@ -104,7 +104,7 @@ public class TeamController extends CommonController {
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/teamedit.jsp?id="+id+"&viewModel=edit");
+		return new ModelAndView("forward:/WEB-INF/views/teamedit.jsp?id="+id+"&viewModel=edit");
 	}
 	
 	@ResponseBody

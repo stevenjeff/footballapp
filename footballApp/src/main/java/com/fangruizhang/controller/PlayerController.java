@@ -69,7 +69,7 @@ public class PlayerController extends CommonController {
 			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
 		}
 		if(!isSuccess){
-			return new ModelAndView("forward:/register.jsp");
+			return new ModelAndView("forward:/WEB-INF/views/register.jsp");
 		}
         return new ModelAndView("forward:/index.jsp");
     }
@@ -95,13 +95,23 @@ public class PlayerController extends CommonController {
     		Model model,HttpSession session) {
 		try {
 			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId()!=playerId){
-				return new ModelAndView("forward:/playerDetail.jsp?playerId="+playerId+"&viewModel=view");
+				return new ModelAndView("forward:/WEB-INF/views/playerDetail.jsp?playerId="+playerId+"&viewModel=view");
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			model.addAttribute("globalerror", "错误信息："+ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/playerDetail.jsp?playerId="+playerId+"&viewModel=edit");
+		return new ModelAndView("forward:/WEB-INF/views/playerDetail.jsp?playerId="+playerId+"&viewModel=edit");
+    }
+	
+	@RequestMapping(value="/forwardRegister.action",method=RequestMethod.GET)
+    public ModelAndView forwardRegister() {
+		return new ModelAndView("forward:/WEB-INF/views/register.jsp");
+    }
+	
+	@RequestMapping(value="/help.action",method=RequestMethod.GET)
+    public ModelAndView forwardHelp() {
+		return new ModelAndView("forward:/WEB-INF/views/help.jsp");
     }
 }

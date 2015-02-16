@@ -61,16 +61,16 @@ var pageIndex = 0;
 	               var idKey=eval("json[position]."+"${idkey}"+"");
 	               var str="<td>";
 	               if("${editAction}"!=""){
-	            	   str+="<a href='${editAction}?id="+idKey+"'>详情";
+	            	   str+="<a href='${editAction}?id="+idKey+"' class='btn btn-primary btn-sm'>详情";
 	               }
 	               if("${delAction}"!=""){
-	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"'>删除";
+	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"' class='btn btn-primary btn-sm btn-danger'>删除";
 	               }
 	               if("${applyAction}"!=""){
-	            	   str+="&nbsp;<a href='javascript:applyActivity("+idKey+")'>申请";
+	            	   str+="&nbsp;<a href='javascript:applyActivity("+idKey+")' class='btn btn-primary btn-sm'>申请";
 	               }
 	               if("${approveAction}"!=""){
-	            	   str+="&nbsp;<a href='${approveAction}?id="+idKey+"'>同意";
+	            	   str+="&nbsp;<a href='${approveAction}?id="+idKey+"' class='btn btn-primary btn-block btn-sm'>同意";
 	               }
 	               str+="</td>";
                    html += str;
