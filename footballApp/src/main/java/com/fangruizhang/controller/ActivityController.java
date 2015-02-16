@@ -134,7 +134,7 @@ public class ActivityController extends CommonController {
 			HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
-			int pageSize = 5;
+			int pageSize = pagesize;
 			Integer recordCount = service
 					.selectPageCountByPlayerId(getLoginPlayer(session)
 							.getPlayerId());
@@ -163,7 +163,7 @@ public class ActivityController extends CommonController {
 			HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
-			int pageSize = 10;
+			int pageSize = pagesize;
 			Integer recordCount = service.selectAllPageCount();
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols = new StringBuffer();
@@ -214,7 +214,7 @@ public class ActivityController extends CommonController {
 	@ResponseBody
 	@RequestMapping(value = "/searchActivityByLoginPlayerJson.action", method = RequestMethod.GET)
 	public List<Activity> searchByLoginPlayerJson(
-			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
 			Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();

@@ -70,7 +70,7 @@ public class TeamController extends CommonController {
 	public ModelAndView playerTeamSearchManage(Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
 		try {
-			int pageSize =5;
+			int pageSize =pagesize;
 			Integer recordCount = service.selectPageCountByPlayerId(getLoginPlayer(session)
 						.getPlayerId());
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
@@ -126,7 +126,7 @@ public class TeamController extends CommonController {
 	@ResponseBody
 	@RequestMapping(value = "/searchTeamByLoginPlayerJson.action", method = RequestMethod.GET)
 	public List<Team> searchByLoginPlayerJson(
-			@RequestParam(value = "pageSize", required = false, defaultValue = "5") int pageSize,
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
 			Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
