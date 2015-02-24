@@ -68,7 +68,7 @@
 </div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
-  <input type="checkbox" id="isneedright" name="isneedright" value="0" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
+  <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
 <div class="form-group">
   <label for="suretoComeTab">确定出席人员 </label>
@@ -81,11 +81,11 @@
   </table>
 </div>
 <div class="form-group">
-<div class="col-md-2 col-sm-5 col-xs-6 col-sm-offset-4">
-<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
+<button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
 </div>
-<div class="col-md-2 col-sm-5 col-xs-6">
-<button onclick="javascript:window.location.href='index.action';" class="btn btn-lg btn-primary btn-block">返回</button>
+<div class="col-md-1 col-sm-1 col-xs-1">
+<button onclick="javascript:window.location.href='index.action';" class="btn btn-primary">返回</button>
 </div>
 </div>
 </form>
@@ -234,6 +234,9 @@ function createTable(jsonObj){
 	var isChecked=$("#isneedright").attr("checked");
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
+			if(jsonObj[obj.requestType==2){
+				continue;
+			}
 			if(!isChecked){
 				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
 			}
@@ -285,7 +288,7 @@ function changeRightVal(){
 	var viewModel="${param.viewModel}";
 	if(viewModel=="view")
 		return;
-	var isneedRight = $("#isneedright").attr("checked");
+	var isneedRight = $("#isneedright").is(':checked');
 	if(isneedRight){
 		$("#isneedright").val(1);
 	}else{

@@ -114,4 +114,10 @@ public class PlayerController extends CommonController {
     public ModelAndView forwardHelp() {
 		return new ModelAndView("forward:/WEB-INF/views/help.jsp");
     }
+	
+	@RequestMapping(value="/logout.action",method=RequestMethod.GET)
+    public ModelAndView logout(HttpSession session) {
+		session.invalidate();
+		return new ModelAndView("forward:/index.action");
+    }
 }
