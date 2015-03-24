@@ -156,7 +156,7 @@
             dropRight: false,
             selectedClass: 'active',
             buttonWidth: 'auto',
-            buttonContainer: '<div class="btn-group" />',
+            buttonContainer: '<div class="btn-group dropup" />',
             // Maximum height of the dropdown menu.
             // If maximum height is exceeded a scrollbar will be displayed.
             maxHeight: false,
@@ -169,8 +169,8 @@
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
             preventInputChangeEvent: false,
-            nonSelectedText: 'None selected',
-            nSelectedText: 'selected',
+            nonSelectedText: '0人',
+            nSelectedText: '人',
             numberDisplayed: 3
         },
 

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/layout/libs.jsp"%>
 <html>
 <head>
     <meta charset="utf-8"/>
@@ -16,6 +17,7 @@
  	<link href="assets/css/jquery-ui.min.css" rel="stylesheet">
  	<link href="assets/css/bootstrapValidator.min.css" rel="stylesheet">
     <link href="assets/css/jquery-ui-timepicker-addon.css" type="text/css" />
+    <link href="assets/css/bootstrap-multiselect.css"type="text/css"/>
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -81,6 +83,21 @@
   </table>
 </div>
 <div class="form-group">
+<div class="btn-group">
+		<select id="playerSel" multiple="multiple">
+			<option value="cheese">Cheese</option>
+			<option value="tomatoes">Tomatoes</option>
+			<option value="mozarella">Mozzarella</option>
+			<option value="mushrooms">Mushrooms</option>
+			<option value="pepperoni">Pepperoni</option>
+			<option value="onions">Onions</option>
+		</select>
+		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
+		<button id="playerSel-deselect" class="btn btn-primary">取消全部</button>
+</div>
+<div id="playerSel-text" style="margin-top:6px;"></div>
+</div>
+<div class="form-group">
 <div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
 <button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
 </div>
@@ -98,6 +115,7 @@
     <script src="assets/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
     <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(function () {
     // 时间设置
@@ -138,6 +156,19 @@ $(document).ready(function() {
                 }
             }
         }
+    });
+    $('#playerSel').multiselect({
+    	enableFiltering: true,
+    	onChange: function(element, checked) {
+    		 $('#playerSel-text').text('出场人员: ' + $('#playerSel').val()).addClass('alert alert-info');
+    		 if($('#playerSel').val()==null){
+    			 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+    		 }
+    	}
+    	});
+    $('#playerSel-select').on('click', function() {
+    });
+    $('#playerSel-deselect').on('click', function() {
     });
 });
 var hasTeam;
@@ -221,6 +252,28 @@ function initPage(json){
 		$("#isneedright").attr("checked",false);
 	}
 	createTable(json.requestList);
+	//createMultiSel(json.requestList);
+}
+
+function createMultiSel(jsonObj){
+	var viewModel="${param.viewModel}";
+	var isChecked=$("#isneedright").attr("checked");
+	var multiSelJsonStrBegin = '{';
+	var multiSelJsonStrmiddle = '';
+	var multiSelJsonStrEnd = '}';
+	if(jsonObj!=""&&jsonObj!=null){
+		for(var obj in jsonObj){
+			if(jsonObj[obj]==2){
+				continue;
+			}
+			multiSelJsonStrBegin = '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" }';
+			if(isChecked&&jsonObj[obj].requestStatus==1){
+				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj],viewModel);
+			}else if(isChecked&&jsonObj[obj].requestStatus==2){
+				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
+			}
+		}
+	}
 }
 
 
@@ -234,7 +287,7 @@ function createTable(jsonObj){
 	var isChecked=$("#isneedright").attr("checked");
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
-			if(jsonObj[obj.requestType==2){
+			if(jsonObj[obj].requestType==2){
 				continue;
 			}
 			if(!isChecked){
