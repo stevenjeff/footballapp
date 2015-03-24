@@ -261,18 +261,19 @@ function createMultiSel(jsonObj){
 	var multiSelJsonStrBegin = '{';
 	var multiSelJsonStrmiddle = '';
 	var multiSelJsonStrEnd = '}';
+	var newJsonObjStr;
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
-			if(jsonObj[obj]==2){
+			if(jsonObj[obj].requestType==2){
 				continue;
 			}
-			multiSelJsonStrBegin = '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" }';
-			if(isChecked&&jsonObj[obj].requestStatus==1){
-				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj],viewModel);
-			}else if(isChecked&&jsonObj[obj].requestStatus==2){
-				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
-			}
+			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" },';
 		}
+		if(multiSelJsonStrmiddle.length>0){
+			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-2);
+		}
+		newJsonObjStr=multiSelJsonStrBegin+multiSelJsonStrmiddle+multiSelJsonStrEnd;
+		alert(newJsonObjStr);
 	}
 }
 
