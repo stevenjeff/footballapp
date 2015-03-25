@@ -252,15 +252,15 @@ function initPage(json){
 		$("#isneedright").attr("checked",false);
 	}
 	createTable(json.requestList);
-	//createMultiSel(json.requestList);
+	createMultiSel(json.requestList);
 }
 
 function createMultiSel(jsonObj){
 	var viewModel="${param.viewModel}";
 	var isChecked=$("#isneedright").attr("checked");
-	var multiSelJsonStrBegin = '{';
+	var multiSelJsonStrBegin = '[';
 	var multiSelJsonStrmiddle = '';
-	var multiSelJsonStrEnd = '}';
+	var multiSelJsonStrEnd = ']';
 	var newJsonObjStr;
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
@@ -270,10 +270,11 @@ function createMultiSel(jsonObj){
 			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" },';
 		}
 		if(multiSelJsonStrmiddle.length>0){
-			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-2);
+			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-1);
 		}
 		newJsonObjStr=multiSelJsonStrBegin+multiSelJsonStrmiddle+multiSelJsonStrEnd;
-		alert(newJsonObjStr);
+		var newJsonObj = JSON.parse(newJsonObjStr); 
+		$("#playerSel").multiselect('dataprovider', newJsonObj);
 	}
 }
 
