@@ -144,7 +144,10 @@ $(document).ready(function() {
     $('#playerSel').multiselect({
     	enableFiltering: true,
     	onChange: function(element, checked) {
-    		 $('#playerSel-text').text('出场人员: ' + $('#playerSel').val().split()[0]).addClass('alert alert-info');
+    		 var value=$('#playerSel').val()+"";
+    		 value=value.split(":")[0];
+    		 value="<a href=''>"+value+"</a>";
+    		 $('#playerSel-text').html('出场人员: ' + value).addClass('alert alert-info');
     		 if($('#playerSel').val()==null){
     			 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
     		 }
