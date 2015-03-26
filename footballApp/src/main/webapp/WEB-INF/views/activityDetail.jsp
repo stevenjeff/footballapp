@@ -73,24 +73,8 @@
   <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
 <div class="form-group">
-  <label for="suretoComeTab">确定出席人员 </label>
-  <table id="suretoComeTab" class="table table-striped">
-  </table>
-</div>
-<div class="form-group">
-  <label for="waitoComeTab">待审批出席人员</label>
-  <table id="waitoComeTab" class="table table-striped">
-  </table>
-</div>
-<div class="form-group">
 <div class="btn-group">
 		<select id="playerSel" multiple="multiple">
-			<option value="cheese">Cheese</option>
-			<option value="tomatoes">Tomatoes</option>
-			<option value="mozarella">Mozzarella</option>
-			<option value="mushrooms">Mushrooms</option>
-			<option value="pepperoni">Pepperoni</option>
-			<option value="onions">Onions</option>
 		</select>
 		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
 		<button id="playerSel-deselect" class="btn btn-primary">取消全部</button>
@@ -160,7 +144,7 @@ $(document).ready(function() {
     $('#playerSel').multiselect({
     	enableFiltering: true,
     	onChange: function(element, checked) {
-    		 $('#playerSel-text').text('出场人员: ' + $('#playerSel').val()).addClass('alert alert-info');
+    		 $('#playerSel-text').text('出场人员: ' + $('#playerSel').val().split()[0]).addClass('alert alert-info');
     		 if($('#playerSel').val()==null){
     			 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
     		 }
@@ -251,7 +235,6 @@ function initPage(json){
 		$("#isneedright").val(0);
 		$("#isneedright").attr("checked",false);
 	}
-	createTable(json.requestList);
 	createMultiSel(json.requestList);
 }
 
@@ -267,7 +250,7 @@ function createMultiSel(jsonObj){
 			if(jsonObj[obj].requestType==2){
 				continue;
 			}
-			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" },';
+			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" },';
 		}
 		if(multiSelJsonStrmiddle.length>0){
 			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-1);
@@ -276,67 +259,6 @@ function createMultiSel(jsonObj){
 		var newJsonObj = JSON.parse(newJsonObjStr); 
 		$("#playerSel").multiselect('dataprovider', newJsonObj);
 	}
-}
-
-
-function createTable(jsonObj){
-	var viewModel="${param.viewModel}";
-	var head="<thead><tr class='text-info'><td><strong>用户名</strong></td><td><strong>操作</strong></td></tr></thead>";
-	var htmlApprove=head;
-	htmlApprove+="<tbody>";
-	var htmlWaitForApprove=head;
-	htmlWaitForApprove+="<tbody>";
-	var isChecked=$("#isneedright").attr("checked");
-	if(jsonObj!=""&&jsonObj!=null){
-		for(var obj in jsonObj){
-			if(jsonObj[obj].requestType==2){
-				continue;
-			}
-			if(!isChecked){
-				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
-			}
-			if(isChecked&&jsonObj[obj].requestStatus==1){
-				htmlWaitForApprove+=htmlAppendWaitForApprove(jsonObj[obj],viewModel);
-			}else if(isChecked&&jsonObj[obj].requestStatus==2){
-				htmlApprove+=htmlAppendApprove(jsonObj[obj],viewModel);
-			}
-		}
-	}
-	htmlApprove+="</tbody>";
-	htmlWaitForApprove+="</tbody>";
-	if(htmlApprove.indexOf("<a ")!=-1){
-	$("#suretoComeTab").html(htmlApprove);
-	}
-	if(htmlWaitForApprove.indexOf("<a ")!=-1){
-	$("#waitoComeTab").html(htmlWaitForApprove);
-	}
-}
-function htmlAppendApprove(jsonRequestObj,viewModel){
-	var html="";
-	html+="<tr>";
-	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
-	html+="<td>";
-	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"' class='btn btn-success btn-sm'>查看";
-	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=1&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}' class='btn btn-sm btn-danger'>移除";
-	}
-	html+="</td>";
-	html+="</tr>";
-	return html;
-}
-
-function htmlAppendWaitForApprove(jsonRequestObj,viewModel){
-	var html="";
-	html+="<tr>";
-	html+="<td>"+jsonRequestObj.requestPlayer.playerName+"</td>";
-	html+="<td>";
-	html+="<a href='viewPlayer.action?playerId="+jsonRequestObj.requestPlayer.playerId+"' class='btn btn-success btn-sm'>查看";
-	if(viewModel!="view"){
-		html+="&nbsp;&nbsp;<a href='updateRequestStatus.action?requestStatus=2&requestId="+jsonRequestObj.requestId+"&activityId=${param.id}' class='btn btn-warning btn-sm'>同意";
-	}
-	html+="</td>";
-	html+="</tr>";
-	return html;
 }
 
 function changeRightVal(){
