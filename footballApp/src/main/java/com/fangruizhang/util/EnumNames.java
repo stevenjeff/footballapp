@@ -13,10 +13,21 @@ public class EnumNames {
 	};
 	
 	public static HashMap<String, String> requestTypes = new HashMap<String, String>() {
+		private static final long serialVersionUID = 3479134669500018255L;
+
 		{
 			put(RequestTypeEnum.TeamActivityRequest.getCode()+"", "球队约战申请");
 			put(RequestTypeEnum.PlayerActivityRequest.getCode()+"", "散客活动申请");
 			put(RequestTypeEnum.PlayerTeamRequest.getCode()+"", "加队申请");
+		}
+	};
+	
+	public static HashMap<String, String> requestStatus = new HashMap<String, String>() {
+		private static final long serialVersionUID = 8547547414022326863L;
+
+		{
+			put(RequestStatusEnum.ApplyStatus.getCode()+"", "申请中");
+			put(RequestStatusEnum.ApproveStatus.getCode()+"", "申请通过");
 		}
 	};
 	
@@ -59,7 +70,7 @@ public class EnumNames {
 	}
 
 	public static enum ActivityStatusEnum {
-		ActivityEnabled(1),ActivityDeleted(2);
+		ActivityEnabled(1),ActivityDeleted(2),ActivityOpend(3),ActivityClosed(4);
 
 		private int code;
 

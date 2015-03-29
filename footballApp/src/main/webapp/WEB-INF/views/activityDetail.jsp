@@ -153,10 +153,10 @@ $(document).ready(function() {
     		 }
     	}
     	});
-    $('#playerSel-select').on('click', function() {
-    });
-    $('#playerSel-deselect').on('click', function() {
-    });
+    $('#playerSel-select').click(function(e) {
+    	e.preventDefault();
+    	multiselect_toggle($("#playerSel"), $(this));
+    	});
 });
 var hasTeam;
 getRelativeTeam();
@@ -253,7 +253,7 @@ function createMultiSel(jsonObj){
 			if(jsonObj[obj].requestType==2){
 				continue;
 			}
-			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'" },';
+			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
 		}
 		if(multiSelJsonStrmiddle.length>0){
 			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-1);
@@ -261,9 +261,59 @@ function createMultiSel(jsonObj){
 		newJsonObjStr=multiSelJsonStrBegin+multiSelJsonStrmiddle+multiSelJsonStrEnd;
 		var newJsonObj = JSON.parse(newJsonObjStr); 
 		$("#playerSel").multiselect('dataprovider', newJsonObj);
+		for(var o in newJsonObj){
+			if(newJsonObj[o].requestStatus==2||isChecked){
+				$("#playerSel").multiselect('select', newJsonObj[o].value);
+				setSelectText();
+			}
+		}
 	}
 }
 
+function setSelectText(){
+	var value=$('#playerSel').val()+"";
+	 value=value.split(":")[0];
+	 value="<a href=''>"+value+"</a>";
+	 $('#playerSel-text').html('出场人员: ' + value).addClass('alert alert-info');
+	 if($('#playerSel').val()==null){
+		 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+	 }
+}
+function multiselect_selectAll($el) {
+	$('option', $el).each(function(element) {
+	$el.multiselect('select', $(this).val());
+	});
+	setSelectText();
+}
+
+function multiselect_deselectAll($el) {
+	$('option', $el).each(function(element) {
+	$el.multiselect('deselect', $(this).val());
+	});
+	setSelectText();
+}
+
+function multiselect_selected($el) {
+	var ret = true;
+	$('option', $el).each(function(element) {
+	if (!!!$(this).prop('selected')) {
+	ret = false;
+	}
+	});
+	return ret;
+}
+	
+function multiselect_toggle($el, $btn) {
+	if (multiselect_selected($el)) {
+	multiselect_deselectAll($el);
+	$btn.text("选择全部");
+	}
+	else {
+	multiselect_selectAll($el);
+	$btn.text("全部取消");
+	}
+}
+	
 function changeRightVal(){
 	var viewModel="${param.viewModel}";
 	if(viewModel=="view")
