@@ -74,7 +74,7 @@
 </div>
 <div class="form-group">
 <div class="btn-group">
-		<select id="playerSel" multiple="multiple">
+		<select id="playerSel" name="playerSel" multiple="multiple">
 		</select>
 		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
 		<button id="playerSel-deselect" class="btn btn-primary">取消全部</button>

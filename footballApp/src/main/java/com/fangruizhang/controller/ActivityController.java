@@ -25,10 +25,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.ActivityService;
+import com.fangruizhang.service.RequestService;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
+import com.fangruizhang.service.impl.RequestServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
 import com.fangruizhang.util.EnumNames;
+import com.fangruizhang.util.EnumNames.RequestStatusEnum;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
 
@@ -95,6 +98,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "activityPlayersCnt", required = false) Integer activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
 			@RequestParam(value = "activityTeam", required = false) Integer activityTeam,
+			@RequestParam(value = "playerSel", required = false) String[] playerSel,
 			Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
@@ -119,6 +123,15 @@ public class ActivityController extends CommonController {
 			}
 			activity.setActivityTeam(team);
 			activity.setActivityOpponentTeamId(-1);
+			
+			if(playerSel!=null){
+				String[] strs = null;
+				RequestService requestService = new RequestServiceImpl();
+				for(String selVal:playerSel){
+					strs=selVal.split(":");
+					requestService.updateRequestStatus(Integer.parseInt(strs[2]), RequestStatusEnum.ApproveStatus.getCode());
+				}
+			}
 			service.updateValue(activity);
 		} catch (Exception e) {
 			e.printStackTrace();
