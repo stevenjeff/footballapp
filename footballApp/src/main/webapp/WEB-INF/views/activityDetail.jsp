@@ -144,12 +144,14 @@ $(document).ready(function() {
     $('#playerSel').multiselect({
     	enableFiltering: true,
     	onChange: function(element, checked) {
-    		 var value=$('#playerSel').val()+"";
-    		 value=value.split(":")[0];
-    		 value="<a href=''>"+value+"</a>";
-    		 $('#playerSel-text').html('出场人员: ' + value).addClass('alert alert-info');
     		 if($('#playerSel').val()==null){
     			 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+    		 }else{
+    			 var value=$('#playerSel').val()+"";
+    			 var playerId=value.split(":")[1];
+        		 var playerName=value.split(":")[0];
+        		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
+    			 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
     		 }
     	}
     	});
@@ -158,6 +160,11 @@ $(document).ready(function() {
     	multiselect_toggle($("#playerSel"), $(this));
     	});
 });
+
+function getPlayerDetail(playerId){
+	window.open ('viewPlayer.action?playerId='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+}
+
 var hasTeam;
 getRelativeTeam();
 function getRelativeTeam() {
@@ -218,7 +225,9 @@ function initPage(json){
 	$("#activityTime").val(json.activityTime);
 	$("#activityExpense").val(json.activityExpense);
 	$("#activityType").val(json.activityType);
-	$("#activityTeam").val(json.activityTeam);
+	if(json.activityTeam!=null){
+		$("#activityTeam").val(json.activityTeam.teamId);
+	}
 	var viewModel="${param.viewModel}";
 	if(viewModel=="view"){
 		$("#activityArea").attr("disabled","disabled");
@@ -271,12 +280,14 @@ function createMultiSel(jsonObj){
 }
 
 function setSelectText(){
-	var value=$('#playerSel').val()+"";
-	 value=value.split(":")[0];
-	 value="<a href=''>"+value+"</a>";
-	 $('#playerSel-text').html('出场人员: ' + value).addClass('alert alert-info');
-	 if($('#playerSel').val()==null){
+	if($('#playerSel').val()==null){
 		 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+	 }else{
+		 var value=$('#playerSel').val()+"";
+		 var playerId=value.split(":")[1];
+		 var playerName=value.split(":")[0];
+		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
+		 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
 	 }
 }
 function multiselect_selectAll($el) {

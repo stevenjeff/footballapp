@@ -201,4 +201,10 @@ public class TeamController extends CommonController {
 		return new ModelAndView(
 				"forward:/teamManageSearchBySinglePlayer.action");
 	}
+	
+	@RequestMapping(value = "/forwardTeamCreate.action", method = RequestMethod.GET)
+	public ModelAndView forwardTeamCreate() {
+
+		return new ModelAndView("forward:/WEB-INF/views/teamCreate.jsp");
+	}
 }

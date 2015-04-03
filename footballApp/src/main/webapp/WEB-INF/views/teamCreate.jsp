@@ -44,7 +44,14 @@
   <label for="createTime">球队创建时间</label>
   <input type="text" class="form-control" id="createTime" name="createTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
 </div>
-<button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
+<div class="form-group">
+<div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
+<button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
+</div>
+<div class="col-md-1 col-sm-1 col-xs-1">
+<button onclick="javascript:window.location.href='teamManageSearchBySinglePlayer.action';" class="btn btn-primary">返回</button>
+</div>
+</div>
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -57,8 +64,7 @@
 <script type="text/javascript">
 jQuery(function () {
     // 时间设置
-    jQuery('#teamTime').datetimepicker({
-        timeFormat: "HH:mm",
+    jQuery('#createTime').datetimepicker({
         dateFormat: "yy-mm-dd"
     });
     jQuery('#createTime').datetimepicker('setDate', (new Date()) );

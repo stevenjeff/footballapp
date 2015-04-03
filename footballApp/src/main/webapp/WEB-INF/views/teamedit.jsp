@@ -50,7 +50,7 @@
 <button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
 </div>
 <div class="col-md-1 col-sm-1 col-xs-1">
-<button onclick="javascript:window.location.href='index.action';" class="btn btn-primary">返回</button>
+<button onclick="javascript:window.location.href='teamManageSearchBySinglePlayer.action';" class="btn btn-primary">返回</button>
 </div>
 </div>
 </form>

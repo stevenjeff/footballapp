@@ -338,4 +338,10 @@ public class ActivityController extends CommonController {
 
 		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp");
 	}
+	
+	@RequestMapping(value = "/forwardActivityCreate.action", method = RequestMethod.GET)
+	public ModelAndView forwardActivityCreate() {
+
+		return new ModelAndView("forward:/WEB-INF/views/activityCreate.jsp");
+	}
 }
