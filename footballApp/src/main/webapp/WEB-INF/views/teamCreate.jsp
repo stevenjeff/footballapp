@@ -66,7 +66,8 @@ jQuery(function () {
     // 时间设置
     jQuery('#createTime').datepicker({
     	showOtherMonths: true,
-        selectOtherMonths: true
+        selectOtherMonths: true,
+        changeYear: true
     });
     jQuery('#createTime').datepicker('setDate', (new Date()) );
 });
