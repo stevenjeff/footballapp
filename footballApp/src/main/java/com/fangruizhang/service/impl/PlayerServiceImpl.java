@@ -9,11 +9,10 @@ import com.fangruizhang.service.PlayerService;
 import com.fangruizhang.util.MybatisUtil;
 
 public class PlayerServiceImpl implements PlayerService {
-
-	SqlSession session=MybatisUtil.getSqlSession();
-	PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 	public boolean insertValue(Player player) throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			mapperPlayerService.insertValue(player);
 		    session.commit();
@@ -21,12 +20,16 @@ public class PlayerServiceImpl implements PlayerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean deleteById(int id) throws Exception  {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			mapperPlayerService.deleteById(id);
 		    session.commit();
@@ -34,12 +37,16 @@ public class PlayerServiceImpl implements PlayerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean updateValue(Player player) throws Exception  {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			mapperPlayerService.updateValue(player);
 		    session.commit();
@@ -47,28 +54,38 @@ public class PlayerServiceImpl implements PlayerService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public Player selectById(int id) throws Exception  {
 		Player player=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			player=(Player)mapperPlayerService.selectById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return player;
 	}
 
 	public List<Player> selectAll() throws Exception  {
 		List<Player> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			list=mapperPlayerService.selectAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return list;
 	}
@@ -79,11 +96,15 @@ public class PlayerServiceImpl implements PlayerService {
 	@Override
 	public Player selectByName(String playerName) throws Exception {
 		Player player=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
 			player=(Player)mapperPlayerService.selectByName(playerName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return player;
 	}

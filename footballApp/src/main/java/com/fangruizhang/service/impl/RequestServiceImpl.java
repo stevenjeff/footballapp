@@ -13,10 +13,10 @@ import com.fangruizhang.util.MybatisUtil;
 
 public class RequestServiceImpl implements RequestService {
 
-	SqlSession session=MybatisUtil.getSqlSession();
-	RequestService mapperRequestService = session.getMapper(RequestService.class);
 	public boolean insertValue(Request team)  throws Exception{
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			mapperRequestService.insertValue(team);
 		    session.commit();
@@ -24,12 +24,16 @@ public class RequestServiceImpl implements RequestService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean deleteById(int id)  throws Exception{
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			mapperRequestService.deleteById(id);
 		    session.commit();
@@ -37,12 +41,16 @@ public class RequestServiceImpl implements RequestService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean updateValue(Request team) throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			mapperRequestService.updateValue(team);
 		    session.commit();
@@ -50,28 +58,38 @@ public class RequestServiceImpl implements RequestService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public Request selectById(int id) throws Exception {
 		Request request=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			request=(Request)mapperRequestService.selectById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return request;
 	}
 
 	public List<Request> selectAll() throws Exception {
 		List<Request> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			list=mapperRequestService.selectAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return list;
 	}
@@ -79,11 +97,15 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public Player getPlayer(int activityPlayerId) throws Exception {
 		Player player=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			player=(Player)mapperRequestService.getPlayer(activityPlayerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return player;
 	}
@@ -91,11 +113,15 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public Team getTeam(int teamId) throws Exception {
 		Team team=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			team=(Team)mapperRequestService.getTeam(teamId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return team;
 	}
@@ -103,11 +129,15 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public Activity getActivity(int id) throws Exception {
 		Activity activity=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			activity=(Activity)mapperRequestService.getActivity(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return activity;
 	}
@@ -116,6 +146,8 @@ public class RequestServiceImpl implements RequestService {
 	public boolean updateRequestStatus(int requestId, int requestStatus)
 			throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
 		try {
 			mapperRequestService.updateRequestStatus(requestId, requestStatus);
 		    session.commit();
@@ -123,6 +155,27 @@ public class RequestServiceImpl implements RequestService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
+		}
+		return bresult;
+	}
+
+	@Override
+	public boolean updateRequestStatusByActivityIdAndType(int activityId,
+		int requestType, int requestStatus) throws Exception {
+		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
+		try {
+			mapperRequestService.updateRequestStatusByActivityIdAndType(activityId, requestType, requestStatus);
+		    session.commit();
+		    bresult=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}

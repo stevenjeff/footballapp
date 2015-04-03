@@ -250,7 +250,7 @@ function createMultiSel(jsonObj){
 	var newJsonObjStr;
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
-			if(jsonObj[obj].requestType==2){
+			if(jsonObj[obj].requestType==3){
 				continue;
 			}
 			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
@@ -262,7 +262,7 @@ function createMultiSel(jsonObj){
 		var newJsonObj = JSON.parse(newJsonObjStr); 
 		$("#playerSel").multiselect('dataprovider', newJsonObj);
 		for(var o in newJsonObj){
-			if(newJsonObj[o].requestStatus==2||isChecked){
+			if(newJsonObj[o].requestStatus==2&&isChecked){
 				$("#playerSel").multiselect('select', newJsonObj[o].value);
 				setSelectText();
 			}

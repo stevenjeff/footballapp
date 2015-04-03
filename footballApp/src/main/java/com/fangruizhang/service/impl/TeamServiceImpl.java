@@ -12,10 +12,10 @@ import com.fangruizhang.util.MybatisUtil;
 
 public class TeamServiceImpl implements TeamService {
 
-	SqlSession session=MybatisUtil.getSqlSession();
-	TeamService mapperTeamService = session.getMapper(TeamService.class);
 	public boolean insertValue(Team team) throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			mapperTeamService.insertValue(team);
 		    session.commit();
@@ -23,12 +23,16 @@ public class TeamServiceImpl implements TeamService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean deleteById(int id) throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			mapperTeamService.deleteById(id);
 		    session.commit();
@@ -36,12 +40,16 @@ public class TeamServiceImpl implements TeamService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public boolean updateValue(Team team) throws Exception {
 		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			mapperTeamService.updateValue(team);
 		    session.commit();
@@ -49,28 +57,38 @@ public class TeamServiceImpl implements TeamService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return bresult;
 	}
 
 	public Team selectById(int id) throws Exception {
 		Team team=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			team=(Team)mapperTeamService.selectById(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return team;
 	}
 
 	public List<Team> selectAll(int playerId) throws Exception {
 		List<Team> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			list=mapperTeamService.selectAll(playerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return list;
 	}
@@ -79,11 +97,15 @@ public class TeamServiceImpl implements TeamService {
 	public List<Team> selectPageByPlayerId(int playerId, int beginNum,
 			int endNum) throws Exception {
 		List<Team> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			list=mapperTeamService.selectPageByPlayerId(playerId, beginNum, endNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return list;
 	}
@@ -91,11 +113,15 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public int selectPageCountByPlayerId(int activityPlayerId) throws Exception{
 		int size =0;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			size=mapperTeamService.selectPageCountByPlayerId(activityPlayerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return size;
 	}
@@ -103,11 +129,15 @@ public class TeamServiceImpl implements TeamService {
 	@Override
 	public Player getPlayer(int playerId) throws Exception {
 		Player player=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
 		try {
 			player=(Player)mapperTeamService.getPlayer(playerId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
+		}finally{
+			session.close();
 		}
 		return player;
 	}

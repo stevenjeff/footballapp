@@ -124,9 +124,10 @@ public class ActivityController extends CommonController {
 			activity.setActivityTeam(team);
 			activity.setActivityOpponentTeamId(-1);
 			
-			if(playerSel!=null){
+			RequestService requestService = new RequestServiceImpl();
+			requestService.updateRequestStatusByActivityIdAndType(activityId, EnumNames.RequestTypeEnum.PlayerActivityRequest.getCode(), EnumNames.RequestStatusEnum.ApplyStatus.getCode());
+			if(playerSel!=null&&playerSel.length!=0){
 				String[] strs = null;
-				RequestService requestService = new RequestServiceImpl();
 				for(String selVal:playerSel){
 					strs=selVal.split(":");
 					requestService.updateRequestStatus(Integer.parseInt(strs[2]), RequestStatusEnum.ApproveStatus.getCode());
