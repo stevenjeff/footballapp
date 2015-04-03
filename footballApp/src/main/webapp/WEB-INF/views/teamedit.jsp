@@ -65,11 +65,9 @@
 <script type="text/javascript">
 jQuery(function () {
     // 时间设置
-    jQuery('#teamTime').datetimepicker({
-        timeFormat: "HH:mm",
-        dateFormat: "yy-mm-dd"
+    jQuery('#teamTime').datepicker({
     });
-    jQuery('#teamTime').datetimepicker('setDate', (new Date()) );
+    jQuery('#teamTime').datepicker('setDate', (new Date()) );
 });
 $(document).ready(function() {
     $('.form-signin').bootstrapValidator({

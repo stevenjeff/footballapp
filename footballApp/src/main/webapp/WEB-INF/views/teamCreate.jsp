@@ -64,10 +64,11 @@
 <script type="text/javascript">
 jQuery(function () {
     // 时间设置
-    jQuery('#createTime').datetimepicker({
-        dateFormat: "yy-mm-dd"
+    jQuery('#createTime').datepicker({
+    	showOtherMonths: true,
+        selectOtherMonths: true
     });
-    jQuery('#createTime').datetimepicker('setDate', (new Date()) );
+    jQuery('#createTime').datepicker('setDate', (new Date()) );
 });
 $(document).ready(function() {
     $('.form-signin').bootstrapValidator({
