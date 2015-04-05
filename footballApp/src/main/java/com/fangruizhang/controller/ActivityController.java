@@ -99,6 +99,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
 			@RequestParam(value = "activityTeam", required = false) Integer activityTeam,
 			@RequestParam(value = "playerSel", required = false) String[] playerSel,
+			@RequestParam(value = "teamSel", required = false) String[] teamSel,
 			Model model, HttpSession session) {
 		ActivityService service = new ActivityServiceImpl();
 		try {
@@ -129,6 +130,14 @@ public class ActivityController extends CommonController {
 			if(playerSel!=null&&playerSel.length!=0){
 				String[] strs = null;
 				for(String selVal:playerSel){
+					strs=selVal.split(":");
+					requestService.updateRequestStatus(Integer.parseInt(strs[2]), RequestStatusEnum.ApproveStatus.getCode());
+				}
+			}
+			requestService.updateRequestStatusByActivityIdAndType(activityId, EnumNames.RequestTypeEnum.TeamActivityRequest.getCode(), EnumNames.RequestStatusEnum.ApplyStatus.getCode());
+			if(teamSel!=null&&teamSel.length!=0){
+				String[] strs = null;
+				for(String selVal:teamSel){
 					strs=selVal.split(":");
 					requestService.updateRequestStatus(Integer.parseInt(strs[2]), RequestStatusEnum.ApproveStatus.getCode());
 				}

@@ -269,6 +269,10 @@ function initPage(json){
 		$("#activityType").attr("disabled","disabled");
 		$("#activityTeam").attr("disabled","disabled");
 		$("#isneedright").attr("disabled","disabled");
+		$("#teamSel-select").attr("disabled","disabled");
+		$("#playerSel-select").attr("disabled","disabled");
+		$("#playerSel").multiselect('disable');
+		$("#teamSel").multiselect('disable');
 		$("#submitBtn").hide();
 	}
 	$("#isneedright").val(json.activityIsneedRight);
@@ -331,10 +335,10 @@ function createTeamMultiSel(jsonObj){
 		}
 		newJsonObjStr=multiSelJsonStrBegin+multiSelJsonStrmiddle+multiSelJsonStrEnd;
 		var newJsonObj = JSON.parse(newJsonObjStr); 
-		$("#playerSel").multiselect('dataprovider', newJsonObj);
+		$("#teamSel").multiselect('dataprovider', newJsonObj);
 		for(var o in newJsonObj){
 			if(newJsonObj[o].requestStatus==2&&isChecked){
-				$("#playerSel").multiselect('select', newJsonObj[o].value);
+				$("#teamSel").multiselect('select', newJsonObj[o].value);
 				setTeamSelectText();
 			}
 		}
