@@ -117,6 +117,7 @@ public interface ActivityService {
 			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "requestPlayer", column = "request_player_id",  one=@One(select = "getPlayer")),
 			@Result(property = "requestTeam", column = "request_team_id",  one=@One(select = "getTeam")),
+			@Result(property = "againstTeam", column = "against_team_id",  one=@One(select = "getTeam")),
 			@Result(property = "requestStatus", column = "request_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "requestTime", column = "request_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "requestMsg", column = "request_msg", javaType = String.class, jdbcType = JdbcType.VARCHAR),

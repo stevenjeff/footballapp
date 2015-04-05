@@ -169,8 +169,8 @@
             // possible options: 'text', 'value', 'both'
             filterBehavior: 'text',
             preventInputChangeEvent: false,
-            nonSelectedText: '0人',
-            nSelectedText: '人',
+            nonSelectedText: '0个',
+            nSelectedText: '个',
             numberDisplayed: 3
         },
 

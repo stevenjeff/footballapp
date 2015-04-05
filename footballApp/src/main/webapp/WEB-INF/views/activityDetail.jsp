@@ -63,21 +63,30 @@
   	<option value="2">散客约战</option>
   </select>
 </div>
-<div class="form-group" id="teamDiv">
-  <label for="activityTeam">比赛球队</label>
-  <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
-  </select>
-</div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
   <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
+<div class="form-group" id="teamDiv">
+  <label for="activityTeam">主队比赛球队</label>
+  <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  </select>
+</div>
 <div class="form-group">
+<label for="teamSel">客场球队      </label>
+<div class="btn-group">
+		<select id="teamSel" name="teamSel" multiple="multiple">
+		</select>
+		<button id="teamSel-select" class="btn btn-primary">全部选择</button>
+</div>
+<div id="teamSel-text" style="margin-top:6px;"></div>
+</div>
+<div class="form-group">
+<label for="teamSel">出场人员      </label>
 <div class="btn-group">
 		<select id="playerSel" name="playerSel" multiple="multiple">
 		</select>
 		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
-		<button id="playerSel-deselect" class="btn btn-primary">取消全部</button>
 </div>
 <div id="playerSel-text" style="margin-top:6px;"></div>
 </div>
@@ -159,7 +168,30 @@ $(document).ready(function() {
     	e.preventDefault();
     	multiselect_toggle($("#playerSel"), $(this));
     	});
+    
+    $('#teamSel').multiselect({
+    	enableFiltering: true,
+    	onChange: function(element, checked) {
+    		 if($('#teamSel').val()==null){
+    			 $('#teamSel-text').text('客场球队: ').addClass('alert alert-info');
+    		 }else{
+    			 var value=$('#teamSel').val()+"";
+    			 var playerId=value.split(":")[1];
+        		 var playerName=value.split(":")[0];
+        		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+playerId+")'>"+playerName+"</a>";
+    			 $('#teamSel-text').html('客场球队: ' + html).addClass('alert alert-info');
+    		 }
+    	}
+    	});
+    $('#teamSel-select').click(function(e) {
+    	e.preventDefault();
+    	multiselect_toggle($("#teamSel"), $(this));
+    	});
 });
+
+function getTeamDetail(playerId){
+	window.open ('viewPlayer.action?playerId='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+}
 
 function getPlayerDetail(playerId){
 	window.open ('viewPlayer.action?playerId='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
@@ -247,10 +279,11 @@ function initPage(json){
 		$("#isneedright").val(0);
 		$("#isneedright").attr("checked",false);
 	}
-	createMultiSel(json.requestList);
+	createPlayerMultiSel(json.requestList);
+	createTeamMultiSel(json.requestList);
 }
 
-function createMultiSel(jsonObj){
+function createPlayerMultiSel(jsonObj){
 	var viewModel="${param.viewModel}";
 	var isChecked=$("#isneedright").attr("checked");
 	var multiSelJsonStrBegin = '[';
@@ -259,7 +292,7 @@ function createMultiSel(jsonObj){
 	var newJsonObjStr;
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
-			if(jsonObj[obj].requestType==3){
+			if(jsonObj[obj].requestType==1||jsonObj[obj].requestType==3){
 				continue;
 			}
 			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
@@ -273,13 +306,42 @@ function createMultiSel(jsonObj){
 		for(var o in newJsonObj){
 			if(newJsonObj[o].requestStatus==2&&isChecked){
 				$("#playerSel").multiselect('select', newJsonObj[o].value);
-				setSelectText();
+				setPlayerSelectText();
 			}
 		}
 	}
 }
 
-function setSelectText(){
+function createTeamMultiSel(jsonObj){
+	var viewModel="${param.viewModel}";
+	var isChecked=$("#isneedright").attr("checked");
+	var multiSelJsonStrBegin = '[';
+	var multiSelJsonStrmiddle = '';
+	var multiSelJsonStrEnd = ']';
+	var newJsonObjStr;
+	if(jsonObj!=""&&jsonObj!=null){
+		for(var obj in jsonObj){
+			if(jsonObj[obj].requestType==2||jsonObj[obj].requestType==3){
+				continue;
+			}
+			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].againstTeam.teamName+'", "value": "'+jsonObj[obj].againstTeam.teamName+":"+jsonObj[obj].againstTeam.teamId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
+		}
+		if(multiSelJsonStrmiddle.length>0){
+			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-1);
+		}
+		newJsonObjStr=multiSelJsonStrBegin+multiSelJsonStrmiddle+multiSelJsonStrEnd;
+		var newJsonObj = JSON.parse(newJsonObjStr); 
+		$("#playerSel").multiselect('dataprovider', newJsonObj);
+		for(var o in newJsonObj){
+			if(newJsonObj[o].requestStatus==2&&isChecked){
+				$("#playerSel").multiselect('select', newJsonObj[o].value);
+				setTeamSelectText();
+			}
+		}
+	}
+}
+
+function setPlayerSelectText(){
 	if($('#playerSel').val()==null){
 		 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
 	 }else{
@@ -290,18 +352,37 @@ function setSelectText(){
 		 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
 	 }
 }
+function setTeamSelectText(){
+	if($('#teamSel').val()==null){
+		 $('#teamSel-text').text('客场球队: ').addClass('alert alert-info');
+	 }else{
+		 var value=$('#teamSel').val()+"";
+		 var playerId=value.split(":")[1];
+		 var playerName=value.split(":")[0];
+		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+playerId+")'>"+playerName+"</a>";
+		 $('#teamSel-text').html('客场球队: ' + html).addClass('alert alert-info');
+	 }
+}
 function multiselect_selectAll($el) {
 	$('option', $el).each(function(element) {
 	$el.multiselect('select', $(this).val());
 	});
-	setSelectText();
+	if($el.attr("id")=="teamSel"){
+		setTeamSelectText();
+	}else{
+		setPlayerSelectText();
+	}
 }
 
 function multiselect_deselectAll($el) {
 	$('option', $el).each(function(element) {
 	$el.multiselect('deselect', $(this).val());
 	});
-	setSelectText();
+	if($el.attr("id")=="teamSel"){
+		setTeamSelectText();
+	}else{
+		setPlayerSelectText();
+	}
 }
 
 function multiselect_selected($el) {

@@ -66,6 +66,9 @@
 jQuery(function () {
     // 时间设置
     jQuery('#teamTime').datepicker({
+    	showOtherMonths: true,
+        selectOtherMonths: true,
+        changeYear: true
     });
     jQuery('#teamTime').datepicker('setDate', (new Date()) );
 });

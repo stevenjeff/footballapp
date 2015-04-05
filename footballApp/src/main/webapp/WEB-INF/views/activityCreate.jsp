@@ -62,7 +62,7 @@
   </select>
 </div>
 <div class="form-group">
-  <label for="activityTeam">比赛球队</label>
+  <label for="activityTeam">主队比赛球队</label>
   <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   </select>
 </div>
