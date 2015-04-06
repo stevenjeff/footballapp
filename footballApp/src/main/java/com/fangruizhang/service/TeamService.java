@@ -49,8 +49,20 @@ public interface TeamService {
 	@Select("SELECT * FROM TEAM WHERE creatorid=#{playerId} and team_status=1 limit #{beginNum},#{endNum}")
 	public List<Team> selectPageByPlayerId(@Param("playerId") int playerId,@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 	
+	@Results(value = {
+			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "creator", column = "creatorid", one=@One(select = "getPlayer")),
+			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
+	@Select("SELECT * FROM TEAM WHERE team_status=1 limit #{beginNum},#{endNum}")
+	public List<Team> selectPageAll(@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
+	
 	@Select("SELECT count(team_id) FROM TEAM WHERE creatorid=#{playerId} and team_status=1")
 	public int selectPageCountByPlayerId(@Param("playerId") int playerId) throws Exception;
+	
+	@Select("SELECT count(team_id) FROM TEAM WHERE team_status=1")
+	public int selectPageCountAll() throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "playerId", column = "player_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),

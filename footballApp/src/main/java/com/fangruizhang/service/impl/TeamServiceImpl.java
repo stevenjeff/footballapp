@@ -142,4 +142,36 @@ public class TeamServiceImpl implements TeamService {
 		return player;
 	}
 
+	@Override
+	public List<Team> selectPageAll(int beginNum, int endNum) throws Exception {
+		List<Team> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
+		try {
+			list=mapperTeamService.selectPageAll(beginNum, endNum);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return list;
+	}
+
+	@Override
+	public int selectPageCountAll() throws Exception {
+		int size =0;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
+		try {
+			size=mapperTeamService.selectPageCountAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return size;
+	}
+
 }

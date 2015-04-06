@@ -88,6 +88,27 @@ public class TeamController extends CommonController {
 		return new ModelAndView("forward:/WEB-INF/views/teamManage.jsp");
 	}
 	
+	@RequestMapping(value = "/teamSearchAll.action")
+	public ModelAndView teamSearchAll(Model model, HttpSession session) {
+		TeamService service = new TeamServiceImpl();
+		try {
+			int pageSize =pagesize;
+			Integer recordCount = service.selectPageCountAll();
+			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
+			StringBuffer dislayCols=new StringBuffer();
+			dislayCols.append("{'球队名称': 'teamName',");
+			dislayCols.append("'球队创建时间': 'createtime',");
+			dislayCols.append("'球队人数': 'memebercnt',");
+			dislayCols.append("'创建人': 'creator.playerName'}");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "所有球队", "teamId", "", "teamDetail.action","","");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/WEB-INF/views/teamManage.jsp");
+	}
+	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
 	public ModelAndView teamDetail(Model model, HttpSession session,
 			@RequestParam(value = "id", required = true) int id) {
@@ -97,7 +118,7 @@ public class TeamController extends CommonController {
 			team = service.selectById(id);
 			int teamCreatorId = team.getCreator().getPlayerId();
 			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId().intValue()!=teamCreatorId){
-				return new ModelAndView("forward:/teamedit.jsp?id="+id+"&viewModel=view");
+				return new ModelAndView("forward:/WEB-INF/views/teamedit.jsp?id="+id+"&viewModel=view");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

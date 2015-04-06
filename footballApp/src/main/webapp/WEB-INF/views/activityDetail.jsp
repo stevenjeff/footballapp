@@ -190,7 +190,7 @@ $(document).ready(function() {
 });
 
 function getTeamDetail(playerId){
-	window.open ('viewPlayer.action?playerId='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+	window.open ('teamDetail.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
 }
 
 function getPlayerDetail(playerId){
@@ -325,7 +325,7 @@ function createTeamMultiSel(jsonObj){
 	var newJsonObjStr;
 	if(jsonObj!=""&&jsonObj!=null){
 		for(var obj in jsonObj){
-			if(jsonObj[obj].requestType==2||jsonObj[obj].requestType==3){
+			if(jsonObj[obj].requestType==2||jsonObj[obj].requestType==3||jsonObj[obj].againstTeam==null){
 				continue;
 			}
 			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].againstTeam.teamName+'", "value": "'+jsonObj[obj].againstTeam.teamName+":"+jsonObj[obj].againstTeam.teamId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
@@ -361,9 +361,9 @@ function setTeamSelectText(){
 		 $('#teamSel-text').text('客场球队: ').addClass('alert alert-info');
 	 }else{
 		 var value=$('#teamSel').val()+"";
-		 var playerId=value.split(":")[1];
-		 var playerName=value.split(":")[0];
-		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+playerId+")'>"+playerName+"</a>";
+		 var teamId=value.split(":")[1];
+		 var teamName=value.split(":")[0];
+		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+teamId+")'>"+teamName+"</a>";
 		 $('#teamSel-text').html('客场球队: ' + html).addClass('alert alert-info');
 	 }
 }
