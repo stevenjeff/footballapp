@@ -67,7 +67,8 @@ jQuery(function () {
     jQuery('#createTime').datepicker({
     	showOtherMonths: true,
         selectOtherMonths: true,
-        changeYear: true
+        changeYear: true,
+        yearRange: '1960:2020' 
     });
     jQuery('#createTime').datepicker('setDate', (new Date()) );
 });

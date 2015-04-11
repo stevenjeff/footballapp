@@ -1,9 +1,12 @@
 package com.fangruizhang.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fangruizhang.entity.Player;
 import com.fangruizhang.service.impl.PlayerServiceImpl;
 import com.fangruizhang.util.ExceptionUtil;
+import com.fangruizhang.util.PageUtil;
 
 @Controller
 public class PlayerController extends CommonController {
@@ -43,25 +47,29 @@ public class PlayerController extends CommonController {
     public ModelAndView register(@RequestParam(value="username", required=false) String username,
     		@RequestParam(value="password", required=false) String password,
     		@RequestParam(value="sex", required=false) int sex,
-    		@RequestParam(value="birthday", required=false) Date birthday,
+    		@RequestParam(value="birthday", required=false) String birthday,
     		@RequestParam(value="phone", required=false) String phone,
     		@RequestParam(value="qq", required=false) String qq,
     		@RequestParam(value="weixin", required=false) String weixin,
     		@RequestParam(value="mail", required=false) String mail,
     		Model model) {
+		SimpleDateFormat dateformat = new SimpleDateFormat(
+				"yyyy-MM-dd");
 		boolean isSuccess=false;
-		PlayerServiceImpl serviceImpl= new PlayerServiceImpl();
-		Player player=new Player();
-		player.setPlayerName(username);
-		player.setSex(sex);
-		player.setPassword(password);
-		player.setBirthday(birthday);
-		player.setQq(qq);
-		player.setCreatetime(new Date());
-		player.setMail(mail);
-		player.setWeixin(weixin);
-		player.setPhone(phone);
 		try {
+			PlayerServiceImpl serviceImpl= new PlayerServiceImpl();
+			Player player=new Player();
+			player.setPlayerName(username);
+			player.setSex(sex);
+			player.setPassword(password);
+			player.setBirthday(dateformat.parse(birthday));
+			player.setQq(qq);
+			player.setCreatetime(new Date());
+			player.setMail(mail);
+			player.setWeixin(weixin);
+			player.setPhone(phone);
+			player.setAttendtimes(0);
+			player.setAttendsuccescnt(0);
 			isSuccess=serviceImpl.insertValue(player);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -91,7 +99,7 @@ public class PlayerController extends CommonController {
     }
 	
 	@RequestMapping(value="/viewPlayer.action",method=RequestMethod.GET)
-    public ModelAndView viewPlayer(@RequestParam(value="playerId", required=false) Integer playerId,
+    public ModelAndView viewPlayer(@RequestParam(value="id", required=false) Integer playerId,
     		Model model,HttpSession session) {
 		try {
 			if(this.getLoginPlayerNoException(session)==null||this.getLoginPlayerNoException(session).getPlayerId()!=playerId){
@@ -104,6 +112,48 @@ public class PlayerController extends CommonController {
 		}
 		return new ModelAndView("forward:/WEB-INF/views/playerDetail.jsp?playerId="+playerId+"&viewModel=edit");
     }
+	
+	@ResponseBody
+	@RequestMapping(value = "/searchPlayerAllJson.action", method = RequestMethod.GET)
+	public List<Player> searchPlayerAllJson(
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+			Model model, HttpSession session) {
+		PlayerServiceImpl serviceImpl= new PlayerServiceImpl();
+		List<Player> list = null;
+		int beginNum = 0;
+		try {
+			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
+					: 0;
+			list = serviceImpl.selectAll(beginNum, pageSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
+	}
+	
+	@RequestMapping(value = "/playerSearchAll.action")
+	public ModelAndView teamSearchAll(Model model, HttpSession session) {
+		PlayerServiceImpl serviceImpl= new PlayerServiceImpl();
+		try {
+			int pageSize =pagesize;
+			Integer recordCount = serviceImpl.selectAllCountAll();
+			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
+			StringBuffer dislayCols=new StringBuffer();
+			dislayCols.append("{'球员名称': 'playerName',");
+			dislayCols.append("'球员性别': 'sex',");
+			dislayCols.append("'生日': 'birthday',");
+			dislayCols.append("'出场次数': 'attendtimes'}");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchPlayerAllJson.action", "所有球员", "playerId", "", "viewPlayer.action","","");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView("forward:/WEB-INF/views/playerList.jsp");
+	}
 	
 	@RequestMapping(value="/forwardRegister.action",method=RequestMethod.GET)
     public ModelAndView forwardRegister() {

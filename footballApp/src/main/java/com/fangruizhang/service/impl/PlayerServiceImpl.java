@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fangruizhang.entity.Player;
+import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.PlayerService;
+import com.fangruizhang.service.TeamService;
 import com.fangruizhang.util.MybatisUtil;
 
 public class PlayerServiceImpl implements PlayerService {
@@ -75,12 +77,12 @@ public class PlayerServiceImpl implements PlayerService {
 		return player;
 	}
 
-	public List<Player> selectAll() throws Exception  {
+	public List<Player> selectAll(int beginNum,int endNum) throws Exception  {
 		List<Player> list =null;
 		SqlSession session=MybatisUtil.getSqlSession();
 		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
 		try {
-			list=mapperPlayerService.selectAll();
+			list=mapperPlayerService.selectAll(beginNum, endNum);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -107,6 +109,22 @@ public class PlayerServiceImpl implements PlayerService {
 			session.close();
 		}
 		return player;
+	}
+
+	@Override
+	public int selectAllCountAll() throws Exception {
+		int count= 0;
+		SqlSession session=MybatisUtil.getSqlSession();
+		PlayerService mapperPlayerService = session.getMapper(PlayerService.class);
+		try {
+			count=mapperPlayerService.selectAllCountAll();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return count;
 	}
 
 

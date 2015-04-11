@@ -50,7 +50,7 @@ public class TeamController extends CommonController {
 		TeamService service = new TeamServiceImpl();
 		try {
 			SimpleDateFormat dateformat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm");
+					"yyyy-MM-dd");
 			Team team = new Team();
 			team.setTeamName(teamName);
 			team.setCreatetime(dateformat.parse(createTime));
@@ -100,13 +100,13 @@ public class TeamController extends CommonController {
 			dislayCols.append("'球队创建时间': 'createtime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
 			dislayCols.append("'创建人': 'creator.playerName'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "所有球队", "teamId", "", "teamDetail.action","","");
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamAllJson.action", "所有球队", "teamId", "", "teamDetail.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return new ModelAndView("forward:/WEB-INF/views/teamManage.jsp");
+		return new ModelAndView("forward:/WEB-INF/views/teamList.jsp");
 	}
 	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
@@ -158,6 +158,27 @@ public class TeamController extends CommonController {
 					: 0;
 			list = service.selectPageByPlayerId(getLoginPlayer(session)
 					.getPlayerId(), beginNum, pageSize);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return list;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/searchTeamAllJson.action", method = RequestMethod.GET)
+	public List<Team> searchTeamAllJson(
+			@RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+			@RequestParam(value = "pageNum", required = false, defaultValue = "1") int pageNum,
+			Model model, HttpSession session) {
+		TeamService service = new TeamServiceImpl();
+		List<Team> list = null;
+		int beginNum = 0;
+		try {
+			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
+					: 0;
+			list = service.selectPageAll(beginNum, pageSize);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

@@ -62,13 +62,15 @@
     <script src="assets/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
     <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript">
 jQuery(function () {
     // 时间设置
     jQuery('#teamTime').datepicker({
     	showOtherMonths: true,
         selectOtherMonths: true,
-        changeYear: true
+        changeYear: true,
+        yearRange: '1960:2020' 
     });
     jQuery('#teamTime').datepicker('setDate', (new Date()) );
 });

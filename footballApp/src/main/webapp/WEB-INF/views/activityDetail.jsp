@@ -194,7 +194,7 @@ function getTeamDetail(playerId){
 }
 
 function getPlayerDetail(playerId){
-	window.open ('viewPlayer.action?playerId='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+	window.open ('viewPlayer.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
 }
 
 var hasTeam;

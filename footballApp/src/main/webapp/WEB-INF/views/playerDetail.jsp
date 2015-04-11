@@ -110,7 +110,12 @@ function setDetail(){
 }
 
 $(function() {
-    $( "#birthday" ).datepicker();
+	jQuery('#birthday').datepicker({
+    	showOtherMonths: true,
+        selectOtherMonths: true,
+        changeYear: true,
+        yearRange: '1960:2020' 
+    });
   });
 
 $(document).ready(function() {

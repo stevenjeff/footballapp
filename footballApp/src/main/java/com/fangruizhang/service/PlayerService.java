@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
@@ -51,9 +52,12 @@ public interface PlayerService {
 			@Result(property = "sex", column = "sex", javaType = Integer.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "password", column = "password", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "birthday", column = "birthday", javaType = Date.class, jdbcType = JdbcType.DATE)})
-	@Select("SELECT * FROM PLAYER")
-	public List<Player> selectAll() throws Exception;
+	@Select("SELECT * FROM PLAYER limit #{beginNum},#{endNum}")
+	public List<Player> selectAll(@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 
+	@Select("SELECT count(player_id) FROM PLAYER")
+	public int selectAllCountAll() throws Exception;
+	
 	@Results(value = {
 			@Result(id = true, property = "playerId", column = "player_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "playerName", column = "player_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),

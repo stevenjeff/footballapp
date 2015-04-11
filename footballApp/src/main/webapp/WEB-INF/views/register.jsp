@@ -17,7 +17,7 @@
  	<link href="assets/css/signin.css" rel="stylesheet">
  	<link href="assets/css/jquery-ui.min.css" rel="stylesheet">
  	<link href="assets/css/bootstrapValidator.min.css" rel="stylesheet">
-
+	<link href="assets/css/jquery-ui-timepicker-addon.css" type="text/css" />
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -81,10 +81,18 @@
     <script src="assets/js/docs.min.js"></script>
     <script src="assets/js/jquery-ui.min.js"></script>
     <script src="assets/js/bootstrapValidator.min.js"></script>
+    <script src="assets/js/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+    <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
+    <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function() {
-    $( "#birthday" ).datepicker();
-    jQuery('#birthday').datetimepicker('setDate', (new Date()) );
+    jQuery('#birthday').datepicker({
+    	showOtherMonths: true,
+        selectOtherMonths: true,
+        changeYear: true,
+        yearRange: '1960:2020' 
+    });
+    jQuery('#birthday').datepicker('setDate', (new Date()) );
   });
 
 $(document).ready(function() {
