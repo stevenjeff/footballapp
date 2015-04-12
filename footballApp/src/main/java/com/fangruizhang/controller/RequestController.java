@@ -64,9 +64,8 @@ public class RequestController extends CommonController {
 				"forward:/index.action");
 	}
 	
-	@RequestMapping(value = "/teamPlayerRequestCreate.action", method = RequestMethod.POST)
-	public ModelAndView teamPlayerRequestCreate(
-			@RequestParam(value = "activityId", required = false) Integer activityId,
+	@RequestMapping(value = "/playerTeamRequestCreate.action", method = RequestMethod.POST)
+	public ModelAndView playerTeamRequestCreate(
 			@RequestParam(value = "requestTeamId", required = false) Integer requestTeamId,
 			@RequestParam(value = "requestMsg", required = false) String requestMsg,
 			Model model, HttpSession session) {
@@ -76,9 +75,7 @@ public class RequestController extends CommonController {
 			request.setRequestPlayer(this.getLoginPlayer(session));
 			request.setRequestMsg(requestMsg);
 			request.setRequestTime(new Date());
-			Activity requestActivity = service.getActivity(activityId);
 			request.setRequestType(EnumNames.RequestTypeEnum.PlayerTeamRequest.getCode()+"");
-			request.setRequestActivity(requestActivity);
 			request.setRequestStatus(1+"");
 			Team againstTeam = new Team();
 			againstTeam.setTeamId(-1);
@@ -93,7 +90,7 @@ public class RequestController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView(
-				"forward:/teamManageSearchBySinglePlayer.action");
+				"forward:/teamSearchAll.action");
 	}
 	
 	@RequestMapping(value = "/applyActivity.action")
@@ -115,6 +112,26 @@ public class RequestController extends CommonController {
 		}
 		return new ModelAndView(
 				"forward:/WEB-INF/views/applyActivity.jsp");
+	}
+	
+	@RequestMapping(value = "/applyTeam.action")
+	public ModelAndView applyTeam(
+			@RequestParam(value = "teamId", required = false) Integer teamId,
+			Model model, HttpSession session) {
+		TeamService teamService=new TeamServiceImpl();
+		try {
+			Team team = teamService.selectById(teamId);
+			if(teamId==null){
+				throw new Exception("team record not found");
+			}
+			model.addAttribute("activityId", teamId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return new ModelAndView(
+				"forward:/WEB-INF/views/applyTeam.jsp");
 	}
 	@RequestMapping(value = "/updateRequestStatus.action")
 	public ModelAndView updateRequestStatus(

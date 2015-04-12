@@ -27,6 +27,7 @@ import com.fangruizhang.service.ActivityService;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
+import com.fangruizhang.util.EnumNames;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
 
@@ -100,13 +101,41 @@ public class TeamController extends CommonController {
 			dislayCols.append("'球队创建时间': 'createtime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
 			dislayCols.append("'创建人': 'creator.playerName'}");
-			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamAllJson.action", "所有球队", "teamId", "", "teamDetail.action","","");
+			String applyUrl = "";
+			if(this.getLoginPlayerNoException(session)!=null){
+				applyUrl = "teamApply.action";
+			}
+			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamAllJson.action", "所有球队", "teamId", "", "teamDetail.action",applyUrl,"");
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView("forward:/WEB-INF/views/teamList.jsp");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/applyTeamValidate.action", method = RequestMethod.GET)
+	public int applyTeamValidate(
+			@RequestParam(value = "teamId", required = false) Integer teamId,
+			Model model, HttpSession session) {
+		ActivityService activityService=new ActivityServiceImpl();
+		TeamService teamService = new TeamServiceImpl();
+		List<Team> list =null;
+		try {
+			Team team = teamService.selectById(teamId);
+			if(team==null){
+				throw new Exception("team record not found");
+			}
+			if(team.getCreator().getPlayerId()==getLoginPlayer(session).getPlayerId()){
+				return 1;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return 0;
 	}
 	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)

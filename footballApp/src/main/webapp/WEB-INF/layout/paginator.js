@@ -67,7 +67,13 @@ var pageIndex = 0;
 	            	   str+="&nbsp;<a href='${delAction}?id="+idKey+"' class='btn btn-primary btn-sm btn-danger'>删除";
 	               }
 	               if("${applyAction}"!=""){
-	            	   str+="&nbsp;<a href='javascript:applyActivity("+idKey+")' class='btn btn-primary btn-sm'>申请";
+	            	   if("${applyAction}"=="teamApply.action"){
+	            		   str+="&nbsp;<a href='javascript:applyTeam("+idKey+")' class='btn btn-primary btn-sm'>申请";
+	            	   }else{
+	            		   str+="&nbsp;<a href='javascript:applyActivity("+idKey+")' class='btn btn-primary btn-sm'>申请";
+	            	   }
+	            		
+	            	   
 	               }
 	               if("${approveAction}"!=""){
 	            	   str+="&nbsp;<a href='${approveAction}?id="+idKey+"' class='btn btn-primary btn-block btn-sm'>同意";
@@ -103,11 +109,15 @@ var pageIndex = 0;
     }
 
     function applyActivity(idKey){
-    	applyValidate(idKey);
+    	applyActivityValidate(idKey);
 
     }
     
-	function applyValidate(idkey) {
+    function applyTeam(idKey){
+    	applyTeamValidate(idKey);
+    }
+    
+	function applyActivityValidate(idkey) {
 		$.ajax({
 					url : "${pageContext.request.contextPath}/applyActivityValidate.action",
 					type : "GET",
@@ -127,6 +137,34 @@ var pageIndex = 0;
 							alert("当前比赛为自己创建，不可申请");
 						}else{
 							window.location.href="applyActivity.action?activityId="+idkey;
+						}
+					},
+					error : function(XMLHttpRequest, textStatus, errorThrown) {
+						alert(XMLHttpRequest);
+						alert(textStatus);
+						alert(errorThrown);
+					}
+				});
+	}
+	
+	function applyTeamValidate(idkey) {
+		$.ajax({
+					url : "${pageContext.request.contextPath}/applyTeamValidate.action",
+					type : "GET",
+					data : "teamId="+idkey,
+					dataType : "text",
+					beforeSend: function () {
+			            ShowDiv();
+
+			        },
+			        complete: function () {
+			            HiddenDiv();
+			        },
+					success : function(obj) {
+						if(obj=="1"){
+							alert("当前球队为自己创建，不可申请");
+						}else{
+							window.location.href="applyTeam.action?teamId="+idkey;
 						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
