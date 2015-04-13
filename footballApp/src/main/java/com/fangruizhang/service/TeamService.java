@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.One;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
@@ -14,6 +15,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.type.JdbcType;
 
 import com.fangruizhang.entity.Player;
+import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 
 public interface TeamService {
@@ -33,6 +35,29 @@ public interface TeamService {
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
 	public Team selectById(int id) throws Exception;
+	
+	@Results(value = {
+			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "creator", column = "creatorid",  one=@One(select = "getPlayer")),
+			@Result(property = "requestList", javaType=List.class, column="activity_id", many=@Many(select="getRequests")),
+			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
+	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
+	public Team selectWithRequestById(int id) throws Exception;
+	
+	@Results(value = {
+			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "requestPlayer", column = "request_player_id",  one=@One(select = "getPlayer")),
+			@Result(property = "requestTeam", column = "request_team_id",  one=@One(select = "getTeam")),
+			@Result(property = "againstTeam", column = "against_team_id",  one=@One(select = "getTeam")),
+			@Result(property = "requestStatus", column = "request_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "requestTime", column = "request_time", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "requestMsg", column = "request_msg", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "requestType", column = "request_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "requestActivity", column = "request_activity_id",  one=@One(select = "selectById"))})
+	@Select("SELECT * FROM REQUEST WHERE request_team_id=#{teamId}")
+	public List<Request> getRequests(@Param("teamId")int teamId) throws Exception;
 
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),

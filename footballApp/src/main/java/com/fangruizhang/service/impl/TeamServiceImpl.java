@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Player;
+import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.util.MybatisUtil;
@@ -172,6 +173,38 @@ public class TeamServiceImpl implements TeamService {
 			session.close();
 		}
 		return size;
+	}
+
+	@Override
+	public Team selectWithRequestById(int id) throws Exception {
+		Team team=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
+		try {
+			team=(Team)mapperTeamService.selectWithRequestById(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return team;
+	}
+
+	@Override
+	public List<Request> getRequests(int teamId) throws Exception {
+		List<Request> requests=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
+		try {
+			requests=(List<Request>)mapperTeamService.getRequests(teamId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return requests;
 	}
 
 }

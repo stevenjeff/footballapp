@@ -66,7 +66,7 @@ public class RequestController extends CommonController {
 	
 	@RequestMapping(value = "/playerTeamRequestCreate.action", method = RequestMethod.POST)
 	public ModelAndView playerTeamRequestCreate(
-			@RequestParam(value = "requestTeamId", required = false) Integer requestTeamId,
+			@RequestParam(value = "teamId", required = false) Integer teamId,
 			@RequestParam(value = "requestMsg", required = false) String requestMsg,
 			Model model, HttpSession session) {
 		RequestService service = new RequestServiceImpl();
@@ -80,7 +80,7 @@ public class RequestController extends CommonController {
 			Team againstTeam = new Team();
 			againstTeam.setTeamId(-1);
 			Team requestTeam = new Team();
-			requestTeam.setTeamId(requestTeamId);
+			requestTeam.setTeamId(teamId);
 			request.setAgainstTeam(againstTeam);
 			request.setRequestTeam(requestTeam);
 			service.insertValue(request);
@@ -124,7 +124,7 @@ public class RequestController extends CommonController {
 			if(teamId==null){
 				throw new Exception("team record not found");
 			}
-			model.addAttribute("activityId", teamId);
+			model.addAttribute("teamId", teamId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

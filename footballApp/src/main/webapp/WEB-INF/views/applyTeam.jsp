@@ -14,8 +14,8 @@
 	<form action="playerTeamRequestCreate.action" class="form-signin" role="form"
 		method="post">
 		<h2 class="form-signin-heading">申请提交</h2>
-		<font color="red">${globalerror}</font> <input type="hidden" name="activityId"
-			value="${activityId}">
+		<font color="red">${globalerror}</font> <input type="hidden" name="teamId"
+			value="${teamId}">
 		<div class="form-group">
 			<label for="requestMsg">申请消息</label> <input type="text"
 				class="form-control" id="requestMsg" name="requestMsg"

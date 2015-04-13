@@ -119,9 +119,7 @@ public class TeamController extends CommonController {
 	public int applyTeamValidate(
 			@RequestParam(value = "teamId", required = false) Integer teamId,
 			Model model, HttpSession session) {
-		ActivityService activityService=new ActivityServiceImpl();
 		TeamService teamService = new TeamServiceImpl();
-		List<Team> list =null;
 		try {
 			Team team = teamService.selectById(teamId);
 			if(team==null){
