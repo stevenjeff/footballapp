@@ -207,4 +207,20 @@ public class TeamServiceImpl implements TeamService {
 		return requests;
 	}
 
+	@Override
+	public List<Player> getTeamRelationPlayer(int teamId) throws Exception {
+		List<Player> players=null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		TeamService mapperTeamService = session.getMapper(TeamService.class);
+		try {
+			players=(List<Player>)mapperTeamService.getTeamRelationPlayer(teamId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return players;
+	}
+
 }

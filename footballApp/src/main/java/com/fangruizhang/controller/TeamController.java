@@ -162,7 +162,7 @@ public class TeamController extends CommonController {
 		TeamService service = new TeamServiceImpl();
 		Team team = null;
 		try {
-			team = service.selectById(teamId);
+			team = service.selectWithRequestById(teamId);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

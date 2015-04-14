@@ -46,12 +46,15 @@
   <label for="teamTime">球队创建时间</label>
   <input type="text" class="form-control" id="teamTime" name="teamTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
 </div>
+<div class="form-group">
+ <label for="playerSel">待审批成员:</label>
 <div class="btn-group">
 		<select id="playerSel" name="playerSel" multiple="multiple">
 		</select>
 		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
 </div>
 <div id="playerSel-text" style="margin-top:6px;"></div>
+</div>
 </div>
 <div class="form-group">
 <div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
@@ -119,13 +122,13 @@ $(document).ready(function() {
     	enableFiltering: true,
     	onChange: function(element, checked) {
     		 if($('#playerSel').val()==null){
-    			 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+    			 $('#playerSel-text').text('成员: ').addClass('alert alert-info');
     		 }else{
     			 var value=$('#playerSel').val()+"";
     			 var playerId=value.split(":")[1];
         		 var playerName=value.split(":")[0];
         		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
-    			 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
+    			 $('#playerSel-text').html('成员: ' + html).addClass('alert alert-info');
     		 }
     	}
     	});
@@ -180,9 +183,6 @@ $(document).ready(function() {
     	var newJsonObjStr;
     	if(jsonObj!=""&&jsonObj!=null){
     		for(var obj in jsonObj){
-    			if(jsonObj[obj].requestType==1||jsonObj[obj].requestType==3){
-    				continue;
-    			}
     			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
     		}
     		if(multiSelJsonStrmiddle.length>0){
@@ -202,13 +202,13 @@ $(document).ready(function() {
 
     function setPlayerSelectText(){
     	if($('#playerSel').val()==null){
-    		 $('#playerSel-text').text('出场人员: ').addClass('alert alert-info');
+    		 $('#playerSel-text').text('成员: ').addClass('alert alert-info');
     	 }else{
     		 var value=$('#playerSel').val()+"";
     		 var playerId=value.split(":")[1];
     		 var playerName=value.split(":")[0];
     		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
-    		 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
+    		 $('#playerSel-text').html('成员: ' + html).addClass('alert alert-info');
     	 }
     }
     

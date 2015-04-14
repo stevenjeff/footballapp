@@ -41,7 +41,8 @@ public interface TeamService {
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid",  one=@One(select = "getPlayer")),
-			@Result(property = "requestList", javaType=List.class, column="activity_id", many=@Many(select="getRequests")),
+			@Result(property = "requestList", javaType=List.class, column="team_id", many=@Many(select="getRequests")),
+			@Result(property = "memberList", javaType=List.class, column="team_id", many=@Many(select="getTeamRelationPlayer")),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
 	public Team selectWithRequestById(int id) throws Exception;
@@ -49,14 +50,11 @@ public interface TeamService {
 	@Results(value = {
 			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "requestPlayer", column = "request_player_id",  one=@One(select = "getPlayer")),
-			@Result(property = "requestTeam", column = "request_team_id",  one=@One(select = "getTeam")),
-			@Result(property = "againstTeam", column = "against_team_id",  one=@One(select = "getTeam")),
 			@Result(property = "requestStatus", column = "request_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "requestTime", column = "request_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "requestMsg", column = "request_msg", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "requestType", column = "request_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "requestActivity", column = "request_activity_id",  one=@One(select = "selectById"))})
-	@Select("SELECT * FROM REQUEST WHERE request_team_id=#{teamId}")
+			@Result(property = "requestType", column = "request_type", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
+	@Select("SELECT * FROM REQUEST WHERE request_team_id=#{teamId} and request_player_id not in(select player_id from team_player_relation where team_id=#{teamId})")
 	public List<Request> getRequests(@Param("teamId")int teamId) throws Exception;
 
 	@Results(value = {
@@ -104,4 +102,11 @@ public interface TeamService {
 			@Result(property = "birthday", column = "birthday", javaType = Date.class, jdbcType = JdbcType.DATE)})
 	@Select("SELECT * FROM PLAYER WHERE player_id = #{playerId}")
 	public Player getPlayer(@Param("playerId") int playerId) throws Exception;
+	
+	@Results(value = {
+			@Result(id = true, property = "playerId", column = "player_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "playerName", column = "player_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "birthday", column = "birthday", javaType = Date.class, jdbcType = JdbcType.DATE)})
+	@Select("SELECT P.* FROM PLAYER P,TEAM_PLAYER_RELATION R WHERE P.PLAYER_ID=R.PLAYER_ID AND TEAM_ID = #{teamId}")
+	public List<Player> getTeamRelationPlayer(@Param("teamId") int teamId) throws Exception;
 }
