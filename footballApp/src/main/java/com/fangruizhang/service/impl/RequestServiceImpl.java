@@ -180,5 +180,24 @@ public class RequestServiceImpl implements RequestService {
 		return bresult;
 	}
 
+	@Override
+	public boolean updateRequestStatusByTeamIdAndType(int teamId,
+			int requestType, int requestStatus) throws Exception {
+		boolean bresult=false;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
+		try {
+			mapperRequestService.updateRequestStatusByTeamIdAndType(teamId, requestType, requestStatus);
+		    session.commit();
+		    bresult=true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return bresult;
+	}
+
 
 }

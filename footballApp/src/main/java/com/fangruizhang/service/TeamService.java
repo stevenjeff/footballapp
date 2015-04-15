@@ -42,7 +42,7 @@ public interface TeamService {
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid",  one=@One(select = "getPlayer")),
 			@Result(property = "requestList", javaType=List.class, column="team_id", many=@Many(select="getRequests")),
-			@Result(property = "memberList", javaType=List.class, column="team_id", many=@Many(select="getTeamRelationPlayer")),
+			@Result(property = "teamIsneedRight", column = "team_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
 	public Team selectWithRequestById(int id) throws Exception;
@@ -54,7 +54,7 @@ public interface TeamService {
 			@Result(property = "requestTime", column = "request_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "requestMsg", column = "request_msg", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "requestType", column = "request_type", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
-	@Select("SELECT * FROM REQUEST WHERE request_team_id=#{teamId} and request_player_id not in(select player_id from team_player_relation where team_id=#{teamId})")
+	@Select("SELECT * FROM REQUEST WHERE request_team_id=#{teamId} ")
 	public List<Request> getRequests(@Param("teamId")int teamId) throws Exception;
 
 	@Results(value = {
@@ -107,6 +107,6 @@ public interface TeamService {
 			@Result(id = true, property = "playerId", column = "player_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "playerName", column = "player_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "birthday", column = "birthday", javaType = Date.class, jdbcType = JdbcType.DATE)})
-	@Select("SELECT P.* FROM PLAYER P,TEAM_PLAYER_RELATION R WHERE P.PLAYER_ID=R.PLAYER_ID AND TEAM_ID = #{teamId}")
+	@Select("SELECT P.* FROM PLAYER P,TEAM_PLAYER_RELATION R WHERE P.PLAYER_ID=R.PLAYER_ID AND R.TEAM_ID = #{teamId}")
 	public List<Player> getTeamRelationPlayer(@Param("teamId") int teamId) throws Exception;
 }

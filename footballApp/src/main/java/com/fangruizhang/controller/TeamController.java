@@ -24,12 +24,15 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Team;
 import com.fangruizhang.service.ActivityService;
+import com.fangruizhang.service.RequestService;
 import com.fangruizhang.service.TeamService;
 import com.fangruizhang.service.impl.ActivityServiceImpl;
+import com.fangruizhang.service.impl.RequestServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
 import com.fangruizhang.util.EnumNames;
 import com.fangruizhang.util.ExceptionUtil;
 import com.fangruizhang.util.PageUtil;
+import com.fangruizhang.util.EnumNames.RequestStatusEnum;
 
 /**
  * @ClassName: TeamController
@@ -46,6 +49,7 @@ public class TeamController extends CommonController {
 	public ModelAndView createTeam(
 			@RequestParam(value = "teamName", required = false) String teamName,
 			@RequestParam(value = "createTime", required = false) String createTime,
+			@RequestParam(value = "isneedright", required = false) Integer isneedright,
 			@RequestParam(value = "memebercnt", required = false) int memebercnt,
 			Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
@@ -54,6 +58,8 @@ public class TeamController extends CommonController {
 					"yyyy-MM-dd");
 			Team team = new Team();
 			team.setTeamName(teamName);
+			team.setTeamIsneedRight(isneedright == null ? 0
+					: isneedright);
 			team.setCreatetime(dateformat.parse(createTime));
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
@@ -249,6 +255,8 @@ public class TeamController extends CommonController {
 		@RequestParam(value = "teamId", required = true) Integer teamId,
 		@RequestParam(value = "teamName", required = true) String teamName,
 		@RequestParam(value = "teamTime", required = true) String teamTime,
+		@RequestParam(value = "isneedright", required = false) Integer isneedright,
+		@RequestParam(value = "playerSel", required = false) String[] playerSel,
 		@RequestParam(value = "memebercnt", required = true) int memebercnt,
 		Model model, HttpSession session) {
 		TeamService service = new TeamServiceImpl();
@@ -257,10 +265,21 @@ public class TeamController extends CommonController {
 					"yyyy-MM-dd HH:mm");
 			Team team = new Team();
 			team.setTeamName(teamName);
+			team.setTeamIsneedRight(isneedright == null ? 0
+					: isneedright);
 			team.setCreatetime(dateformat.parse(teamTime));
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
 			team.setTeamId(teamId);
+			RequestService requestService = new RequestServiceImpl();
+			requestService.updateRequestStatusByTeamIdAndType(teamId, EnumNames.RequestTypeEnum.PlayerTeamRequest.getCode(), EnumNames.RequestStatusEnum.ApplyStatus.getCode());
+			if(playerSel!=null&&playerSel.length!=0){
+				String[] strs = null;
+				for(String selVal:playerSel){
+					strs=selVal.split(":");
+					requestService.updateRequestStatus(Integer.parseInt(strs[2]), RequestStatusEnum.ApproveStatus.getCode());
+				}
+			}
 			service.updateValue(team);
 		} catch (Exception e) {
 			e.printStackTrace();

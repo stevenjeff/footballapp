@@ -33,6 +33,9 @@ public interface RequestService {
 	@Update("update request set request_status=#{requestStatus} where request_activity_id = #{activityId} and request_type=#{requestType}")
 	public boolean updateRequestStatusByActivityIdAndType(@Param("activityId") int activityId,@Param("requestType") int requestType,@Param("requestStatus") int requestStatus) throws Exception;
 	
+	@Update("update request set request_status=#{requestStatus} where request_team_id = #{teamId} and request_type=#{requestType}")
+	public boolean updateRequestStatusByTeamIdAndType(@Param("teamId") int teamId,@Param("requestType") int requestType,@Param("requestStatus") int requestStatus) throws Exception;
+	
 	@Results(value = {
 			@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "requestPlayer", column = "request_player_id", one=@One(select = "getPlayer")),

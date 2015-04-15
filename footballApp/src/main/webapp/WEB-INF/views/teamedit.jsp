@@ -47,6 +47,10 @@
   <input type="text" class="form-control" id="teamTime" name="teamTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
 </div>
 <div class="form-group">
+  <label for="isneedright">队员是否需要审批      </label>
+  <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
+</div>
+<div class="form-group">
  <label for="playerSel">待审批成员:</label>
 <div class="btn-group">
 		<select id="playerSel" name="playerSel" multiple="multiple">
@@ -166,24 +170,35 @@ $(document).ready(function() {
     	$("#memebercnt").val(json.memebercnt);
     	var viewModel="${param.viewModel}";
     	if(viewModel=="view"){
+    		$("#isneedright").attr("disabled","disabled");
+    		$("#playerSel-select").attr("disabled","disabled");
+    		$("#playerSel").multiselect('disable');
     		$("#teamName").attr("disabled","disabled");
     		$("#createtime").attr("disabled","disabled");
     		$("#memebercnt").attr("disabled","disabled");
     		$("#submitBtn").hide();
     	}
+    	$("#isneedright").val(json.activityIsneedRight);
+    	if(json.activityIsneedRight==1){
+    		$("#isneedright").val(1);
+    		$("#isneedright").attr("checked",true);
+    	}else{
+    		$("#isneedright").val(0);
+    		$("#isneedright").attr("checked",false);
+    	}
     	createPlayerMultiSel(json.requestList);
     }
 
-    function createPlayerMultiSel(jsonObj){
+    function createPlayerMultiSel(requestList){
     	var viewModel="${param.viewModel}";
     	var isChecked=$("#isneedright").attr("checked");
     	var multiSelJsonStrBegin = '[';
     	var multiSelJsonStrmiddle = '';
     	var multiSelJsonStrEnd = ']';
     	var newJsonObjStr;
-    	if(jsonObj!=""&&jsonObj!=null){
-    		for(var obj in jsonObj){
-    			multiSelJsonStrmiddle += '{ "label": "'+jsonObj[obj].requestPlayer.playerName+'", "value": "'+jsonObj[obj].requestPlayer.playerName+":"+jsonObj[obj].requestPlayer.playerId+':'+jsonObj[obj].requestId+'","requestStatus":"'+jsonObj[obj].requestStatus+'" },';
+    	if(requestList!=""&&requestList!=null){
+    		for(var obj in requestList){
+    			multiSelJsonStrmiddle += '{ "label": "'+requestList[obj].requestPlayer.playerName+'", "value": "'+requestList[obj].requestPlayer.playerName+":"+requestList[obj].requestPlayer.playerId+':'+requestList[obj].requestId+'","requestStatus":"'+requestList[obj].requestStatus+'" },';
     		}
     		if(multiSelJsonStrmiddle.length>0){
     			multiSelJsonStrmiddle=multiSelJsonStrmiddle.substring(0,multiSelJsonStrmiddle.length-1);
