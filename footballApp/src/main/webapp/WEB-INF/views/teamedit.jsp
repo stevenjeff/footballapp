@@ -48,7 +48,7 @@
 </div>
 <div class="form-group">
   <label for="isneedright">队员是否需要审批      </label>
-  <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
+  <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （球员申请是否需要您的审批）
 </div>
 <div class="form-group">
  <label for="playerSel">待审批成员:</label>
@@ -80,6 +80,20 @@
     <script src="assets/js/jquery.blockUI.min.js"></script>
     <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
+function changeRightVal(){
+	var viewModel="${param.viewModel}";
+	if(viewModel=="view")
+		return;
+	var isneedRight = $("#isneedright").is(':checked');
+	if(isneedRight){
+		$("#isneedright").val(1);
+	}else{
+		$("#isneedright").val(0);
+	}
+}
+function getPlayerDetail(playerId){
+	window.open ('viewPlayer.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+}
 jQuery(function () {
     // 时间设置
     jQuery('#teamTime').datepicker({
@@ -178,8 +192,8 @@ $(document).ready(function() {
     		$("#memebercnt").attr("disabled","disabled");
     		$("#submitBtn").hide();
     	}
-    	$("#isneedright").val(json.activityIsneedRight);
-    	if(json.activityIsneedRight==1){
+    	$("#isneedright").val(json.teamIsneedRight);
+    	if(json.teamIsneedRight==1){
     		$("#isneedright").val(1);
     		$("#isneedright").attr("checked",true);
     	}else{

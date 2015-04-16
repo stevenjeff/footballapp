@@ -262,7 +262,7 @@ public class TeamController extends CommonController {
 		TeamService service = new TeamServiceImpl();
 		try {
 			SimpleDateFormat dateformat = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm");
+					"yyyy-MM-dd");
 			Team team = new Team();
 			team.setTeamName(teamName);
 			team.setTeamIsneedRight(isneedright == null ? 0

@@ -45,6 +45,10 @@
   <input type="text" class="form-control" id="createTime" name="createTime" placeholder="球队创建时间" maxlength="20" readOnly="readonly">
 </div>
 <div class="form-group">
+  <label for="isneedright">队员是否需要审批      </label>
+  <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （球员申请是否需要您的审批）
+</div>
+<div class="form-group">
 <div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
 <button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
 </div>
@@ -62,6 +66,17 @@
     <script src="assets/js/jquery.ui.datepicker-zh-CN.js.js" type="text/javascript" charset="gb2312"></script>
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
 <script type="text/javascript">
+function changeRightVal(){
+	var viewModel="${param.viewModel}";
+	if(viewModel=="view")
+		return;
+	var isneedRight = $("#isneedright").is(':checked');
+	if(isneedRight){
+		$("#isneedright").val(1);
+	}else{
+		$("#isneedright").val(0);
+	}
+}
 jQuery(function () {
     // 时间设置
     jQuery('#createTime').datepicker({
