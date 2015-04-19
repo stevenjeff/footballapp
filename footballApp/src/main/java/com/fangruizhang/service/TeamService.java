@@ -29,23 +29,25 @@ public interface TeamService {
 
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamStatus", column = "team_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "teamIsneedRight", column = "team_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "creator", column = "creatorid",  one=@One(select = "getPlayer")),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
+	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status!=2")
 	public Team selectById(int id) throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamStatus", column = "team_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid",  one=@One(select = "getPlayer")),
 			@Result(property = "requestList", javaType=List.class, column="team_id", many=@Many(select="getRequests")),
 			@Result(property = "teamIsneedRight", column = "team_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status=1")
+	@Select("SELECT * FROM TEAM WHERE team_id = #{id} and team_status!=2")
 	public Team selectWithRequestById(int id) throws Exception;
 	
 	@Results(value = {
@@ -60,21 +62,24 @@ public interface TeamService {
 
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamStatus", column = "team_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
-	@Select("SELECT team_id,team_name FROM TEAM where creatorid=#{playerId} and team_status=1")
+	@Select("SELECT team_id,team_name FROM TEAM where creatorid=#{playerId} and team_status!=2")
 	public List<Team> selectAll(@Param("playerId") int playerId) throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamStatus", column = "team_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid", one=@One(select = "getPlayer")),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM WHERE creatorid=#{playerId} and team_status=1 limit #{beginNum},#{endNum}")
+	@Select("SELECT * FROM TEAM WHERE creatorid=#{playerId} and team_status!=2 limit #{beginNum},#{endNum}")
 	public List<Team> selectPageByPlayerId(@Param("playerId") int playerId,@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "teamStatus", column = "team_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid", one=@One(select = "getPlayer")),

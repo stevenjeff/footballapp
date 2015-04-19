@@ -22,6 +22,29 @@ public class EnumNames {
 		}
 	};
 	
+	public static HashMap<String, String> requestStatuss = new HashMap<String, String>() {
+		private static final long serialVersionUID = 8547547414022326863L;
+
+		{
+			put(ActivityStatusEnum.ActivityEnabled.getCode()+"", "正常进行");
+			put(ActivityStatusEnum.ActivityDeleted.getCode()+"", "删除");
+			put(ActivityStatusEnum.ActivityOpened.getCode()+"", "开放申请");
+			put(ActivityStatusEnum.ActivityClosed.getCode()+"", "取消关闭");
+		}
+	};
+	
+	public static HashMap<String, String> teamStatuss = new HashMap<String, String>() {
+		
+		private static final long serialVersionUID = 1653894188148720950L;
+
+		{
+			put(TeamStatusEnum.TeamEnabled.getCode()+"", "正常进行");
+			put(TeamStatusEnum.TeamDeleted.getCode()+"", "删除");
+			put(TeamStatusEnum.TeamOpened.getCode()+"", "开放申请");
+			put(TeamStatusEnum.TeamClosed.getCode()+"", "取消关闭");
+		}
+	};
+	
 	public static HashMap<String, String> requestStatus = new HashMap<String, String>() {
 		private static final long serialVersionUID = 8547547414022326863L;
 
@@ -70,11 +93,24 @@ public class EnumNames {
 	}
 
 	public static enum ActivityStatusEnum {
-		ActivityEnabled(1),ActivityDeleted(2),ActivityOpend(3),ActivityClosed(4);
+		ActivityEnabled(1),ActivityDeleted(2),ActivityOpened(3),ActivityClosed(4);
 
 		private int code;
 
 		ActivityStatusEnum(int i){
+			this.code=i;
+		}
+		public int getCode() {
+			return code;
+		}
+	}
+	
+	public static enum TeamStatusEnum {
+		TeamEnabled(1),TeamDeleted(2),TeamOpened(3),TeamClosed(4);
+
+		private int code;
+
+		TeamStatusEnum(int i){
 			this.code=i;
 		}
 		public int getCode() {

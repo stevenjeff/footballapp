@@ -42,14 +42,15 @@ public interface ActivityService {
 	@Select("SELECT * FROM Activity WHERE activity_id = #{id}")
 	public Activity selectById(int id) throws Exception;
 	
-	@Select("SELECT count(activity_id) FROM Activity WHERE activity_status=1")
+	@Select("SELECT count(activity_id) FROM Activity WHERE activity_status!=2")
 	public int selectAllPageCount() throws Exception;
 
-	@Select("SELECT * FROM Activity where activity_status=1 order by activity_time desc limit #{beginNum},#{endNum}")
+	@Select("SELECT * FROM Activity where activity_status!=2 order by activity_time desc limit #{beginNum},#{endNum}")
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "activityStatus", column = "activity_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.TIMESTAMP),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
@@ -61,8 +62,9 @@ public interface ActivityService {
 
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
+			@Result(property = "activityStatus", column = "activity_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.TIMESTAMP),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
@@ -70,7 +72,7 @@ public interface ActivityService {
 			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status=1 order by activity_time desc limit #{beginNum},#{endNum}")
+	@Select("SELECT * FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status!=2 order by activity_time desc limit #{beginNum},#{endNum}")
 	public List<Activity> selectPageByPlayerId(@Param("activityPlayerId") int activityPlayerId,@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 
 	@Results(value = {
@@ -95,13 +97,13 @@ public interface ActivityService {
 	@Select("SELECT * FROM TEAM WHERE team_id = #{activityTeamId} and team_status=1")
 	public Team getTeam(@Param("activityTeamId") int activityTeamId) throws Exception;
 	
-	@Select("SELECT count(activity_id) FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status=1")
+	@Select("SELECT count(activity_id) FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status!=2")
 	public int selectPageCountByPlayerId(int activityPlayerId) throws Exception;
 	
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
-			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.DATE),
+			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.TIMESTAMP),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),

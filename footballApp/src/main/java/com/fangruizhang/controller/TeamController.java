@@ -85,7 +85,8 @@ public class TeamController extends CommonController {
 			dislayCols.append("{'球队名称': 'teamName',");
 			dislayCols.append("'球队创建时间': 'createtime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
-			dislayCols.append("'创建人': 'creator.playerName'}");
+			dislayCols.append("'创建人': 'creator.playerName',");
+			dislayCols.append("'状态': 'teamStatus'}");
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols, "searchTeamByLoginPlayerJson.action", "我的球队", "teamId", "deleteTeamById.action", "teamDetail.action","","");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,7 +107,8 @@ public class TeamController extends CommonController {
 			dislayCols.append("{'球队名称': 'teamName',");
 			dislayCols.append("'球队创建时间': 'createtime',");
 			dislayCols.append("'球队人数': 'memebercnt',");
-			dislayCols.append("'创建人': 'creator.playerName'}");
+			dislayCols.append("'创建人': 'creator.playerName',");
+			dislayCols.append("'状态': 'teamStatus'}");
 			String applyUrl = "";
 			if(this.getLoginPlayerNoException(session)!=null){
 				applyUrl = "teamApply.action";
@@ -191,6 +193,7 @@ public class TeamController extends CommonController {
 					: 0;
 			list = service.selectPageByPlayerId(getLoginPlayer(session)
 					.getPlayerId(), beginNum, pageSize);
+			PageUtil.setColValue(list, "teamStatus", EnumNames.teamStatuss);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -212,6 +215,7 @@ public class TeamController extends CommonController {
 			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
 					: 0;
 			list = service.selectPageAll(beginNum, pageSize);
+			PageUtil.setColValue(list, "teamStatus", EnumNames.teamStatuss);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -242,6 +246,7 @@ public class TeamController extends CommonController {
 		try {
 			list = service.selectAll(getLoginPlayer(session)
 					.getPlayerId());
+			PageUtil.setColValue(list, "teamStatus", EnumNames.teamStatuss);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

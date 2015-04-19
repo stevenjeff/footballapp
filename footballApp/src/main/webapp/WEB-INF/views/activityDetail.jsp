@@ -159,7 +159,7 @@ $(document).ready(function() {
     			 var value=$('#playerSel').val()+"";
     			 var playerId=value.split(":")[1];
         		 var playerName=value.split(":")[0];
-        		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
+        		 var html="<a href='javascript:getPlayerDetail("+playerId+")' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
     			 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
     		 }
     	}
@@ -178,7 +178,7 @@ $(document).ready(function() {
     			 var value=$('#teamSel').val()+"";
     			 var playerId=value.split(":")[1];
         		 var playerName=value.split(":")[0];
-        		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+playerId+")'>"+playerName+"</a>";
+        		 var html="<a href='javascript:getTeamDetail("+playerId+")' onclick='getTeamDetail("+playerId+")'>"+playerName+"</a>";
     			 $('#teamSel-text').html('客场球队: ' + html).addClass('alert alert-info');
     		 }
     	}
@@ -190,11 +190,11 @@ $(document).ready(function() {
 });
 
 function getTeamDetail(playerId){
-	window.open ('teamDetail.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+	window.open ('teamDetail.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no'); 
 }
 
 function getPlayerDetail(playerId){
-	window.open ('viewPlayer.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no') 
+	window.open ('viewPlayer.action?id='+playerId,'newwindow','height=500,width=400,toolbar=no,menubar=no,scrollbars=yes, resizable=yes,location=no, status=no'); 
 }
 
 var hasTeam;
@@ -352,7 +352,7 @@ function setPlayerSelectText(){
 		 var value=$('#playerSel').val()+"";
 		 var playerId=value.split(":")[1];
 		 var playerName=value.split(":")[0];
-		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
+		 var html="<a href='javascript:getPlayerDetail("+playerId+")' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
 		 $('#playerSel-text').html('出场人员: ' + html).addClass('alert alert-info');
 	 }
 }
@@ -363,7 +363,7 @@ function setTeamSelectText(){
 		 var value=$('#teamSel').val()+"";
 		 var teamId=value.split(":")[1];
 		 var teamName=value.split(":")[0];
-		 var html="<a href='javascript:void(0)' onclick='getTeamDetail("+teamId+")'>"+teamName+"</a>";
+		 var html="<a href='javascript:getTeamDetail("+teamId+")' onclick='getTeamDetail("+teamId+")'>"+teamName+"</a>";
 		 $('#teamSel-text').html('客场球队: ' + html).addClass('alert alert-info');
 	 }
 }

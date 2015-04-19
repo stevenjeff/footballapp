@@ -140,13 +140,13 @@ $(document).ready(function() {
     	enableFiltering: true,
     	onChange: function(element, checked) {
     		 if($('#playerSel').val()==null){
-    			 $('#playerSel-text').text('成员: ').addClass('alert alert-info');
+    			 $('#playerSel-text').text('球队成员: ').addClass('alert alert-info');
     		 }else{
     			 var value=$('#playerSel').val()+"";
     			 var playerId=value.split(":")[1];
         		 var playerName=value.split(":")[0];
         		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
-    			 $('#playerSel-text').html('成员: ' + html).addClass('alert alert-info');
+    			 $('#playerSel-text').html('球队成员: ' + html).addClass('alert alert-info');
     		 }
     	}
     	});
@@ -231,13 +231,13 @@ $(document).ready(function() {
 
     function setPlayerSelectText(){
     	if($('#playerSel').val()==null){
-    		 $('#playerSel-text').text('成员: ').addClass('alert alert-info');
+    		 $('#playerSel-text').text('球队成员: ').addClass('alert alert-info');
     	 }else{
     		 var value=$('#playerSel').val()+"";
     		 var playerId=value.split(":")[1];
     		 var playerName=value.split(":")[0];
     		 var html="<a href='javascript:void(0)' onclick='getPlayerDetail("+playerId+")'>"+playerName+"</a>";
-    		 $('#playerSel-text').html('成员: ' + html).addClass('alert alert-info');
+    		 $('#playerSel-text').html('球队成员: ' + html).addClass('alert alert-info');
     	 }
     }
     
