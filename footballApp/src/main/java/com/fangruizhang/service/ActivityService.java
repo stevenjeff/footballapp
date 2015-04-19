@@ -20,17 +20,18 @@ import com.fangruizhang.entity.Team;
 
 public interface ActivityService {
 
-	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeam.teamId},#{activityOpponentTeamId},#{activityIsneedRight})")
+	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right,activity_status) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeam.teamId},#{activityOpponentTeamId},#{activityIsneedRight},#{activityStatus})")
 	public boolean insertValue(Activity activity) throws Exception;
 	@Update("update activity set activity_status=2 where activity_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
 	
-	@Update("update activity set activity_area=#{activityArea},activity_time=#{activityTime},activity_players_cnt=#{activityPlayersCnt},activity_expense=#{activityExpense},activity_type=#{activityType},activity_team_id=#{activityTeam.teamId},activity_isneed_right=#{activityIsneedRight} where activity_id = #{activityId}")
+	@Update("update activity set activity_area=#{activityArea},activity_time=#{activityTime},activity_players_cnt=#{activityPlayersCnt},activity_expense=#{activityExpense},activity_type=#{activityType},activity_team_id=#{activityTeam.teamId},activity_isneed_right=#{activityIsneedRight},activity_status=#{activityStatus} where activity_id = #{activityId}")
 	public boolean updateValue(Activity activity) throws Exception;
 
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "activityStatus", column = "activity_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
@@ -48,7 +49,7 @@ public interface ActivityService {
 	@Select("SELECT * FROM Activity where activity_status!=2 order by activity_time desc limit #{beginNum},#{endNum}")
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
-			@Result(property = "activityStatus", column = "activity_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
+			@Result(property = "activityStatus", column = "activity_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.TIMESTAMP),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
@@ -62,7 +63,7 @@ public interface ActivityService {
 
 	@Results(value = {
 			@Result(id = true, property = "activityId", column = "activity_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
-			@Result(property = "activityStatus", column = "activity_status", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
+			@Result(property = "activityStatus", column = "activity_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityArea", column = "activity_area", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityTime", column = "activity_time", javaType = Date.class, jdbcType = JdbcType.TIMESTAMP),
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
@@ -107,6 +108,7 @@ public interface ActivityService {
 			@Result(property = "activityPlayersCnt", column = "activity_players_cnt", javaType = Integer.class, jdbcType = JdbcType.SMALLINT),
 			@Result(property = "activityExpense", column = "activity_expense", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "activityType", column = "activity_type", javaType = String.class, jdbcType = JdbcType.VARCHAR),
+			@Result(property = "activityStatus", column = "activity_status", javaType = String.class, jdbcType = JdbcType.VARCHAR),
 			@Result(property = "activityPlayer", column = "activity_player_id", one=@One(select = "getPlayer")),
 			@Result(property = "activityTeam", column = "activity_team_id", one=@One(select = "getTeam")),
 			@Result(property = "activityOpponentTeamId", column = "activity_opponent_team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),

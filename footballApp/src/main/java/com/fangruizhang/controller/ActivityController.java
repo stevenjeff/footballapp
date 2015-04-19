@@ -164,11 +164,10 @@ public class ActivityController extends CommonController {
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'比赛地点': 'activityArea',");
-			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");
-			dislayCols.append("'比赛类型': 'activityType'，");
+			dislayCols.append("'比赛类型': 'activityType',");
 			dislayCols.append("'状态': 'activityStatus'}");
 			PageUtil.initPageMode(model, recordCount, pageCount, dislayCols,
 					"searchActivityByLoginPlayerJson.action", "我的比赛计划",
@@ -192,7 +191,6 @@ public class ActivityController extends CommonController {
 			Integer pageCount = (recordCount + pageSize - 1) / pageSize;
 			StringBuffer dislayCols = new StringBuffer();
 			dislayCols.append("{'比赛地点': 'activityArea',");
-			dislayCols.append("'比赛队伍': 'activityTeam.teamName',");
 			dislayCols.append("'比赛时间': 'activityTime',");
 			dislayCols.append("'比赛规模（几人制）': 'activityPlayersCnt',");
 			dislayCols.append("'创建人': 'activityPlayer.playerName',");

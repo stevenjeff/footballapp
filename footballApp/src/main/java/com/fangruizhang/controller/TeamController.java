@@ -193,7 +193,7 @@ public class TeamController extends CommonController {
 					: 0;
 			list = service.selectPageByPlayerId(getLoginPlayer(session)
 					.getPlayerId(), beginNum, pageSize);
-			PageUtil.setColValue(list, "teamStatus", EnumNames.teamStatuss);
+			PageUtil.setColValue(list, "TeamStatus", EnumNames.teamStatuss);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
@@ -215,7 +215,7 @@ public class TeamController extends CommonController {
 			beginNum = (pageNum - 1) * pageSize >= 0 ? (pageNum - 1) * pageSize
 					: 0;
 			list = service.selectPageAll(beginNum, pageSize);
-			PageUtil.setColValue(list, "teamStatus", EnumNames.teamStatuss);
+			PageUtil.setColValue(list, "TeamStatus", EnumNames.teamStatuss);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
