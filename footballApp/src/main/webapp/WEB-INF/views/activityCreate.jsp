@@ -71,6 +71,13 @@
   <input type="checkbox" name="isneedright" value="0" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
 <div class="form-group">
+  <label for="activityStatus">状态</label>
+  <select id="activityStatus" name="activityStatus" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  	<option value="1">正常进行</option>
+  	<option value="3">开放申请</option>
+  </select>
+</div>
+<div class="form-group">
 <div class="col-md-2 col-sm-5 col-xs-6 col-sm-offset-4">
 <button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
 </div>

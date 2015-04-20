@@ -58,21 +58,22 @@
 </div>
 <div class="form-group">
   <label for="activityType">比赛类型</label>
-  <select id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  <select data-bv-callback-callback="activityTypeValidate" data-bv-callback="true" id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   	<option value="1">球队约战</option>
   	<option value="2">散客约战</option>
+  	<option value="3">球队散客混合</option>
   </select>
 </div>
 <div class="form-group">
   <label for="isneedright">是否需要授权      </label>
   <input type="checkbox" id="isneedright" name="isneedright" onclick="changeRightVal()"> （比赛约战申请是否需要您的审批）
 </div>
-<div class="form-group" id="teamDiv">
+<div class="form-group" id="homeTeamDiv">
   <label for="activityTeam">主队比赛球队</label>
   <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   </select>
 </div>
-<div class="form-group">
+<div class="form-group" id="awayTeamDiv">
 <label for="teamSel">客场球队      </label>
 <div class="btn-group">
 		<select id="teamSel" name="teamSel" multiple="multiple">
@@ -81,7 +82,7 @@
 </div>
 <div id="teamSel-text" style="margin-top:6px;"></div>
 </div>
-<div class="form-group">
+<div class="form-group" id="playerDiv">
 <label for="teamSel">出场人员      </label>
 <div class="btn-group">
 		<select id="playerSel" name="playerSel" multiple="multiple">
@@ -89,6 +90,14 @@
 		<button id="playerSel-select" class="btn btn-primary">全部选择</button>
 </div>
 <div id="playerSel-text" style="margin-top:6px;"></div>
+</div>
+<div class="form-group">
+  <label for="activityStatus">状态</label>
+  <select id="activityStatus" name="activityStatus" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  	<option value="1">正常进行</option>
+  	<option value="3">开放申请</option>
+  	<option value="4">取消关闭</option>
+  </select>
 </div>
 <div class="form-group">
 <div class="col-md-1 col-sm-1 col-xs-1 col-sm-offset-4">
@@ -110,6 +119,23 @@
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
     <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
+function activityTypeValidate(fieldValue, validator, $field) {
+	// fieldValue is the value of field
+	// validator is instance of BootstrapValidator
+	// $field is the field element
+	if (...) {
+        return {
+            valid: true,    // or false
+            message: 'The error message'
+        }
+    }
+
+    return {
+        valid: false,       // or true
+        message: 'Other error message'
+    }
+	return true;
+	}
 jQuery(function () {
     // 时间设置
     jQuery('#activityTime').datetimepicker({
@@ -187,6 +213,22 @@ $(document).ready(function() {
     	e.preventDefault();
     	multiselect_toggle($("#teamSel"), $(this));
     	});
+    
+    $('#activityType').change(function(e) {
+    	if($('#activityType').val()==2){
+    		$("#homeTeamDiv").hide();
+    		$("#awayTeamDiv").hide();
+    		$("#playerDiv").show();
+    	}else if($('#activityType').val()==1){
+    		$("#homeTeamDiv").show();
+    		$("#awayTeamDiv").show();
+    		$("#playerDiv").hide();
+    	}else{
+    		$("#homeTeamDiv").show();
+    		$("#awayTeamDiv").show();
+    		$("#playerDiv").show();
+    	}
+    	});
 });
 
 function getTeamDetail(playerId){
@@ -247,8 +289,18 @@ function setDetail(){
     });
 }
 function initPage(json){
-	if(json.activityType=="2"){
-		$("#teamDiv").hide();
+	if($('#activityType').val()==2){
+		$("#homeTeamDiv").hide();
+		$("#awayTeamDiv").hide();
+		$("#playerDiv").show();
+	}else if($('#activityType').val()==1){
+		$("#homeTeamDiv").show();
+		$("#awayTeamDiv").show();
+		$("#playerDiv").hide();
+	}else{
+		$("#homeTeamDiv").show();
+		$("#awayTeamDiv").show();
+		$("#playerDiv").show();
 	}
 	var activityTeamSelect = document.getElementById("activityTeam");
 	$("#activityId").val(json.activityId);

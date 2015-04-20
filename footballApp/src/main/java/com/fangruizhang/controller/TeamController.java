@@ -49,6 +49,7 @@ public class TeamController extends CommonController {
 	public ModelAndView createTeam(
 			@RequestParam(value = "teamName", required = false) String teamName,
 			@RequestParam(value = "createTime", required = false) String createTime,
+			@RequestParam(value = "teamStatus", required = false) String teamStatus,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
 			@RequestParam(value = "memebercnt", required = false) int memebercnt,
 			Model model, HttpSession session) {
@@ -63,6 +64,7 @@ public class TeamController extends CommonController {
 			team.setCreatetime(dateformat.parse(createTime));
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
+			team.setTeamStatus(teamStatus);
 			service.insertValue(team);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,28 +122,6 @@ public class TeamController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		return new ModelAndView("forward:/WEB-INF/views/teamList.jsp");
-	}
-	
-	@ResponseBody
-	@RequestMapping(value = "/applyTeamValidate.action", method = RequestMethod.GET)
-	public int applyTeamValidate(
-			@RequestParam(value = "teamId", required = false) Integer teamId,
-			Model model, HttpSession session) {
-		TeamService teamService = new TeamServiceImpl();
-		try {
-			Team team = teamService.selectById(teamId);
-			if(team==null){
-				throw new Exception("team record not found");
-			}
-			if(team.getCreator().getPlayerId()==getLoginPlayer(session).getPlayerId()){
-				return 1;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("globalerror",
-					"错误信息：" + ExceptionUtil.handlerException(e));
-		}
-		return 0;
 	}
 	
 	@RequestMapping(value = "/teamDetail.action", method = RequestMethod.GET)
@@ -260,6 +240,7 @@ public class TeamController extends CommonController {
 		@RequestParam(value = "teamId", required = true) Integer teamId,
 		@RequestParam(value = "teamName", required = true) String teamName,
 		@RequestParam(value = "teamTime", required = true) String teamTime,
+		@RequestParam(value = "teamStatus", required = false) String teamStatus,
 		@RequestParam(value = "isneedright", required = false) Integer isneedright,
 		@RequestParam(value = "playerSel", required = false) String[] playerSel,
 		@RequestParam(value = "memebercnt", required = true) int memebercnt,
@@ -275,6 +256,7 @@ public class TeamController extends CommonController {
 			team.setCreatetime(dateformat.parse(teamTime));
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
+			team.setTeamStatus(teamStatus);
 			team.setTeamId(teamId);
 			RequestService requestService = new RequestServiceImpl();
 			requestService.updateRequestStatusByTeamIdAndType(teamId, EnumNames.RequestTypeEnum.PlayerTeamRequest.getCode(), EnumNames.RequestStatusEnum.ApplyStatus.getCode());

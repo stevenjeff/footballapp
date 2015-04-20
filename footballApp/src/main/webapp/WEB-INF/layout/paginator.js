@@ -131,10 +131,12 @@ var pageIndex = 0;
 			            HiddenDiv();
 			        },
 					success : function(obj) {
-						if(obj=="1"){
+						if(obj==1){
 							alert("该比赛为球队约战，请先创建球队");
-						}else if(obj=="2"){
+						}else if(obj==2){
 							alert("当前比赛为自己创建，不可申请");
+						}else if(obj==3){
+							alert("非开放申请状态");
 						}else{
 							window.location.href="applyActivity.action?activityId="+idkey;
 						}
@@ -161,8 +163,8 @@ var pageIndex = 0;
 			            HiddenDiv();
 			        },
 					success : function(obj) {
-						if(obj=="1"){
-							alert("当前球队为自己创建，不可申请");
+						if(obj==3){
+							alert("非开放申请状态");
 						}else{
 							window.location.href="applyTeam.action?teamId="+idkey;
 						}

@@ -9,6 +9,7 @@ public class EnumNames {
 		{
 			put(ActivityTypeEnum.TeamActivity.getCode()+"", "球队约战");
 			put(ActivityTypeEnum.PlayerActivity.getCode()+"", "散客约战");
+			put(ActivityTypeEnum.TeamPlayerActivity.getCode()+"", "球队散客混合");
 		}
 	};
 	
@@ -55,7 +56,7 @@ public class EnumNames {
 	};
 	
 	public static enum ActivityTypeEnum {
-		TeamActivity(1), PlayerActivity(2);
+		TeamActivity(1), PlayerActivity(2), TeamPlayerActivity(3);
 
 		private int code;
 		ActivityTypeEnum(int i){

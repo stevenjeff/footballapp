@@ -51,6 +51,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "activityArea", required = false) String activityArea,
 			@RequestParam(value = "activityTime", required = false) String activityTime,
 			@RequestParam(value = "activityType", required = false) String activityType,
+			@RequestParam(value = "activityStatus", required = false) String activityStatus,
 			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
 			@RequestParam(value = "activityPlayersCnt", required = false) Integer activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
@@ -68,6 +69,7 @@ public class ActivityController extends CommonController {
 					: isneedright);
 			activity.setActivityPlayersCnt(activityPlayersCnt);
 			activity.setActivityType(activityType);
+			activity.setActivityStatus(activityStatus);
 			activity.setActivityTime(dateformat.parse(activityTime));
 			activity.setActivityPlayer(this.getLoginPlayer(session));
 			Team team = new Team();
@@ -94,6 +96,7 @@ public class ActivityController extends CommonController {
 			@RequestParam(value = "activityArea", required = false) String activityArea,
 			@RequestParam(value = "activityTime", required = false) String activityTime,
 			@RequestParam(value = "activityType", required = false) String activityType,
+			@RequestParam(value = "activityStatus", required = false) String activityStatus,
 			@RequestParam(value = "activityExpense", required = false) Integer activityExpense,
 			@RequestParam(value = "activityPlayersCnt", required = false) Integer activityPlayersCnt,
 			@RequestParam(value = "isneedright", required = false) Integer isneedright,
@@ -114,6 +117,7 @@ public class ActivityController extends CommonController {
 					: isneedright);
 			activity.setActivityPlayersCnt(activityPlayersCnt);
 			activity.setActivityType(activityType);
+			activity.setActivityStatus(activityStatus);
 			activity.setActivityTime(dateformat.parse(activityTime));
 			activity.setActivityPlayer(this.getLoginPlayer(session));
 			Team team = new Team();

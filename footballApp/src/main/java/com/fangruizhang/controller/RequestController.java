@@ -121,7 +121,7 @@ public class RequestController extends CommonController {
 		TeamService teamService=new TeamServiceImpl();
 		try {
 			Team team = teamService.selectById(teamId);
-			if(teamId==null){
+			if(team==null){
 				throw new Exception("team record not found");
 			}
 			model.addAttribute("teamId", teamId);
@@ -182,6 +182,34 @@ public class RequestController extends CommonController {
 				if(list==null||list.size()==0){
 					return 1;
 				}
+			}
+			if(!activity.getActivityStatus().equals("3")){
+				return 3;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("globalerror",
+					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		return 0;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/applyTeamValidate.action", method = RequestMethod.GET)
+	public int applyTeamValidate(
+			@RequestParam(value = "teamId", required = false) Integer teamId,
+			Model model, HttpSession session) {
+		TeamService teamService = new TeamServiceImpl();
+		try {
+			Team team = teamService.selectById(teamId);
+			if(team==null){
+				throw new Exception("team record not found");
+			}
+			if(!team.getTeamStatus().equals("3")){
+				return 3;
+			}
+			if(team.getCreator().getPlayerId()==getLoginPlayer(session).getPlayerId()){
+				return 1;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

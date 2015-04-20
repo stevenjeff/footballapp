@@ -84,7 +84,7 @@ public interface TeamService {
 			@Result(property = "createtime", column = "creattime", javaType = Date.class, jdbcType = JdbcType.DATE),
 			@Result(property = "creator", column = "creatorid", one=@One(select = "getPlayer")),
 			@Result(property = "memebercnt", column = "memebercnt", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
-	@Select("SELECT * FROM TEAM WHERE team_status=1 limit #{beginNum},#{endNum}")
+	@Select("SELECT * FROM TEAM WHERE team_status!=2 limit #{beginNum},#{endNum}")
 	public List<Team> selectPageAll(@Param("beginNum") int beginNum,@Param("endNum") int endNum) throws Exception;
 	
 	@Select("SELECT count(team_id) FROM TEAM WHERE creatorid=#{playerId} and team_status=1")
