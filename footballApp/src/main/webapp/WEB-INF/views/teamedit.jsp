@@ -190,12 +190,14 @@ $(document).ready(function() {
     	$("#teamName").val(json.teamName);
     	$("#createtime").val(json.createtime);
     	$("#memebercnt").val(json.memebercnt);
+    	$("#teamStatus").val(json.teamStatus);
     	var viewModel="${param.viewModel}";
     	if(viewModel=="view"){
     		$("#isneedright").attr("disabled","disabled");
     		$("#playerSel-select").attr("disabled","disabled");
     		$("#playerSel").multiselect('disable');
     		$("#teamName").attr("disabled","disabled");
+    		$("#teamStatus").attr("disabled","disabled");
     		$("#createtime").attr("disabled","disabled");
     		$("#memebercnt").attr("disabled","disabled");
     		$("#submitBtn").hide();

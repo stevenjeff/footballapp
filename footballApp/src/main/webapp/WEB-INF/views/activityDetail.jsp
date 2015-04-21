@@ -30,7 +30,7 @@
     <![endif]-->
 </head>
 <body>
-<form action="activityUpdate.action" class="form-signin" role="form" method="post">
+<form action="activityUpdate.action" class="form-signin" role="form" method="post" id="updateForm">
 <input type="hidden" id="activityId" name="activityId"/> 
 <h2 class="form-signin-heading">球赛详情</h2>
 <font color="red">${globalerror}</font>
@@ -58,7 +58,7 @@
 </div>
 <div class="form-group">
   <label for="activityType">比赛类型</label>
-  <select data-bv-callback-callback="activityTypeValidate" data-bv-callback="true" id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  <select id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   	<option value="1">球队约战</option>
   	<option value="2">散客约战</option>
   	<option value="3">球队散客混合</option>
@@ -70,7 +70,7 @@
 </div>
 <div class="form-group" id="homeTeamDiv">
   <label for="activityTeam">主队比赛球队</label>
-  <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  <select data-bv-callback-callback="activityTypeValidate" data-bv-callback="true" id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   </select>
 </div>
 <div class="form-group" id="awayTeamDiv">
@@ -123,16 +123,13 @@ function activityTypeValidate(fieldValue, validator, $field) {
 	// fieldValue is the value of field
 	// validator is instance of BootstrapValidator
 	// $field is the field element
-	if (...) {
+	var activtyType = $('#activityType').val();
+	var teamVal = $('#activityTeam').val();
+	if (activtyType==1&&teamVal==1) {
         return {
-            valid: true,    // or false
-            message: 'The error message'
+            valid: false,    // or false
+            message: '球队约战类型必须选择主场球队'
         }
-    }
-
-    return {
-        valid: false,       // or true
-        message: 'Other error message'
     }
 	return true;
 	}
@@ -215,6 +212,7 @@ $(document).ready(function() {
     	});
     
     $('#activityType').change(function(e) {
+    	$('#updateForm').bootstrapValidator('updateStatus', 'activityTeam', 'NOT_VALIDATED').bootstrapValidator('validateField', 'activityTeam');
     	if($('#activityType').val()==2){
     		$("#homeTeamDiv").hide();
     		$("#awayTeamDiv").hide();
@@ -309,6 +307,7 @@ function initPage(json){
 	$("#activityTime").val(json.activityTime);
 	$("#activityExpense").val(json.activityExpense);
 	$("#activityType").val(json.activityType);
+	$("#activityStatus").val(json.activityStatus);
 	if(json.activityTeam!=null){
 		$("#activityTeam").val(json.activityTeam.teamId);
 	}
@@ -320,6 +319,7 @@ function initPage(json){
 		$("#activityExpense").attr("disabled","disabled");
 		$("#activityType").attr("disabled","disabled");
 		$("#activityTeam").attr("disabled","disabled");
+		$("#activityStatus").attr("disabled","disabled");
 		$("#isneedright").attr("disabled","disabled");
 		$("#teamSel-select").attr("disabled","disabled");
 		$("#playerSel-select").attr("disabled","disabled");
