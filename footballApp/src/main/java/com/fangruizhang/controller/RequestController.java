@@ -47,7 +47,7 @@ public class RequestController extends CommonController {
 				request.setRequestType(EnumNames.RequestTypeEnum.TeamActivityRequest.getCode()+"");
 			}
 			request.setRequestActivity(requestActivity);
-			request.setRequestStatus(1+"");
+			request.setRequestStatus(EnumNames.RequestStatusEnum.ApplyStatus.getCode()+"");
 			Team againstTeam = new Team();
 			againstTeam.setTeamId(-1);
 			if(requestActivity.getActivityType().equals(EnumNames.RequestTypeEnum.TeamActivityRequest.getCode()+"")){

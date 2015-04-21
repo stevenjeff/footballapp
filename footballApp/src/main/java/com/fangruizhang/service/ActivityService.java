@@ -95,7 +95,7 @@ public interface ActivityService {
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
-	@Select("SELECT * FROM TEAM WHERE team_id = #{activityTeamId} and team_status=1")
+	@Select("SELECT * FROM TEAM WHERE team_id = #{activityTeamId} and team_status!=2")
 	public Team getTeam(@Param("activityTeamId") int activityTeamId) throws Exception;
 	
 	@Select("SELECT count(activity_id) FROM Activity WHERE activity_player_id = #{activityPlayerId} and activity_status!=2")
