@@ -199,5 +199,39 @@ public class RequestServiceImpl implements RequestService {
 		return bresult;
 	}
 
+	@Override
+	public List<Request> selectByActivityAndPlayer(int activityId,
+		int requestPlayerId) throws Exception {
+		List<Request> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
+		try {
+			list=mapperRequestService.selectByActivityAndPlayer(activityId, requestPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return list;
+	}
+
+	@Override
+	public List<Request> selectByTeamAndPlayer(int teamId, int requestPlayerId)
+		throws Exception {
+		List<Request> list =null;
+		SqlSession session=MybatisUtil.getSqlSession();
+		RequestService mapperRequestService = session.getMapper(RequestService.class);
+		try {
+			list=mapperRequestService.selectByTeamAndPlayer(teamId, requestPlayerId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}finally{
+			session.close();
+		}
+		return list;
+	}
+
 
 }

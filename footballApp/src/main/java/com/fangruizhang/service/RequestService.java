@@ -95,4 +95,14 @@ public interface RequestService {
 			@Result(property = "activityIsneedRight", column = "activity_isneed_right", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM Activity WHERE activity_id = #{id}")
 	public Activity getActivity(int id) throws Exception;
+	
+	@Results(value = {
+		@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
+	@Select("SELECT * FROM REQUEST where request_activity_id=#{activityId} and request_player_id=#{requestPlayerId}")
+	public List<Request> selectByActivityAndPlayer(int activityId,int requestPlayerId) throws Exception;
+	
+	@Results(value = {
+		@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
+	@Select("SELECT * FROM REQUEST where request_team_id=#{teamId} and request_player_id=#{requestPlayerId}")
+	public List<Request> selectByTeamAndPlayer(int teamId,int requestPlayerId) throws Exception;
 }

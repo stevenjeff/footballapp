@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -160,22 +161,31 @@ public class RequestController extends CommonController {
 		}
 		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+activityId+"&viewModel=edit");
 	}
-	
+	public static final int RECORD_NOT_FOUND=-1;
+	public static final int REQUESTPERSON_CANNOT_BE_SAME=2;
+	public static final int ALREADYAPPLIED=3;
 	@ResponseBody
 	@RequestMapping(value = "/applyActivityValidate.action", method = RequestMethod.GET)
 	public int applyActivityValidate(
-			@RequestParam(value = "activityId", required = false) Integer activityId,
+			@RequestParam(value = "activityId", required = true) Integer activityId,
+			@RequestParam(value = "playerId", required = true) Integer playerId,
 			Model model, HttpSession session) {
 		ActivityService activityService=new ActivityServiceImpl();
 		TeamService teamService = new TeamServiceImpl();
+		RequestService requestService = new RequestServiceImpl();
 		List<Team> list =null;
+		List<Request> requestList = null;
 		try {
 			Activity activity = activityService.selectById(activityId);
+			requestList = requestService.selectByActivityAndPlayer(activityId, playerId);
 			if(activity==null){
-				throw new Exception("match record not found");
+				return RECORD_NOT_FOUND;
 			}
 			if(activity.getActivityPlayer().getPlayerId()==getLoginPlayer(session).getPlayerId()&&activity.getActivityType().equals(EnumNames.ActivityTypeEnum.TeamActivity.getCode()+"")){
-				return 2;
+				return REQUESTPERSON_CANNOT_BE_SAME;
+			}
+			if(!CollectionUtils.isEmpty(requestList)){
+				
 			}
 			if(activity.getActivityType().equals(EnumNames.ActivityTypeEnum.TeamActivity.getCode()+"")){
 				list = teamService.selectAll(this.getLoginPlayer(session).getPlayerId());
