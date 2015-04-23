@@ -46,6 +46,19 @@ public class EnumNames {
 		}
 	};
 	
+public static HashMap<String, String> requestValidateErrors = new HashMap<String, String>() {
+		
+		private static final long serialVersionUID = 1653894188148720950L;
+
+		{
+			put(RequestValidateErrorEnum.RECORD_NOT_FOUND.getCode()+"", "记录未找到");
+			put(RequestValidateErrorEnum.NOT_OPEN_STATUS.getCode()+"", "当前非开放申请状态");
+			put(RequestValidateErrorEnum.TEAM_ACTIVITY_REQUESTPERSON_CANNOT_BE_SAME.getCode()+"", "球队约战类型申请人不能为创建人");
+			put(RequestValidateErrorEnum.TEAM_ACTIVITY_NOT_HAVE_TEAM.getCode()+"", "当前为球队约战,请创建队伍");
+			put(RequestValidateErrorEnum.ALREADYAPPLIED.getCode()+"", "您已经申请过");
+		}
+	};
+	
 	public static HashMap<String, String> requestStatus = new HashMap<String, String>() {
 		private static final long serialVersionUID = 8547547414022326863L;
 
@@ -112,6 +125,19 @@ public class EnumNames {
 		private int code;
 
 		TeamStatusEnum(int i){
+			this.code=i;
+		}
+		public int getCode() {
+			return code;
+		}
+	}
+	
+	public static enum RequestValidateErrorEnum {
+		RECORD_NOT_FOUND(-1),NOT_OPEN_STATUS(1),TEAM_ACTIVITY_REQUESTPERSON_CANNOT_BE_SAME(2),TEAM_ACTIVITY_NOT_HAVE_TEAM(3),ALREADYAPPLIED(4);
+
+		private int code;
+
+		RequestValidateErrorEnum(int i){
 			this.code=i;
 		}
 		public int getCode() {

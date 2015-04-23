@@ -25,6 +25,7 @@ import com.fangruizhang.service.impl.RequestServiceImpl;
 import com.fangruizhang.service.impl.TeamServiceImpl;
 import com.fangruizhang.util.EnumNames;
 import com.fangruizhang.util.ExceptionUtil;
+import com.fangruizhang.util.EnumNames.RequestValidateErrorEnum;
 
 @Controller
 public class RequestController extends CommonController {
@@ -161,14 +162,10 @@ public class RequestController extends CommonController {
 		}
 		return new ModelAndView("forward:/WEB-INF/views/activityDetail.jsp?id="+activityId+"&viewModel=edit");
 	}
-	public static final int RECORD_NOT_FOUND=-1;
-	public static final int REQUESTPERSON_CANNOT_BE_SAME=2;
-	public static final int ALREADYAPPLIED=3;
 	@ResponseBody
 	@RequestMapping(value = "/applyActivityValidate.action", method = RequestMethod.GET)
-	public int applyActivityValidate(
+	public String applyActivityValidate(
 			@RequestParam(value = "activityId", required = true) Integer activityId,
-			@RequestParam(value = "playerId", required = true) Integer playerId,
 			Model model, HttpSession session) {
 		ActivityService activityService=new ActivityServiceImpl();
 		TeamService teamService = new TeamServiceImpl();
@@ -177,55 +174,58 @@ public class RequestController extends CommonController {
 		List<Request> requestList = null;
 		try {
 			Activity activity = activityService.selectById(activityId);
-			requestList = requestService.selectByActivityAndPlayer(activityId, playerId);
+			requestList = requestService.selectByActivityAndPlayer(activityId, this.getLoginPlayer(session).getPlayerId());
 			if(activity==null){
-				return RECORD_NOT_FOUND;
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.RECORD_NOT_FOUND.getCode()+"");
 			}
 			if(activity.getActivityPlayer().getPlayerId()==getLoginPlayer(session).getPlayerId()&&activity.getActivityType().equals(EnumNames.ActivityTypeEnum.TeamActivity.getCode()+"")){
-				return REQUESTPERSON_CANNOT_BE_SAME;
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.TEAM_ACTIVITY_REQUESTPERSON_CANNOT_BE_SAME.getCode()+"");
 			}
 			if(!CollectionUtils.isEmpty(requestList)){
-				
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.ALREADYAPPLIED.getCode()+"");
 			}
 			if(activity.getActivityType().equals(EnumNames.ActivityTypeEnum.TeamActivity.getCode()+"")){
 				list = teamService.selectAll(this.getLoginPlayer(session).getPlayerId());
 				if(list==null||list.size()==0){
-					return 1;
+					return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.TEAM_ACTIVITY_NOT_HAVE_TEAM.getCode()+"");
 				}
 			}
 			if(!activity.getActivityStatus().equals("3")){
-				return 3;
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.NOT_OPEN_STATUS.getCode()+"");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return 0;
+		return "";
 	}
 	
 	@ResponseBody
 	@RequestMapping(value = "/applyTeamValidate.action", method = RequestMethod.GET)
-	public int applyTeamValidate(
+	public String applyTeamValidate(
 			@RequestParam(value = "teamId", required = false) Integer teamId,
 			Model model, HttpSession session) {
 		TeamService teamService = new TeamServiceImpl();
+		RequestService requestService = new RequestServiceImpl();
+		List<Request> requestList = null;
 		try {
 			Team team = teamService.selectById(teamId);
+			requestList = requestService.selectByTeamAndPlayer(teamId, this.getLoginPlayer(session).getPlayerId());
 			if(team==null){
-				throw new Exception("team record not found");
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.RECORD_NOT_FOUND.getCode()+"");
 			}
 			if(!team.getTeamStatus().equals("3")){
-				return 3;
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.NOT_OPEN_STATUS.getCode()+"");
 			}
-			if(team.getCreator().getPlayerId()==getLoginPlayer(session).getPlayerId()){
-				return 1;
+			if(!CollectionUtils.isEmpty(requestList)){
+				return EnumNames.requestValidateErrors.get(RequestValidateErrorEnum.ALREADYAPPLIED.getCode()+"");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
-		return 0;
+		return "";
 	}
 }

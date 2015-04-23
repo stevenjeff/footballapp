@@ -65,6 +65,9 @@
 					success : function(json) {
 						var activityTeamSelect = document
 								.getElementById("requestTeamId");
+						var varItem = new Option("",
+								-1);
+						activityTeamSelect.options.add(varItem);
 						for (position in json) {
 							var varItem = new Option(json[position].teamName,
 									json[position].teamId);
