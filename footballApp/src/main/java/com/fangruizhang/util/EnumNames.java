@@ -20,6 +20,7 @@ public class EnumNames {
 			put(RequestTypeEnum.TeamActivityRequest.getCode()+"", "球队约战申请");
 			put(RequestTypeEnum.PlayerActivityRequest.getCode()+"", "散客活动申请");
 			put(RequestTypeEnum.PlayerTeamRequest.getCode()+"", "加队申请");
+			put(RequestTypeEnum.PlayerAndTeamActivityRequest.getCode()+"", "球队散客混合申请");
 		}
 	};
 	
@@ -81,7 +82,7 @@ public static HashMap<String, String> requestValidateErrors = new HashMap<String
 	}
 
 	public static enum RequestTypeEnum {
-		TeamActivityRequest(1),PlayerActivityRequest(2),PlayerTeamRequest(3);
+		TeamActivityRequest(1),PlayerActivityRequest(2),PlayerTeamRequest(3),PlayerAndTeamActivityRequest(4);
 
 		private int code;
 

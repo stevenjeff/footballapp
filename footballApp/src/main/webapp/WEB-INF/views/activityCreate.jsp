@@ -59,6 +59,7 @@
   <select id="activityType" name="activityType" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   	<option value="1">球队约战</option>
   	<option value="2">散客约战</option>
+  	<option value="3">球队散客混合</option>
   </select>
 </div>
 <div class="form-group">

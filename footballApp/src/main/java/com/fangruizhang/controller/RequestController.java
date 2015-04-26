@@ -32,7 +32,7 @@ public class RequestController extends CommonController {
 
 	@RequestMapping(value = "/activityRequestCreate.action", method = RequestMethod.POST)
 	public ModelAndView activityRequestCreate(
-			@RequestParam(value = "activityId", required = false) Integer activityId,
+			@RequestParam(value = "activityId", required = true) Integer activityId,
 			@RequestParam(value = "requestTeamId", required = false) Integer requestTeamId,
 			@RequestParam(value = "requestMsg", required = false) String requestMsg,
 			Model model, HttpSession session) {
@@ -43,19 +43,22 @@ public class RequestController extends CommonController {
 			request.setRequestMsg(requestMsg);
 			request.setRequestTime(new Date());
 			Activity requestActivity = service.getActivity(activityId);
-			if(Integer.valueOf(requestActivity.getActivityType())==EnumNames.ActivityTypeEnum.PlayerActivity.getCode()){
-				request.setRequestType(EnumNames.RequestTypeEnum.PlayerActivityRequest.getCode()+"");
-			}else{
-				request.setRequestType(EnumNames.RequestTypeEnum.TeamActivityRequest.getCode()+"");
-			}
-			request.setRequestActivity(requestActivity);
-			request.setRequestStatus(EnumNames.RequestStatusEnum.ApplyStatus.getCode()+"");
 			Team againstTeam = new Team();
 			againstTeam.setTeamId(-1);
-			if(requestActivity.getActivityType().equals(EnumNames.RequestTypeEnum.TeamActivityRequest.getCode()+"")){
+			if(Integer.valueOf(requestActivity.getActivityType())==EnumNames.ActivityTypeEnum.PlayerActivity.getCode()){
+				request.setRequestType(EnumNames.RequestTypeEnum.PlayerActivityRequest.getCode()+"");
+			}else if(Integer.valueOf(requestActivity.getActivityType())==EnumNames.ActivityTypeEnum.TeamActivity.getCode()){
+				request.setRequestType(EnumNames.RequestTypeEnum.TeamActivityRequest.getCode()+"");
 				againstTeam.setTeamId(requestTeamId);
+			}else if(Integer.valueOf(requestActivity.getActivityType())==EnumNames.ActivityTypeEnum.TeamPlayerActivity.getCode()){
+				request.setRequestType(EnumNames.RequestTypeEnum.PlayerAndTeamActivityRequest.getCode()+"");
+				if(requestTeamId!=-1){
+					againstTeam.setTeamId(requestTeamId);
+				}
 			}
 			request.setAgainstTeam(againstTeam);
+			request.setRequestActivity(requestActivity);
+			request.setRequestStatus(EnumNames.RequestStatusEnum.ApplyStatus.getCode()+"");
 			service.insertValue(request);
 		} catch (Exception e) {
 			e.printStackTrace();

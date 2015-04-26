@@ -86,6 +86,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="forwardRegister.action">注册</a></li>
             <li><a id="modalLink" data-toggle="modal" data-target="#myModal">登陆</a></li>
+            <%@ include  file="/WEB-INF/views/headbtn.jsp"%>
             <li><a href="help.action">使用帮助</a></li>
           </ul>
           <form class="navbar-form navbar-right">
@@ -97,7 +98,6 @@
 
     <div class="container-fluid">
       <div class="row">
-      <%@ include  file="/WEB-INF/views/headbtn.jsp"%>
         <tiles:insertAttribute name="body"></tiles:insertAttribute>
       </div>
     </div>
