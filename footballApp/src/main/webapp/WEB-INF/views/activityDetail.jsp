@@ -120,9 +120,6 @@
     <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
 function activityTypeValidate(fieldValue, validator, $field) {
-	// fieldValue is the value of field
-	// validator is instance of BootstrapValidator
-	// $field is the field element
 	var activtyType = $('#activityType').val();
 	var teamVal = $('#activityTeam').val();
 	if (activtyType==1&&teamVal==1) {
@@ -142,6 +139,7 @@ jQuery(function () {
     jQuery('#activityTime').datetimepicker('setDate', (new Date()) );
 });
 $(document).ready(function() {
+	getRelativeTeam();
     $('.form-signin').bootstrapValidator({
         message: 'This value is not valid',
         feedbackIcons: {
@@ -212,7 +210,6 @@ $(document).ready(function() {
     	});
     
     $('#activityType').change(function(e) {
-    	$('#updateForm').bootstrapValidator('updateStatus', 'activityTeam', 'NOT_VALIDATED').bootstrapValidator('validateField', 'activityTeam');
     	if($('#activityType').val()==2){
     		$("#homeTeamDiv").hide();
     		$("#awayTeamDiv").hide();
@@ -238,7 +235,6 @@ function getPlayerDetail(playerId){
 }
 
 var hasTeam;
-getRelativeTeam();
 function getRelativeTeam() {
 	$.ajax({
         url: "${pageContext.request.contextPath}/getRelativeTeamDetailJson.action",
@@ -287,11 +283,11 @@ function setDetail(){
     });
 }
 function initPage(json){
-	if($('#activityType').val()==2){
+	if(json.activityType==2){
 		$("#homeTeamDiv").hide();
 		$("#awayTeamDiv").hide();
 		$("#playerDiv").show();
-	}else if($('#activityType').val()==1){
+	}else if(json.activityType==1){
 		$("#homeTeamDiv").show();
 		$("#awayTeamDiv").show();
 		$("#playerDiv").hide();
