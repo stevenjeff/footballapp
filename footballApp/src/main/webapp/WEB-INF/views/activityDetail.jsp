@@ -70,7 +70,7 @@
 </div>
 <div class="form-group" id="homeTeamDiv">
   <label for="activityTeam">主队比赛球队</label>
-  <select data-bv-callback-callback="activityTypeValidate" data-bv-callback="true" id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
+  <select id="activityTeam" name="activityTeam" class="selectpicker show-tick show-menu-arrow span2" data-style="btn-info">
   </select>
 </div>
 <div class="form-group" id="awayTeamDiv">
@@ -119,17 +119,6 @@
     <script src="assets/js/jquery-ui-timepicker-zh-CN.js" type="text/javascript"></script>
     <script src="assets/js/bootstrap-multiselect.js" type="text/javascript"></script>
 <script type="text/javascript">
-function activityTypeValidate(fieldValue, validator, $field) {
-	var activtyType = $('#activityType').val();
-	var teamVal = $('#activityTeam').val();
-	if (activtyType==1&&teamVal==1) {
-        return {
-            valid: false,    // or false
-            message: '球队约战类型必须选择主场球队'
-        }
-    }
-	return true;
-	}
 jQuery(function () {
     // 时间设置
     jQuery('#activityTime').datetimepicker({
