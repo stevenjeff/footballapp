@@ -79,7 +79,7 @@ public interface RequestService {
 	@Results(value = {
 			@Result(id = true, property = "teamId", column = "team_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT),
 			@Result(property = "teamName", column = "team_name", javaType = String.class, jdbcType = JdbcType.VARCHAR)})
-	@Select("SELECT * FROM TEAM WHERE team_id = #{teamId} and team_status=1")
+	@Select("SELECT * FROM TEAM WHERE team_id = #{teamId}")
 	public Team getTeam(@Param("teamId") int teamId) throws Exception;
 	
 	@Results(value = {
@@ -99,10 +99,10 @@ public interface RequestService {
 	@Results(value = {
 		@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM REQUEST where request_activity_id=#{activityId} and request_player_id=#{requestPlayerId}")
-	public List<Request> selectByActivityAndPlayer(int activityId,int requestPlayerId) throws Exception;
+	public List<Request> selectByActivityAndPlayer(@Param("activityId")int activityId,@Param("requestPlayerId")int requestPlayerId) throws Exception;
 	
 	@Results(value = {
 		@Result(id = true, property = "requestId", column = "request_id", javaType = Integer.class, jdbcType = JdbcType.BIGINT)})
 	@Select("SELECT * FROM REQUEST where request_team_id=#{teamId} and request_player_id=#{requestPlayerId}")
-	public List<Request> selectByTeamAndPlayer(int teamId,int requestPlayerId) throws Exception;
+	public List<Request> selectByTeamAndPlayer(@Param("teamId")int teamId,@Param("requestPlayerId")int requestPlayerId) throws Exception;
 }

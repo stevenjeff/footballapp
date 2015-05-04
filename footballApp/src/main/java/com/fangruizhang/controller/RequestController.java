@@ -38,6 +38,7 @@ public class RequestController extends CommonController {
 			Model model, HttpSession session) {
 		RequestService service = new RequestServiceImpl();
 		Request request = new Request();
+		boolean issuccess=true;
 		try {
 			request.setRequestPlayer(this.getLoginPlayer(session));
 			request.setRequestMsg(requestMsg);
@@ -55,6 +56,9 @@ public class RequestController extends CommonController {
 				if(requestTeamId!=-1){
 					againstTeam.setTeamId(requestTeamId);
 				}
+				if(requestActivity.getActivityTeam()!=null&&requestTeamId==requestActivity.getActivityTeam().getTeamId()){
+					throw new Exception("主队与客队不能为相同球队");
+				}
 			}
 			request.setAgainstTeam(againstTeam);
 			request.setRequestActivity(requestActivity);
@@ -62,8 +66,12 @@ public class RequestController extends CommonController {
 			service.insertValue(request);
 		} catch (Exception e) {
 			e.printStackTrace();
+			issuccess=false;
 			model.addAttribute("globalerror",
 					"错误信息：" + ExceptionUtil.handlerException(e));
+		}
+		if(!issuccess){
+			return new ModelAndView("forward:/applyActivity.action?activityId="+activityId);
 		}
 		return new ModelAndView(
 				"forward:/index.action");

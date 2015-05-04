@@ -131,7 +131,7 @@ var pageIndex = 0;
 			            HiddenDiv();
 			        },
 					success : function(obj) {
-						if(obj!=""){
+						if(obj!='""'){
 							alert(obj);
 						}else{
 							window.location.href="applyActivity.action?activityId="+idkey;
@@ -159,7 +159,7 @@ var pageIndex = 0;
 			            HiddenDiv();
 			        },
 					success : function(obj) {
-			        	if(obj!=""){
+			        	if(obj!='""'){
 							alert(obj);
 						}else{
 							window.location.href="applyTeam.action?teamId="+idkey;
