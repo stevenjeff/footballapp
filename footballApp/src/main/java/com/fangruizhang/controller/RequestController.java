@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fangruizhang.entity.Activity;
 import com.fangruizhang.entity.Request;
@@ -71,7 +72,8 @@ public class RequestController extends CommonController {
 					"错误信息：" + ExceptionUtil.handlerException(e));
 		}
 		if(!issuccess){
-			return new ModelAndView("forward:/applyActivity.action?activityId="+activityId);
+			session.setAttribute("sessionglobalerror", model.asMap().get("globalerror"));
+			return new ModelAndView("redirect:/applyActivity.action").addObject("activityId", activityId);
 		}
 		return new ModelAndView(
 				"forward:/index.action");
@@ -118,6 +120,10 @@ public class RequestController extends CommonController {
 			}
 			model.addAttribute("activityId", activityId);
 			model.addAttribute("activityType", activity.getActivityType());
+			if(session.getAttribute("sessionglobalerror")!=null){
+				model.addAttribute("globalerror", session.getAttribute("sessionglobalerror"));
+				session.setAttribute("sessionglobalerror", null);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("globalerror",

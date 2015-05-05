@@ -80,6 +80,7 @@
           <a class="navbar-brand" href="#">天津约球网</a>
           <c:if test="${not empty player}">
           <a class="navbar-brand" href="#">当前用户：${player.playerName}</a>
+          <a class="navbar-brand" href="#">编辑查看</a>
           </c:if>
         </div>
         <div class="navbar-collapse collapse">

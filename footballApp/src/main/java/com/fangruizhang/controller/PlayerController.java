@@ -160,6 +160,11 @@ public class PlayerController extends CommonController {
 		return new ModelAndView("forward:/WEB-INF/views/register.jsp");
     }
 	
+	@RequestMapping(value="/playerViewAndEdit.action",method=RequestMethod.GET)
+    public ModelAndView playerViewAndEdit() {
+		return new ModelAndView("forward:/WEB-INF/views/register.jsp");
+    }
+	
 	@RequestMapping(value="/help.action",method=RequestMethod.GET)
     public ModelAndView forwardHelp() {
 		return new ModelAndView("forward:/WEB-INF/views/help.jsp");

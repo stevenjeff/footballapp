@@ -49,9 +49,9 @@
 		if ("${globalerror}" != "") {
 			alert("${globalerror}");
 		}
-		if ("${globalerror}" == "" && ("${activityType}"=="1"||"${activityType}"=="3")) {
+		if (("${activityType}"=="1"||"${activityType}"=="3")) {
 			 getRelativeTeam();
-		}else if ("${globalerror}" == "" && "${activityType}"=="2"){
+		}else if ("${activityType}"=="2"){
 			$("#teamDiv").hide();
 		}
 	}
