@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=utf-8" pageEncoding="utf-8"%>
 <script src="assets/js/jquery.blockUI.min.js"></script>
 <script type="text/javascript">
+var hasData=true;
 if("${displayCols}"==""){
-	alert("请先登录");
 	window.location.href='index.action';
-	
+	hasData=false;
 }
 var jsonobj="";
 try{
@@ -15,7 +15,9 @@ try{
 var pageIndex = 0;
     var pageSize = 10;
     $(function () {
-
+    		if(!hasData){
+    			return;
+    		}
             pageIndex = 1;
             AjaxGetData(pageIndex, pageSize);
 
