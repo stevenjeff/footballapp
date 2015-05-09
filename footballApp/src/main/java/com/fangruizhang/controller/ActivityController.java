@@ -9,6 +9,7 @@
 package com.fangruizhang.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,6 +81,7 @@ public class ActivityController extends CommonController {
 			}
 			activity.setActivityTeam(team);
 			activity.setActivityOpponentTeamId(-1);
+			activity.setInsertDate(new Date());
 			service.insertValue(activity);
 		} catch (Exception e) {
 			e.printStackTrace();

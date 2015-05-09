@@ -70,6 +70,7 @@ public class PlayerController extends CommonController {
 			player.setPhone(phone);
 			player.setAttendtimes(0);
 			player.setAttendsuccescnt(0);
+			player.setInsertDate(new Date());
 			isSuccess=serviceImpl.insertValue(player);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

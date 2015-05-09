@@ -20,7 +20,7 @@ import com.fangruizhang.entity.Team;
 
 public interface ActivityService {
 
-	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right,activity_status) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeam.teamId},#{activityOpponentTeamId},#{activityIsneedRight},#{activityStatus})")
+	@Insert("insert into activity (activity_area,activity_time,activity_players_cnt,activity_expense,activity_type,activity_player_id,activity_team_id,activity_opponent_team_id,activity_isneed_right,activity_status,insert_date) values (#{activityArea},#{activityTime},#{activityPlayersCnt},#{activityExpense},#{activityType},#{activityPlayer.playerId},#{activityTeam.teamId},#{activityOpponentTeamId},#{activityIsneedRight},#{activityStatus},#{insertDate})")
 	public boolean insertValue(Activity activity) throws Exception;
 	@Update("update activity set activity_status=2 where activity_id = #{id}")
 	public boolean deleteById(int id) throws Exception;

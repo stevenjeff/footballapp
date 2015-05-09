@@ -9,6 +9,7 @@
 package com.fangruizhang.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -65,6 +66,7 @@ public class TeamController extends CommonController {
 			team.setCreator(this.getLoginPlayer(session));
 			team.setMemebercnt(memebercnt);
 			team.setTeamStatus(teamStatus);
+			team.setInsertDate(new Date());
 			service.insertValue(team);
 		} catch (Exception e) {
 			e.printStackTrace();

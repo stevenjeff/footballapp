@@ -15,7 +15,7 @@ import org.apache.ibatis.type.JdbcType;
 import com.fangruizhang.entity.Player;
 
 public interface PlayerService {
-	@Insert("insert into player (player_name,createtime,phone,attendtimes,attendsuccescnt,qq,weixin,mail,sex,birthday,password) values (#{playerName},#{createtime},#{phone},#{attendtimes},#{attendsuccescnt},#{qq},#{weixin},#{mail},#{sex},#{birthday},#{password})")
+	@Insert("insert into player (player_name,createtime,phone,attendtimes,attendsuccescnt,qq,weixin,mail,sex,birthday,password,insert_date) values (#{playerName},#{createtime},#{phone},#{attendtimes},#{attendsuccescnt},#{qq},#{weixin},#{mail},#{sex},#{birthday},#{password},#{insertDate})")
 	public boolean insertValue(Player player) throws Exception;
 	@Delete("delete from player where player_id = #{id}")
 	public boolean deleteById(int id) throws Exception;

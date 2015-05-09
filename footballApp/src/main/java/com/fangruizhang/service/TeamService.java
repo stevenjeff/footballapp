@@ -19,7 +19,7 @@ import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 
 public interface TeamService {
-	@Insert("insert into Team (team_name,creattime,creatorid,memebercnt,team_isneed_right,team_status) values (#{teamName},#{createtime},#{creator.playerId},#{memebercnt},#{teamIsneedRight},#{teamStatus})")
+	@Insert("insert into Team (team_name,creattime,creatorid,memebercnt,team_isneed_right,team_status,insert_date) values (#{teamName},#{createtime},#{creator.playerId},#{memebercnt},#{teamIsneedRight},#{teamStatus},#{insertDate})")
 	public boolean insertValue(Team team) throws Exception;
 	@Update("update team set team_status=2 where team_id = #{id}")
 	public boolean deleteById(int id) throws Exception;

@@ -63,6 +63,7 @@ public class RequestController extends CommonController {
 			}
 			request.setAgainstTeam(againstTeam);
 			request.setRequestActivity(requestActivity);
+			request.setInsertDate(new Date());
 			request.setRequestStatus(EnumNames.RequestStatusEnum.ApplyStatus.getCode()+"");
 			service.insertValue(request);
 		} catch (Exception e) {
@@ -98,6 +99,7 @@ public class RequestController extends CommonController {
 			requestTeam.setTeamId(teamId);
 			request.setAgainstTeam(againstTeam);
 			request.setRequestTeam(requestTeam);
+			request.setInsertDate(new Date());
 			service.insertValue(request);
 		} catch (Exception e) {
 			e.printStackTrace();

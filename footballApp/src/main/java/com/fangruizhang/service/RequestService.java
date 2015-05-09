@@ -19,7 +19,7 @@ import com.fangruizhang.entity.Request;
 import com.fangruizhang.entity.Team;
 
 public interface RequestService {
-	@Insert("insert into request (request_player_id,request_team_id,request_status,request_time,request_msg,request_activity_id,against_team_id,request_type) values (#{requestPlayer.playerId},#{requestTeam.teamId},#{requestStatus},#{requestTime},#{requestMsg},#{requestActivity.activityId},#{againstTeam.teamId},#{requestType})")
+	@Insert("insert into request (request_player_id,request_team_id,request_status,request_time,request_msg,request_activity_id,against_team_id,request_type,insert_date) values (#{requestPlayer.playerId},#{requestTeam.teamId},#{requestStatus},#{requestTime},#{requestMsg},#{requestActivity.activityId},#{againstTeam.teamId},#{requestType},#{insertDate})")
 	public boolean insertValue(Request request) throws Exception;
 	@Delete("delete from request where request_id = #{id}")
 	public boolean deleteById(int id) throws Exception;
