@@ -3,7 +3,6 @@
 <script type="text/javascript">
 var hasData=true;
 if("${displayCols}"==""){
-	window.location.href='index.action';
 	hasData=false;
 }
 var jsonobj="";
