@@ -80,7 +80,7 @@ public class PlayerController extends CommonController {
 		if(!isSuccess){
 			return new ModelAndView("forward:/WEB-INF/views/register.jsp");
 		}
-        return new ModelAndView("forward:/index.jsp");
+        return new ModelAndView("forward:/index.action");
     }
 	
 	@ResponseBody
