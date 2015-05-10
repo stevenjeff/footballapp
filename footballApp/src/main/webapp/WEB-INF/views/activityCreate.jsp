@@ -78,13 +78,9 @@
   	<option value="3">开放申请</option>
   </select>
 </div>
-<div class="form-group">
-<div class="col-md-2 col-sm-5 col-xs-6 col-sm-offset-4">
-<button id="submitBtn" class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
-</div>
-<div class="col-md-2 col-sm-5 col-xs-6">
-<button onclick="javascript:window.location.href='index.action';" class="btn btn-lg btn-primary btn-block">返回</button>
-</div>
+<div class="form-actions">
+<button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
+<button onclick="javascript:window.location.href='index.action';" class="btn btn-default">返回</button>
 </div>
 </form>
     <script src="assets/js/jquery-1.11.1.min.js"></script>

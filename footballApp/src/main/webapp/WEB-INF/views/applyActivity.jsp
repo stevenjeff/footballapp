@@ -28,8 +28,10 @@
 				data-style="btn-info">
 			</select>
 		</div>
-		<button class="btn btn-lg btn-primary btn-block" type="submit">确定</button>
-		<input type="button" value="返回" onclick="javascript:history.back();" class="btn btn-lg btn-primary btn-block">
+		<div class="form-actions">
+		<button id="submitBtn" class="btn btn-primary" type="submit">确定</button>
+		<button onclick="javascript:history.back();" class="btn btn-default">返回</button>
+		</div>
 	</form>
 </body>
 <script src="assets/js/jquery-1.11.1.min.js"></script>
