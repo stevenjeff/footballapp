@@ -31,7 +31,7 @@
 </head>
 <body>
 <form action="register.action" class="form-signin" role="form" method="post">
-<h2 class="form-signin-heading">用户注册</h2>
+<h2 class="form-signin-heading">球员注册</h2>
 <font color="red">${globalerror}</font>
 <div class="form-group">
   <label for="username">用户名</label>
