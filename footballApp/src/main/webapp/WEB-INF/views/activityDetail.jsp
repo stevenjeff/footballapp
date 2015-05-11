@@ -315,6 +315,8 @@ function initPage(json){
 	}else{
 		$("#isneedright").val(0);
 		$("#isneedright").attr("checked",false);
+		$("#teamSel-select").attr("disabled","disabled");
+		$("#playerSel-select").attr("disabled","disabled");
 	}
 	createPlayerMultiSel(json.requestList);
 	createTeamMultiSel(json.requestList);
@@ -341,7 +343,11 @@ function createPlayerMultiSel(jsonObj){
 		var newJsonObj = JSON.parse(newJsonObjStr); 
 		$("#playerSel").multiselect('dataprovider', newJsonObj);
 		for(var o in newJsonObj){
-			if(newJsonObj[o].requestStatus==2&&isChecked){
+			if(newJsonObj[o].requestStatus==2&&isChecked=='checked'){
+				$("#playerSel").multiselect('select', newJsonObj[o].value);
+				setPlayerSelectText();
+				$("#playerSel-select").text("全部取消");
+			}else if(isChecked!='checked'){
 				$("#playerSel").multiselect('select', newJsonObj[o].value);
 				setPlayerSelectText();
 			}
@@ -370,9 +376,16 @@ function createTeamMultiSel(jsonObj){
 		var newJsonObj = JSON.parse(newJsonObjStr); 
 		$("#teamSel").multiselect('dataprovider', newJsonObj);
 		for(var o in newJsonObj){
-			if(newJsonObj[o].requestStatus==2&&isChecked){
+			if(newJsonObj[o].requestStatus==2&&isChecked=='checked'){
 				$("#teamSel").multiselect('select', newJsonObj[o].value);
 				setTeamSelectText();
+				$("#teamSel-select").text("全部取消");
+				break;
+			}else if(isChecked!='checked'){
+				$("#teamSel").multiselect('select', newJsonObj[o].value);
+				setTeamSelectText();
+				$("#teamSel-select").text("全部取消");
+				break;
 			}
 		}
 	}
@@ -450,8 +463,12 @@ function changeRightVal(){
 	var isneedRight = $("#isneedright").is(':checked');
 	if(isneedRight){
 		$("#isneedright").val(1);
+		$("#teamSel-select").removeAttr("disabled");
+		$("#playerSel-select").removeAttr("disabled");
 	}else{
 		$("#isneedright").val(0);
+		$("#teamSel-select").attr("disabled","disabled");
+		$("#playerSel-select").attr("disabled","disabled");
 	}
 }
 
