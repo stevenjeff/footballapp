@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 </environments>
 <mappers>
 
-<package name="com.fangruizhang.service"/>  
+<package name="com.fangruizhang.service"/>
+
 </mappers>
 </configuration>
